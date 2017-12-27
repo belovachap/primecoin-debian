@@ -9,6 +9,7 @@ https://en.wikipedia.org/wiki/Debian
 ### Debian 7
 
 Latest release tag: TBD
+
 Release branch: release-v0.0
 
 | Dependency       | Version |
@@ -18,6 +19,7 @@ Release branch: release-v0.0
 ### Debian 8
 
 Latest release tag: TBD
+
 Release branch: release-v1.0
 
 | Dependency       | Version |
@@ -27,6 +29,7 @@ Release branch: release-v1.0
 ### Debian 9
 
 Latest release tag: TBD
+
 Release branch: release-v2.0
 
 | Dependency       | Version |
@@ -40,6 +43,7 @@ https://en.wikipedia.org/wiki/Ubuntu_(operating_system)
 ### Ubuntu 14.04
 
 Latest release tag: TBD
+
 Release branch: release-v0.0
 
 | Dependency       | Version |
@@ -49,6 +53,7 @@ Release branch: release-v0.0
 ### Ubuntu 16.04
 
 Latest release tag: TBD
+
 Release branch: release-v1.0
 
 | Dependency       | Version |
@@ -58,6 +63,7 @@ Release branch: release-v1.0
 ### Ubuntu 17.10
 
 Latest release tag: TBD
+
 Release branch: release-v2.0
 
 | Dependency       | Version |
