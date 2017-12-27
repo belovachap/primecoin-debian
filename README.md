@@ -8,7 +8,7 @@ https://en.wikipedia.org/wiki/Debian
 
 ### Debian 7
 
-https://travis-ci.org/belovachap/primecoin.svg?branch=release-v0.0
+[![Build Status](https://travis-ci.org/belovachap/primecoin.svg?branch=release-v0.0)](https://travis-ci.org/belovachap/primecoin)
 
 Latest release tag: TBD
 
@@ -44,7 +44,7 @@ https://en.wikipedia.org/wiki/Ubuntu_(operating_system)
 
 ### Ubuntu 14.04
 
-https://travis-ci.org/belovachap/primecoin.svg?branch=release-v0.0
+[![Build Status](https://travis-ci.org/belovachap/primecoin.svg?branch=release-v0.0)](https://travis-ci.org/belovachap/primecoin)
 
 Latest release tag: TBD
 
