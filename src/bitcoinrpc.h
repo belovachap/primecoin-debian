@@ -1,11 +1,11 @@
 // Copyright (c) 2010 Satoshi Nakamoto
 // Copyright (c) 2009-2012 The Bitcoin developers
 // Copyright (c) 2013 Primecoin developers
-// Distributed under conditional MIT/X11 software license,
-// see the accompanying file COPYING
+// Copyright (c) 2017 Chapman Shoop
+// See COPYING for license.
 
-#ifndef _BITCOINRPC_H_
-#define _BITCOINRPC_H_ 1
+#ifndef __BITCOINRPC_H__
+#define __BITCOINRPC_H__
 
 #include <string>
 #include <list>
@@ -14,9 +14,9 @@
 class CBlockIndex;
 class CReserveKey;
 
-#include "json/json_spirit_reader_template.h"
-#include "json/json_spirit_writer_template.h"
-#include "json/json_spirit_utils.h"
+#include <json_spirit_reader_template.h>
+#include <json_spirit_writer_template.h>
+#include <json_spirit_utils.h>
 
 #include "util.h"
 
@@ -207,4 +207,4 @@ extern json_spirit::Value gettxout(const json_spirit::Array& params, bool fHelp)
 extern json_spirit::Value listprimerecords(const json_spirit::Array& params, bool fHelp);
 extern json_spirit::Value listtopprimes(const json_spirit::Array& params, bool fHelp);
 
-#endif
+#endif // __BITCOINRPC_H__
