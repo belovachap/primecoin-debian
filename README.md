@@ -1,6 +1,6 @@
-# Primecoin for Debian / Ubuntu
+# Primecoin for Debian
 
-A fork of the reference primecoin client that focuses on support for Debian / Ubuntu :wink:
+A fork of the reference primecoin client that focuses on support for Debian :wink:
 
 ## Debian
 
@@ -29,42 +29,6 @@ Release branch: release-v1.0
 | lib              | TBD     |
 
 ### Debian 9
-
-Latest release tag: TBD
-
-Release branch: release-v2.0
-
-| Dependency       | Version |
-| ---------------- | ------- |
-| lib              | TBD     |
-
-## Ubuntu
-
-https://en.wikipedia.org/wiki/Ubuntu_(operating_system)
-
-### Ubuntu 14.04
-
-[![Build Status](https://travis-ci.org/belovachap/primecoin.svg?branch=release-v0.0)](https://travis-ci.org/belovachap/primecoin)
-
-Latest release tag: TBD
-
-Release branch: release-v0.0
-
-| Dependency       | Version |
-| ---------------- | ------- |
-| lib              | TBD     |
-
-### Ubuntu 16.04
-
-Latest release tag: TBD
-
-Release branch: release-v1.0
-
-| Dependency       | Version |
-| ---------------- | ------- |
-| lib              | TBD     |
-
-### Ubuntu 17.10
 
 Latest release tag: TBD
 
