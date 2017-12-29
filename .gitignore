@@ -1,3 +1,4 @@
+build/
 src/*.exe
 src/primecoin
 src/primecoind
@@ -27,8 +28,7 @@ qrc_*.cpp
 # Qt creator
 *.pro.user
 
-# Mac specific
-.DS_Store
-build
-
 !src/leveldb-*/Makefile
+
+# Doxygen output
+doc/

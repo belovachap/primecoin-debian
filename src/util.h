@@ -1,36 +1,30 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2012 The Bitcoin developers
 // Copyright (c) 2013 The Primecoin developers
-// Distributed under the MIT/X11 software license, see the accompanying
-// file COPYING or http://www.opensource.org/licenses/mit-license.php.
-#ifndef BITCOIN_UTIL_H
-#define BITCOIN_UTIL_H
+// Copyright (c) 2017 Chapman Shoop
+// See COPYING for license.
 
-#include "uint256.h"
+#ifndef __UTIL_H__
+#define __UTIL_H__
 
-#include <stdarg.h>
-
-#ifndef WIN32
-#include <sys/types.h>
-#include <sys/time.h>
-#include <sys/resource.h>
-#else
-typedef int pid_t; /* define for Windows compatibility */
-#endif
-#include <map>
-#include <list>
-#include <utility>
-#include <vector>
-#include <string>
-
-#include <boost/version.hpp>
-#include <boost/thread.hpp>
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/path.hpp>
 #include <boost/date_time/gregorian/gregorian_types.hpp>
 #include <boost/date_time/posix_time/posix_time_types.hpp>
+#include <boost/filesystem.hpp>
+#include <boost/filesystem/path.hpp>
+#include <boost/thread.hpp>
+#include <boost/version.hpp>
+#include <list>
+#include <map>
+#include <stdarg.h>
+#include <string>
+#include <sys/resource.h>
+#include <sys/time.h>
+#include <sys/types.h>
+#include <utility>
+#include <vector>
 
-#include "netbase.h" // for AddTimeData
+#include "netbase.h"
+#include "uint256.h"
 
 typedef long long  int64;
 typedef unsigned long long  uint64;
@@ -46,39 +40,21 @@ static const int64 CENT = 1000000;
 #define ARRAYLEN(array)     (sizeof(array)/sizeof((array)[0]))
 
 #ifndef PRI64d
-#if defined(_MSC_VER) || defined(__MSVCRT__)
-#define PRI64d  "I64d"
-#define PRI64u  "I64u"
-#define PRI64x  "I64x"
-#else
 #define PRI64d  "lld"
 #define PRI64u  "llu"
 #define PRI64x  "llx"
 #endif
-#endif
 
 /* Format characters for (s)size_t and ptrdiff_t */
-#if defined(_MSC_VER) || defined(__MSVCRT__)
-  /* (s)size_t and ptrdiff_t have the same size specifier in MSVC:
-     http://msdn.microsoft.com/en-us/library/tcxf1dw6%28v=vs.100%29.aspx
-   */
-  #define PRIszx    "Ix"
-  #define PRIszu    "Iu"
-  #define PRIszd    "Id"
-  #define PRIpdx    "Ix"
-  #define PRIpdu    "Iu"
-  #define PRIpdd    "Id"
-#else /* C99 standard */
-  #define PRIszx    "zx"
-  #define PRIszu    "zu"
-  #define PRIszd    "zd"
-  #define PRIpdx    "tx"
-  #define PRIpdu    "tu"
-  #define PRIpdd    "td"
-#endif
+#define PRIszx    "zx"
+#define PRIszu    "zu"
+#define PRIszd    "zd"
+#define PRIpdx    "tx"
+#define PRIpdu    "tu"
+#define PRIpdd    "td"
 
 // This is needed because the foreach macro can't get over the comma in pair<t1, t2>
-#define PAIRTYPE(t1, t2)    std::pair<t1, t2>
+#define PAIRTYPE(t1, t2) std::pair<t1, t2>
 
 // Align by increasing pointer, must have extra space at end of buffer
 template <size_t nBytes, typename T>
@@ -94,17 +70,7 @@ T* alignup(T* p)
     return u.ptr;
 }
 
-#ifdef WIN32
-#define MSG_NOSIGNAL        0
-#define MSG_DONTWAIT        0
-
-#ifndef S_IRUSR
-#define S_IRUSR             0400
-#define S_IWUSR             0200
-#endif
-#else
-#define MAX_PATH            1024
-#endif
+#define MAX_PATH 1024
 
 inline void MilliSleep(int64 n)
 {
@@ -123,18 +89,7 @@ inline void MilliSleep(int64 n)
  * X is the number of the "format string" parameter, and Y is the number of the first variadic parameter.
  * Parameters count from 1.
  */
-#ifdef __GNUC__
 #define ATTR_WARN_PRINTF(X,Y) __attribute__((format(printf,X,Y)))
-#else
-#define ATTR_WARN_PRINTF(X,Y)
-#endif
-
-
-
-
-
-
-
 
 extern std::map<std::string, std::string> mapArgs;
 extern std::map<std::string, std::vector<std::string> > mapMultiArgs;
@@ -213,13 +168,8 @@ boost::filesystem::path GetDefaultDataDir();
 const boost::filesystem::path &GetDataDir(bool fNetSpecific = true);
 boost::filesystem::path GetConfigFile();
 boost::filesystem::path GetPidFile();
-#ifndef WIN32
 void CreatePidFile(const boost::filesystem::path &path, pid_t pid);
-#endif
 void ReadConfigFile(std::map<std::string, std::string>& mapSettingsRet, std::map<std::string, std::vector<std::string> >& mapMultiSettingsRet);
-#ifdef WIN32
-boost::filesystem::path GetSpecialFolderPath(int nFolder, bool fCreate = true);
-#endif
 boost::filesystem::path GetTempPath();
 void ShrinkDebugFile();
 int GetRandInt(int nMax);
@@ -254,20 +204,12 @@ inline std::string itostr(int n)
 
 inline int64 atoi64(const char* psz)
 {
-#ifdef _MSC_VER
-    return _atoi64(psz);
-#else
     return strtoll(psz, NULL, 10);
-#endif
 }
 
 inline int64 atoi64(const std::string& str)
 {
-#ifdef _MSC_VER
-    return _atoi64(str.c_str());
-#else
     return strtoll(str.c_str(), NULL, 10);
-#endif
 }
 
 inline int atoi(const std::string& str)
@@ -328,13 +270,9 @@ inline void PrintHex(const std::vector<unsigned char>& vch, const char* pszForma
 inline int64 GetPerformanceCounter()
 {
     int64 nCounter = 0;
-#ifdef WIN32
-    QueryPerformanceCounter((LARGE_INTEGER*)&nCounter);
-#else
     timeval t;
     gettimeofday(&t, NULL);
     nCounter = (int64) t.tv_sec * 1000000 + t.tv_usec;
-#endif
     return nCounter;
 }
 
@@ -368,11 +306,7 @@ void skipspaces(T& it)
 
 inline bool IsSwitchChar(char c)
 {
-#ifdef WIN32
-    return c == '-' || c == '/';
-#else
     return c == '-';
-#endif
 }
 
 /**
@@ -515,13 +449,6 @@ public:
 
 bool NewThread(void(*pfn)(void*), void* parg);
 
-#ifdef WIN32
-inline void SetThreadPriority(int nPriority)
-{
-    SetThreadPriority(GetCurrentThread(), nPriority);
-}
-#else
-
 #define THREAD_PRIORITY_LOWEST          PRIO_MAX
 #define THREAD_PRIORITY_BELOW_NORMAL    2
 #define THREAD_PRIORITY_NORMAL          0
@@ -542,7 +469,6 @@ inline void ExitThread(size_t nExitCode)
 {
     pthread_exit((void*)nExitCode);
 }
-#endif
 
 void RenameThread(const char* name);
 
@@ -608,4 +534,4 @@ template <typename Callable> void TraceThread(const char* name,  Callable func)
     }
 }
 
-#endif
+#endif // __UTIL_H__
