@@ -1,35 +1,18 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2012 The Bitcoin developers
-// Distributed under the MIT/X11 software license, see the accompanying
-// file COPYING or http://www.opensource.org/licenses/mit-license.php.
-#ifndef BITCOIN_ALLOCATORS_H
-#define BITCOIN_ALLOCATORS_H
+// Copyright (c) 2017 Chapman Shoop
+// See COPYING for license.
 
-#include <string.h>
-#include <string>
+#ifndef __ALLOCATORS_H__
+#define __ALLOCATORS_H__
+
 #include <boost/thread/mutex.hpp>
 #include <map>
-#include <openssl/crypto.h> // for OPENSSL_cleanse()
-
-#ifdef WIN32
-#ifdef _WIN32_WINNT
-#undef _WIN32_WINNT
-#endif
-#define _WIN32_WINNT 0x0501
-#define WIN32_LEAN_AND_MEAN 1
-#ifndef NOMINMAX
-#define NOMINMAX
-#endif
-#include <windows.h>
-// This is used to attempt to keep keying material out of swap
-// Note that VirtualLock does not provide this as a guarantee on Windows,
-// but, in practice, memory that has been VirtualLock'd almost never gets written to
-// the pagefile except in rare circumstances where memory is extremely low.
-#else
+#include <openssl/crypto.h>
+#include <string.h>
+#include <string>
 #include <sys/mman.h>
-#include <limits.h> // for PAGESIZE
-#include <unistd.h> // for sysconf
-#endif
+#include <unistd.h>
 
 /**
  * Thread-safe class to keep track of locked (ie, non-swappable) memory pages.
@@ -118,17 +101,7 @@ private:
 /** Determine system page size in bytes */
 static inline size_t GetSystemPageSize()
 {
-    size_t page_size;
-#if defined(WIN32)
-    SYSTEM_INFO sSysInfo;
-    GetSystemInfo(&sSysInfo);
-    page_size = sSysInfo.dwPageSize;
-#elif defined(PAGESIZE) // defined in limits.h
-    page_size = PAGESIZE;
-#else // assume some POSIX OS
-    page_size = sysconf(_SC_PAGESIZE);
-#endif
-    return page_size;
+    return sysconf(_SC_PAGESIZE);
 }
 
 /**
@@ -143,22 +116,14 @@ public:
      */
     bool Lock(const void *addr, size_t len)
     {
-#ifdef WIN32
-        return VirtualLock(const_cast<void*>(addr), len);
-#else
         return mlock(addr, len) == 0;
-#endif
     }
     /** Unlock memory pages.
      * addr and len must be a multiple of the system page size
      */
     bool Unlock(const void *addr, size_t len)
     {
-#ifdef WIN32
-        return VirtualUnlock(const_cast<void*>(addr), len);
-#else
         return munlock(addr, len) == 0;
-#endif
     }
 };
 
@@ -255,4 +220,4 @@ struct zero_after_free_allocator : public std::allocator<T>
 // This is exactly like std::string, but with a custom allocator.
 typedef std::basic_string<char, std::char_traits<char>, secure_allocator<char> > SecureString;
 
-#endif
+#endif // __ALLOCATORS_H__

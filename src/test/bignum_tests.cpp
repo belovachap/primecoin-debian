@@ -11,17 +11,7 @@ BOOST_AUTO_TEST_SUITE(bignum_tests)
 //
 // You should use it like this:
 //   NOINLINE void function() {...}
-#if defined(__GNUC__)
-// This also works and will be defined for any compiler implementing GCC
-// extensions, such as Clang and ICC.
 #define NOINLINE __attribute__((noinline))
-#elif defined(_MSC_VER)
-#define NOINLINE __declspec(noinline)
-#else
-// We give out a warning because it impacts the correctness of one bignum test.
-#warning You should define NOINLINE for your compiler.
-#define NOINLINE
-#endif
 
 // For the following test case, it is useful to use additional tools.
 //
