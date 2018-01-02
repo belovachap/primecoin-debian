@@ -1,5 +1,8 @@
-#ifndef BITCOINGUI_H
-#define BITCOINGUI_H
+// Copyright (c) 2018 Chapman Shoop
+// See COPYING for license.
+
+#ifndef __BITCOINGUI_H__
+#define __BITCOINGUI_H__
 
 #include <QMainWindow>
 #include <QSystemTrayIcon>
@@ -181,10 +184,8 @@ private slots:
     void optionsClicked();
     /** Show about dialog */
     void aboutClicked();
-#ifndef Q_OS_MAC
     /** Handle tray icon clicked */
     void trayIconActivated(QSystemTrayIcon::ActivationReason reason);
-#endif
 
     /** Show window if hidden, unminimize when minimized, rise when obscured or show if hidden and fToggleHidden is true */
     void showNormalIfMinimized(bool fToggleHidden = false);
@@ -195,4 +196,4 @@ private slots:
     void detectShutdown();
 };
 
-#endif // BITCOINGUI_H
+#endif // __BITCOINGUI_H__

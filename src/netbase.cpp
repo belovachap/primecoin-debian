@@ -1,16 +1,14 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2012 The Bitcoin developers
-// Distributed under the MIT/X11 software license, see the accompanying
-// file COPYING or http://www.opensource.org/licenses/mit-license.php.
+// Copyright (c) 2017 Chapman Shoop
+// See COPYING for license.
 
 #include "netbase.h"
 #include "util.h"
 #include "sync.h"
 #include "hash.h"
 
-#ifndef WIN32
 #include <sys/fcntl.h>
-#endif
 
 #include <boost/algorithm/string/case_conv.hpp> // for to_lower()
 #include <boost/algorithm/string/predicate.hpp> // for startswith() and endswith()
@@ -77,11 +75,7 @@ bool static LookupIntern(const char *pszName, std::vector<CNetAddr>& vIP, unsign
 #else
     aiHint.ai_family = AF_INET;
 #endif
-#ifdef WIN32
-    aiHint.ai_flags = fAllowLookup ? 0 : AI_NUMERICHOST;
-#else
     aiHint.ai_flags = fAllowLookup ? AI_ADDRCONFIG : AI_NUMERICHOST;
-#endif
     struct addrinfo *aiRes = NULL;
     int nErr = getaddrinfo(pszName, NULL, &aiHint, &aiRes);
     if (nErr)
@@ -332,13 +326,8 @@ bool static ConnectSocketDirectly(const CService &addrConnect, SOCKET& hSocketRe
     setsockopt(hSocket, SOL_SOCKET, SO_NOSIGPIPE, (void*)&set, sizeof(int));
 #endif
 
-#ifdef WIN32
-    u_long fNonblock = 1;
-    if (ioctlsocket(hSocket, FIONBIO, &fNonblock) == SOCKET_ERROR)
-#else
     int fFlags = fcntl(hSocket, F_GETFL, 0);
     if (fcntl(hSocket, F_SETFL, fFlags | O_NONBLOCK) == -1)
-#endif
     {
         closesocket(hSocket);
         return false;
@@ -370,11 +359,7 @@ bool static ConnectSocketDirectly(const CService &addrConnect, SOCKET& hSocketRe
                 return false;
             }
             socklen_t nRetSize = sizeof(nRet);
-#ifdef WIN32
-            if (getsockopt(hSocket, SOL_SOCKET, SO_ERROR, (char*)(&nRet), &nRetSize) == SOCKET_ERROR)
-#else
             if (getsockopt(hSocket, SOL_SOCKET, SO_ERROR, &nRet, &nRetSize) == SOCKET_ERROR)
-#endif
             {
                 printf("getsockopt() for connection failed: %i\n",WSAGetLastError());
                 closesocket(hSocket);
@@ -387,11 +372,7 @@ bool static ConnectSocketDirectly(const CService &addrConnect, SOCKET& hSocketRe
                 return false;
             }
         }
-#ifdef WIN32
-        else if (WSAGetLastError() != WSAEISCONN)
-#else
         else
-#endif
         {
             printf("connect() failed: %i\n",WSAGetLastError());
             closesocket(hSocket);
@@ -402,13 +383,8 @@ bool static ConnectSocketDirectly(const CService &addrConnect, SOCKET& hSocketRe
     // this isn't even strictly necessary
     // CNode::ConnectNode immediately turns the socket back to non-blocking
     // but we'll turn it back to blocking just in case
-#ifdef WIN32
-    fNonblock = 0;
-    if (ioctlsocket(hSocket, FIONBIO, &fNonblock) == SOCKET_ERROR)
-#else
     fFlags = fcntl(hSocket, F_GETFL, 0);
     if (fcntl(hSocket, F_SETFL, fFlags & ~O_NONBLOCK) == SOCKET_ERROR)
-#endif
     {
         closesocket(hSocket);
         return false;

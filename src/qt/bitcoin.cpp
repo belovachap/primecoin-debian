@@ -1,6 +1,6 @@
-/*
- * W.J. van der Laan 2011-2012
- */
+// Copyright (c) 2011-2012 W.J. van der Laan
+// Copyright (c) 2018 Chapman Shoop
+// See COPYING for license.
 
 #include <QApplication>
 
@@ -22,10 +22,6 @@
 #include <QTimer>
 #include <QTranslator>
 #include <QLibraryInfo>
-
-#ifdef Q_OS_MAC
-#include "macdockiconhandler.h"
-#endif
 
 #if defined(BITCOIN_NEED_QT_PLUGINS) && !defined(_BITCOIN_QT_PLUGINS_INCLUDED)
 #define _BITCOIN_QT_PLUGINS_INCLUDED
@@ -201,13 +197,6 @@ int main(int argc, char *argv[])
         help.showOrPrint();
         return 1;
     }
-
-#ifdef Q_OS_MAC
-    // on mac, also change the icon now because it would look strange to have a testnet splash (green) and a std app icon (orange)
-    if(GetBoolArg("-testnet")) {
-        MacDockIconHandler::instance()->setIcon(QIcon(":icons/bitcoin_testnet"));
-    }
-#endif
 
     SplashScreen splash(QPixmap(), 0);
     if (GetBoolArg("-splash", true) && !GetBoolArg("-min"))

@@ -17,23 +17,3 @@ Release branch: release-v0.0
 | Dependency       | Version |
 | ---------------- | ------- |
 | lib              | TBD     |
-
-### Debian 8
-
-Latest release tag: TBD
-
-Release branch: release-v1.0
-
-| Dependency       | Version |
-| ---------------- | ------- |
-| lib              | TBD     |
-
-### Debian 9
-
-Latest release tag: TBD
-
-Release branch: release-v2.0
-
-| Dependency       | Version |
-| ---------------- | ------- |
-| lib              | TBD     |

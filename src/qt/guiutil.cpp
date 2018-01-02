@@ -1,3 +1,6 @@
+// Copyright (c) 2018 Chapman Shoop
+// See COPYING for license.
+
 #include <QApplication>
 
 #include "guiutil.h"
@@ -23,24 +26,6 @@
 
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
-
-#ifdef WIN32
-#ifdef _WIN32_WINNT
-#undef _WIN32_WINNT
-#endif
-#define _WIN32_WINNT 0x0501
-#ifdef _WIN32_IE
-#undef _WIN32_IE
-#endif
-#define _WIN32_IE 0x0501
-#define WIN32_LEAN_AND_MEAN 1
-#ifndef NOMINMAX
-#define NOMINMAX
-#endif
-#include "shlwapi.h"
-#include "shlobj.h"
-#include "shellapi.h"
-#endif
 
 namespace GUIUtil {
 
@@ -274,75 +259,6 @@ bool ToolTipToRichTextFilter::eventFilter(QObject *obj, QEvent *evt)
     return QObject::eventFilter(obj, evt);
 }
 
-#ifdef WIN32
-boost::filesystem::path static StartupShortcutPath()
-{
-    return GetSpecialFolderPath(CSIDL_STARTUP) / "Primecoin.lnk";
-}
-
-bool GetStartOnSystemStartup()
-{
-    // check for Bitcoin.lnk
-    return boost::filesystem::exists(StartupShortcutPath());
-}
-
-bool SetStartOnSystemStartup(bool fAutoStart)
-{
-    // If the shortcut exists already, remove it for updating
-    boost::filesystem::remove(StartupShortcutPath());
-
-    if (fAutoStart)
-    {
-        CoInitialize(NULL);
-
-        // Get a pointer to the IShellLink interface.
-        IShellLink* psl = NULL;
-        HRESULT hres = CoCreateInstance(CLSID_ShellLink, NULL,
-                                CLSCTX_INPROC_SERVER, IID_IShellLink,
-                                reinterpret_cast<void**>(&psl));
-
-        if (SUCCEEDED(hres))
-        {
-            // Get the current executable path
-            TCHAR pszExePath[MAX_PATH];
-            GetModuleFileName(NULL, pszExePath, sizeof(pszExePath));
-
-            TCHAR pszArgs[5] = TEXT("-min");
-
-            // Set the path to the shortcut target
-            psl->SetPath(pszExePath);
-            PathRemoveFileSpec(pszExePath);
-            psl->SetWorkingDirectory(pszExePath);
-            psl->SetShowCmd(SW_SHOWMINNOACTIVE);
-            psl->SetArguments(pszArgs);
-
-            // Query IShellLink for the IPersistFile interface for
-            // saving the shortcut in persistent storage.
-            IPersistFile* ppf = NULL;
-            hres = psl->QueryInterface(IID_IPersistFile,
-                                       reinterpret_cast<void**>(&ppf));
-            if (SUCCEEDED(hres))
-            {
-                WCHAR pwsz[MAX_PATH];
-                // Ensure that the string is ANSI.
-                MultiByteToWideChar(CP_ACP, 0, StartupShortcutPath().string().c_str(), -1, pwsz, MAX_PATH);
-                // Save the link by calling IPersistFile::Save.
-                hres = ppf->Save(pwsz, TRUE);
-                ppf->Release();
-                psl->Release();
-                CoUninitialize();
-                return true;
-            }
-            psl->Release();
-        }
-        CoUninitialize();
-        return false;
-    }
-    return true;
-}
-
-#elif defined(LINUX)
-
 // Follow the Desktop Application Autostart Spec:
 //  http://standards.freedesktop.org/autostart-spec/autostart-spec-latest.html
 
@@ -408,15 +324,6 @@ bool SetStartOnSystemStartup(bool fAutoStart)
     }
     return true;
 }
-#else
-
-// TODO: OSX startup stuff; see:
-// https://developer.apple.com/library/mac/#documentation/MacOSX/Conceptual/BPSystemStartup/Articles/CustomLogin.html
-
-bool GetStartOnSystemStartup() { return false; }
-bool SetStartOnSystemStartup(bool fAutoStart) { return false; }
-
-#endif
 
 HelpMessageBox::HelpMessageBox(QWidget *parent) :
     QMessageBox(parent)
@@ -449,13 +356,7 @@ void HelpMessageBox::printToConsole()
 
 void HelpMessageBox::showOrPrint()
 {
-#if defined(WIN32)
-        // On Windows, show a message box, as there is no stderr/stdout in windowed applications
-        exec();
-#else
-        // On other operating systems, print help text to console
-        printToConsole();
-#endif
+    printToConsole();
 }
 
 } // namespace GUIUtil

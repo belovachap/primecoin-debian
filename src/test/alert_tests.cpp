@@ -1,3 +1,6 @@
+// Copyright (c) 2018 Chapman Shoop
+// See COPYING for license.
+
 //
 // Unit tests for alert system
 //
@@ -154,9 +157,6 @@ BOOST_AUTO_TEST_CASE(AlertApplies)
 }
 
 
-// This uses sh 'echo' to test the -alertnotify function, writing to a
-// /tmp file. So skip it on Windows:
-#ifndef WIN32
 BOOST_AUTO_TEST_CASE(AlertNotify)
 {
     SetMockTime(11);
@@ -180,6 +180,5 @@ BOOST_AUTO_TEST_CASE(AlertNotify)
 
     SetMockTime(0);
 }
-#endif
 
 BOOST_AUTO_TEST_SUITE_END()

@@ -1,3 +1,6 @@
+// Copyright (c) 2018 Chapman Shoop
+// See COPYING for license.
+
 #include "sendcoinsdialog.h"
 #include "ui_sendcoinsdialog.h"
 
@@ -20,12 +23,6 @@ SendCoinsDialog::SendCoinsDialog(QWidget *parent) :
     model(0)
 {
     ui->setupUi(this);
-
-#ifdef Q_OS_MAC // Icons on push buttons are very uncommon on Mac
-    ui->addButton->setIcon(QIcon());
-    ui->clearButton->setIcon(QIcon());
-    ui->sendButton->setIcon(QIcon());
-#endif
 
     addEntry();
 

@@ -1,10 +1,8 @@
-/*
- * Qt4 bitcoin GUI.
- *
- * W.J. van der Laan 2011-2012
- * The Bitcoin Developers 2011-2012
- * The Primecoin Developers 2013
- */
+// Copyright (c) 2011-2012 W.J. van der Laan
+// Copyright (c) 2011-2012 The Bitcoin Developers
+// Copyright (c) 2013 The Primecoin Developers
+// Copyright (c) 2018 Chapman Shoop
+// See COPYING for license.
 
 #include <QApplication>
 
@@ -26,10 +24,6 @@
 #include "ui_interface.h"
 #include "wallet.h"
 #include "init.h"
-
-#ifdef Q_OS_MAC
-#include "macdockiconhandler.h"
-#endif
 
 #include <QMenuBar>
 #include <QMenu>
@@ -69,13 +63,8 @@ BitcoinGUI::BitcoinGUI(QWidget *parent) :
 {
     restoreWindowGeometry();
     setWindowTitle(tr("Primecoin") + " - " + tr("Wallet"));
-#ifndef Q_OS_MAC
     QApplication::setWindowIcon(QIcon(":icons/primecoin"));
     setWindowIcon(QIcon(":icons/primecoin"));
-#else
-    setUnifiedTitleAndToolBarOnMac(true);
-    QApplication::setAttribute(Qt::AA_DontShowIconsInMenus);
-#endif
     // Create wallet frame and make it the central widget
     walletFrame = new WalletFrame(this);
     setCentralWidget(walletFrame);
@@ -152,10 +141,6 @@ BitcoinGUI::~BitcoinGUI()
     saveWindowGeometry();
     if(trayIcon) // Hide tray icon, as deleting will let it linger until quit (on Ubuntu)
         trayIcon->hide();
-#ifdef Q_OS_MAC
-    delete appMenuBar;
-    MacDockIconHandler::instance()->setMainWindow(NULL);
-#endif
 }
 
 void BitcoinGUI::createActions()
@@ -253,13 +238,8 @@ void BitcoinGUI::createActions()
 
 void BitcoinGUI::createMenuBar()
 {
-#ifdef Q_OS_MAC
-    // Create a decoupled menu bar on Mac which stays even if the window is closed
-    appMenuBar = new QMenuBar();
-#else
     // Get the main window's menu bar on other platforms
     appMenuBar = menuBar();
-#endif
 
     // Configure the menus
     QMenu *file = appMenuBar->addMenu(tr("&File"));
@@ -302,12 +282,8 @@ void BitcoinGUI::setClientModel(ClientModel *clientModel)
         if(clientModel->isTestNet())
         {
             setWindowTitle(windowTitle() + QString(" ") + tr("[testnet]"));
-#ifndef Q_OS_MAC
             QApplication::setWindowIcon(QIcon(":icons/primecoin_testnet"));
             setWindowIcon(QIcon(":icons/primecoin_testnet"));
-#else
-            MacDockIconHandler::instance()->setIcon(QIcon(":icons/primecoin_testnet"));
-#endif
             if(trayIcon)
             {
                 // Just attach " [testnet]" to the existing tooltip
@@ -355,13 +331,11 @@ void BitcoinGUI::removeAllWallets()
 
 void BitcoinGUI::createTrayIcon()
 {
-#ifndef Q_OS_MAC
     trayIcon = new QSystemTrayIcon(this);
 
     trayIcon->setToolTip(tr("Primecoin client"));
     trayIcon->setIcon(QIcon(":/icons/toolbar"));
     trayIcon->show();
-#endif
 
     notificator = new Notificator(QApplication::applicationName(), trayIcon);
 }
@@ -369,7 +343,6 @@ void BitcoinGUI::createTrayIcon()
 void BitcoinGUI::createTrayIconMenu()
 {
     QMenu *trayIconMenu;
-#ifndef Q_OS_MAC
     // return if trayIcon is unset (only on non-Mac OSes)
     if (!trayIcon)
         return;
@@ -379,12 +352,6 @@ void BitcoinGUI::createTrayIconMenu()
 
     connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
             this, SLOT(trayIconActivated(QSystemTrayIcon::ActivationReason)));
-#else
-    // Note: On Mac, the dock icon is used to provide the tray's functionality.
-    MacDockIconHandler *dockIconHandler = MacDockIconHandler::instance();
-    dockIconHandler->setMainWindow((QMainWindow *)this);
-    trayIconMenu = dockIconHandler->dockMenu();
-#endif
 
     // Configuration of the tray icon (or dock icon) icon menu
     trayIconMenu->addAction(toggleHideAction);
@@ -397,13 +364,10 @@ void BitcoinGUI::createTrayIconMenu()
     trayIconMenu->addSeparator();
     trayIconMenu->addAction(optionsAction);
     trayIconMenu->addAction(openRPCConsoleAction);
-#ifndef Q_OS_MAC // This is built-in on Mac
     trayIconMenu->addSeparator();
     trayIconMenu->addAction(quitAction);
-#endif
 }
 
-#ifndef Q_OS_MAC
 void BitcoinGUI::trayIconActivated(QSystemTrayIcon::ActivationReason reason)
 {
     if(reason == QSystemTrayIcon::Trigger)
@@ -412,7 +376,6 @@ void BitcoinGUI::trayIconActivated(QSystemTrayIcon::ActivationReason reason)
         toggleHideAction->trigger();
     }
 }
-#endif
 
 void BitcoinGUI::saveWindowGeometry()
 {
@@ -650,7 +613,6 @@ void BitcoinGUI::message(const QString &title, const QString &message, unsigned 
 void BitcoinGUI::changeEvent(QEvent *e)
 {
     QMainWindow::changeEvent(e);
-#ifndef Q_OS_MAC // Ignored on Mac
     if(e->type() == QEvent::WindowStateChange)
     {
         if(clientModel && clientModel->getOptionsModel()->getMinimizeToTray())
@@ -663,20 +625,17 @@ void BitcoinGUI::changeEvent(QEvent *e)
             }
         }
     }
-#endif
 }
 
 void BitcoinGUI::closeEvent(QCloseEvent *event)
 {
     if(clientModel)
     {
-#ifndef Q_OS_MAC // Ignored on Mac
         if(!clientModel->getOptionsModel()->getMinimizeToTray() &&
            !clientModel->getOptionsModel()->getMinimizeOnClose())
         {
             QApplication::quit();
         }
-#endif
     }
     QMainWindow::closeEvent(event);
 }

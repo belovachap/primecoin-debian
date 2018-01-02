@@ -1,16 +1,14 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2012 The Bitcoin developers
-// Distributed under the MIT/X11 software license, see the accompanying
-// file COPYING or http://www.opensource.org/licenses/mit-license.php.
+// Copyright (c) 2018 Chapman Shoop
+// See COPYING for license.
 
 #include "protocol.h"
 #include "util.h"
 #include "netbase.h"
 #include "main.h"
 
-#ifndef WIN32
-# include <arpa/inet.h>
-#endif
+#include <arpa/inet.h>
 
 static const char* ppszTypeName[] =
 {
