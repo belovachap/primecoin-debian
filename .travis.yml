@@ -10,4 +10,4 @@ before_install:
 install: true
 script:
   - qmake BITCOIN_QT_TEST=1 && make && ./bitcoin-qt_test
-  - cd src && make -f makefile.unix test
+  - cd src && make test
