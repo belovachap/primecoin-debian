@@ -1,7 +1,7 @@
 # Copyright (c) 2009-2010 Satoshi Nakamoto
 # Copyright (c) 2013 Primecoind developers
-# Distributed under conditional MIT/X11 software license,
-# see the accompanying file COPYING
+# Copyright (c) 2017 Chapman Shoop
+# See COPYING for license.
 
 # :=0 --> UPnP support turned off by default at runtime
 # :=1 --> UPnP support turned on by default at runtime

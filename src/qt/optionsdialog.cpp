@@ -1,3 +1,6 @@
+// Copyright (c) 2018 Chapman Shoop
+// See COPYING for license.
+
 #include "optionsdialog.h"
 #include "ui_optionsdialog.h"
 
@@ -42,11 +45,6 @@ OptionsDialog::OptionsDialog(QWidget *parent) :
     connect(ui->connectSocks, SIGNAL(clicked(bool)), this, SLOT(showRestartWarning_Proxy()));
 
     ui->proxyIp->installEventFilter(this);
-
-    /* Window elements init */
-#ifdef Q_OS_MAC
-    ui->tabWindow->setVisible(false);
-#endif
 
     /* Display elements init */
     QDir translations(":translations");
@@ -136,10 +134,8 @@ void OptionsDialog::setMapper()
     mapper->addMapping(ui->socksVersion, OptionsModel::ProxySocksVersion);
 
     /* Window */
-#ifndef Q_OS_MAC
     mapper->addMapping(ui->minimizeToTray, OptionsModel::MinimizeToTray);
     mapper->addMapping(ui->minimizeOnClose, OptionsModel::MinimizeOnClose);
-#endif
 
     /* Display */
     mapper->addMapping(ui->lang, OptionsModel::Language);

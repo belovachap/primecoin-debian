@@ -1,25 +1,20 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2012 The Bitcoin developers
-// Distributed under the MIT/X11 software license, see the accompanying
-// file COPYING or http://www.opensource.org/licenses/mit-license.php.
+// Copyright (c) 2017 Chapman Shoop
+// See COPYING for license.
 
-#include "db.h"
-#include "util.h"
-#include "main.h"
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
+#include <sys/stat.h>
 
-#ifndef WIN32
-#include "sys/stat.h"
-#endif
+#include "db.h"
+#include "main.h"
+#include "util.h"
 
 using namespace std;
 using namespace boost;
 
-
 unsigned int nWalletDBUpdated;
-
-
 
 //
 // CDB

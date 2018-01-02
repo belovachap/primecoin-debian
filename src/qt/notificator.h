@@ -1,5 +1,8 @@
-#ifndef NOTIFICATOR_H
-#define NOTIFICATOR_H
+// Copyright (c) 2018 Chapman Shoop
+// See COPYING for license.
+
+#ifndef __NOTIFICATOR_H__
+#define __NOTIFICATOR_H__
 
 #include <QObject>
 #include <QIcon>
@@ -61,9 +64,6 @@ private:
     void notifyDBus(Class cls, const QString &title, const QString &text, const QIcon &icon, int millisTimeout);
 #endif
     void notifySystray(Class cls, const QString &title, const QString &text, const QIcon &icon, int millisTimeout);
-#ifdef Q_OS_MAC
-    void notifyGrowl(Class cls, const QString &title, const QString &text, const QIcon &icon);
-#endif
 };
 
-#endif // NOTIFICATOR_H
+#endif // __NOTIFICATOR_H__

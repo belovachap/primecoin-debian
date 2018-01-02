@@ -1,8 +1,9 @@
 // Copyright (c) 2009-2012 The Bitcoin developers
-// Distributed under the MIT/X11 software license, see the accompanying
-// file COPYING or http://www.opensource.org/licenses/mit-license.php.
-#ifndef BITCOIN_NETBASE_H
-#define BITCOIN_NETBASE_H
+// Copyright (c) 2018 Chapman Shoop
+// See COPYING for license.
+
+#ifndef __NETBASE_H__
+#define __NETBASE_H__
 
 #include <string>
 #include <vector>
@@ -11,11 +12,6 @@
 #include "compat.h"
 
 extern int nConnectTimeout;
-
-#ifdef WIN32
-// In MSVC, this is defined as a macro, undefine it to prevent a compile and link error
-#undef SetPort
-#endif
 
 enum Network
 {
@@ -148,4 +144,4 @@ bool LookupNumeric(const char *pszName, CService& addr, int portDefault = 0);
 bool ConnectSocket(const CService &addr, SOCKET& hSocketRet, int nTimeout = nConnectTimeout);
 bool ConnectSocketByName(CService &addr, SOCKET& hSocketRet, const char *pszDest, int portDefault = 0, int nTimeout = nConnectTimeout);
 
-#endif
+#endif // __NETBASE_H__

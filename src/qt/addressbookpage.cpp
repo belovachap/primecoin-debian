@@ -1,3 +1,6 @@
+// Copyright (c) 2018 Chapman Shoop
+// See COPYING for license.
+
 #include "addressbookpage.h"
 #include "ui_addressbookpage.h"
 
@@ -26,15 +29,6 @@ AddressBookPage::AddressBookPage(Mode mode, Tabs tab, QWidget *parent) :
     tab(tab)
 {
     ui->setupUi(this);
-
-#ifdef Q_OS_MAC // Icons on push buttons are very uncommon on Mac
-    ui->newAddress->setIcon(QIcon());
-    ui->copyAddress->setIcon(QIcon());
-    ui->deleteAddress->setIcon(QIcon());
-    ui->verifyMessage->setIcon(QIcon());
-    ui->signMessage->setIcon(QIcon());
-    ui->exportButton->setIcon(QIcon());
-#endif
 
 #ifndef USE_QRCODE
     ui->showQRCode->setVisible(false);

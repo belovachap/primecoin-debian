@@ -1,3 +1,6 @@
+// Copyright (c) 2018 Chapman Shoop
+// See COPYING for license.
+
 #include "rpcconsole.h"
 #include "ui_rpcconsole.h"
 
@@ -186,10 +189,8 @@ RPCConsole::RPCConsole(QWidget *parent) :
 {
     ui->setupUi(this);
 
-#ifndef Q_OS_MAC
     ui->openDebugLogfileButton->setIcon(QIcon(":/icons/export"));
     ui->showCLOptionsButton->setIcon(QIcon(":/icons/options"));
-#endif
 
     // Install event filter for up and down arrow
     ui->lineEdit->installEventFilter(this);
