@@ -147,7 +147,7 @@ void copyEntryData(QAbstractItemView *view, int column, int role)
     {
         // Copy first item (global clipboard)
         QApplication::clipboard()->setText(selection.at(0).data(role).toString(), QClipboard::Clipboard);
-        // Copy first item (global mouse selection for e.g. X11 - NOP on Windows)
+        // Copy first item (global mouse selection for e.g. X11)
         QApplication::clipboard()->setText(selection.at(0).data(role).toString(), QClipboard::Selection);
     }
 }
