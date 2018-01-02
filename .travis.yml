@@ -5,6 +5,7 @@ before_install:
   - sudo apt-get update -qq
   - sudo apt-get install -qq libboost-all-dev
   - sudo apt-get install -qq libdb++-dev
+  - sudo apt-get install -qq libjson-spirit-dev
   - sudo apt-get install -qq libminiupnpc-dev
 install: true
 script:
