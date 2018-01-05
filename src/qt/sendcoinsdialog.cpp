@@ -289,7 +289,7 @@ bool SendCoinsDialog::handleURI(const QString &uri)
 {
     SendCoinsRecipient rv;
     // URI has to be valid
-    if (GUIUtil::parseBitcoinURI(uri, &rv))
+    if (GUIUtil::parsePrimecoinURI(uri, &rv))
     {
         CBitcoinAddress address(rv.address.toStdString());
         if (!address.IsValid())

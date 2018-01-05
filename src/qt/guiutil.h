@@ -1,5 +1,8 @@
-#ifndef GUIUTIL_H
-#define GUIUTIL_H
+// Copyright (c) 2018 Chapman Shoop
+// See COPYING for license.
+
+#ifndef __GUIUTIL_H__
+#define __GUIUTIL_H__
 
 #include <QString>
 #include <QObject>
@@ -16,7 +19,7 @@ class QUrl;
 class QAbstractItemView;
 QT_END_NAMESPACE
 
-/** Utility functions used by the Bitcoin Qt UI.
+/** Utility functions used by the Primecoin Qt UI.
  */
 namespace GUIUtil
 {
@@ -31,10 +34,10 @@ namespace GUIUtil
     void setupAddressWidget(QLineEdit *widget, QWidget *parent);
     void setupAmountWidget(QLineEdit *widget, QWidget *parent);
 
-    // Parse "bitcoin:" URI into recipient object, return true on successful parsing
+    // Parse "primecoin:" URI into recipient object, return true on successful parsing.
     // See Bitcoin URI definition discussion here: https://bitcointalk.org/index.php?topic=33490.0
-    bool parseBitcoinURI(const QUrl &uri, SendCoinsRecipient *out);
-    bool parseBitcoinURI(QString uri, SendCoinsRecipient *out);
+    bool parsePrimecoinURI(const QUrl &uri, SendCoinsRecipient *out);
+    bool parsePrimecoinURI(QString uri, SendCoinsRecipient *out);
 
     // HTML escaping for rich text controls
     QString HtmlEscape(const QString& str, bool fMultiLine=false);
@@ -118,4 +121,4 @@ namespace GUIUtil
 
 } // namespace GUIUtil
 
-#endif // GUIUTIL_H
+#endif // __GUIUTIL_H__
