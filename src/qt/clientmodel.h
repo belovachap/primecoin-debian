@@ -73,7 +73,6 @@ private:
 signals:
     void numConnectionsChanged(int count);
     void numBlocksChanged(int count, int countOfPeers);
-    void alertsChanged(const QString &warnings);
 
     //! Asynchronous message notification
     void message(const QString &title, const QString &message, unsigned int style);
@@ -81,7 +80,6 @@ signals:
 public slots:
     void updateTimer();
     void updateNumConnections(int numConnections);
-    void updateAlert(const QString &hash, int status);
 };
 
 #endif // CLIENTMODEL_H

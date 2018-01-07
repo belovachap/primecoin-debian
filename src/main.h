@@ -2,10 +2,11 @@
 // Copyright (c) 2009-2012 The Bitcoin developers
 // Copyright (c) 2011-2013 PPCoin developers
 // Copyright (c) 2013 Primecoin developers
-// Distributed under conditional MIT/X11 software license,
-// see the accompanying file COPYING
-#ifndef BITCOIN_MAIN_H
-#define BITCOIN_MAIN_H
+// Copyright (c) 2017-2018 Chapman Shoop
+// See COPYING for license.
+
+#ifndef __MAIN_H__
+#define __MAIN_H__
 
 #include "bignum.h"
 #include "sync.h"
@@ -2298,4 +2299,4 @@ public:
     )
 };
 
-#endif
+#endif // __MAIN_H__

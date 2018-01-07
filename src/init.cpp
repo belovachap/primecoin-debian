@@ -120,12 +120,7 @@ void DetectShutdownThread(boost::thread_group* threadGroup)
     while (!fRequestShutdown)
         MilliSleep(200);
 
-    // Primecoin: allow miner threads to exit gracefully 
-    if(GetBoolArg("-gen"))
-        GenerateBitcoins(false, NULL);
-
     threadGroup->interrupt_all();
-
 }
 
 void HandleSIGTERM(int)
@@ -1038,9 +1033,6 @@ bool AppInit2(boost::thread_group& threadGroup)
 
     if (fServer)
         StartRPCThreads();
-
-    // Generate coins in the background
-    GenerateBitcoins(GetBoolArg("-gen", false), pwalletMain);
 
     // ********************************************************* Step 12: finished
 
