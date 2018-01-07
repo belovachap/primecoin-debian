@@ -1,6 +1,6 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2012 The Bitcoin developers
-// Copyright (c) 2017 Chapman Shoop
+// Copyright (c) 2017-2018 Chapman Shoop
 // See COPYING for license.
 
 #ifndef __NET_H__
