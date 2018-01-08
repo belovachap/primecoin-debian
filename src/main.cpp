@@ -2992,7 +2992,6 @@ bool LoadExternalBlockFile(FILE* fileIn, CDiskBlockPos *dbp)
 
 string GetWarnings(string strFor)
 {
-    int nPriority = 0;
     string strStatusBar;
     string strRPC;
 
@@ -3005,28 +3004,24 @@ string GetWarnings(string strFor)
     // Checkpoint warning
     if (strCheckpointWarning != "")
     {
-        nPriority = 900;
         strStatusBar = strCheckpointWarning;
     }
 
     // Misc warnings like out of disk space and clock is wrong
     if (strMiscWarning != "")
     {
-        nPriority = 1000;
         strStatusBar = strMiscWarning;
     }
 
     // Longer invalid proof-of-work chain
     if (pindexBest && nBestInvalidWork > nBestChainWork + (pindexBest->GetBlockWork() * 6).getuint256())
     {
-        nPriority = 2000;
         strStatusBar = strRPC = _("Warning: Displayed transactions may not be correct! You may need to upgrade, or other nodes may need to upgrade.");
     }
 
     // ppcoin: if detected invalid checkpoint enter safe mode
     if (hashInvalidCheckpoint != 0)
     {
-        nPriority = 3000;
         strStatusBar = strRPC = "WARNING: Inconsistent checkpoint found! Stop enforcing checkpoints and notify developers to resolve the issue.";
     }
 
