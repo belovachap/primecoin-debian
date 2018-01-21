@@ -19,32 +19,9 @@ OptionsDialog::OptionsDialog(QWidget *parent) :
     ui(new Ui::OptionsDialog),
     model(0),
     mapper(0),
-    fRestartWarningDisplayed_Proxy(false),
-    fRestartWarningDisplayed_Lang(false),
-    fProxyIpValid(true)
+    fRestartWarningDisplayed_Lang(false)
 {
     ui->setupUi(this);
-
-    /* Network elements init */
-#ifndef USE_UPNP
-    ui->mapPortUpnp->setEnabled(false);
-#endif
-
-    ui->proxyIp->setEnabled(false);
-    ui->proxyPort->setEnabled(false);
-    ui->proxyPort->setValidator(new QIntValidator(1, 65535, this));
-
-    ui->socksVersion->setEnabled(false);
-    ui->socksVersion->addItem("5", 5);
-    ui->socksVersion->addItem("4", 4);
-    ui->socksVersion->setCurrentIndex(0);
-
-    connect(ui->connectSocks, SIGNAL(toggled(bool)), ui->proxyIp, SLOT(setEnabled(bool)));
-    connect(ui->connectSocks, SIGNAL(toggled(bool)), ui->proxyPort, SLOT(setEnabled(bool)));
-    connect(ui->connectSocks, SIGNAL(toggled(bool)), ui->socksVersion, SLOT(setEnabled(bool)));
-    connect(ui->connectSocks, SIGNAL(clicked(bool)), this, SLOT(showRestartWarning_Proxy()));
-
-    ui->proxyIp->installEventFilter(this);
 
     /* Display elements init */
     QDir translations(":translations");
@@ -87,8 +64,6 @@ OptionsDialog::OptionsDialog(QWidget *parent) :
     connect(mapper, SIGNAL(viewModified()), this, SLOT(enableApplyButton()));
     /* disable apply button when new data loaded */
     connect(mapper, SIGNAL(currentIndexChanged(int)), this, SLOT(disableApplyButton()));
-    /* setup/change UI elements when proxy IP is invalid/valid */
-    connect(this, SIGNAL(proxyIpValid(QValidatedLineEdit *, bool)), this, SLOT(handleProxyIpValid(QValidatedLineEdit *, bool)));
 }
 
 OptionsDialog::~OptionsDialog()
@@ -125,14 +100,6 @@ void OptionsDialog::setMapper()
     mapper->addMapping(ui->transactionFee, OptionsModel::Fee);
     mapper->addMapping(ui->bitcoinAtStartup, OptionsModel::StartAtStartup);
 
-    /* Network */
-    mapper->addMapping(ui->mapPortUpnp, OptionsModel::MapPortUPnP);
-
-    mapper->addMapping(ui->connectSocks, OptionsModel::ProxyUse);
-    mapper->addMapping(ui->proxyIp, OptionsModel::ProxyIP);
-    mapper->addMapping(ui->proxyPort, OptionsModel::ProxyPort);
-    mapper->addMapping(ui->socksVersion, OptionsModel::ProxySocksVersion);
-
     /* Window */
     mapper->addMapping(ui->minimizeToTray, OptionsModel::MinimizeToTray);
     mapper->addMapping(ui->minimizeOnClose, OptionsModel::MinimizeOnClose);
@@ -155,9 +122,7 @@ void OptionsDialog::disableApplyButton()
 
 void OptionsDialog::enableSaveButtons()
 {
-    /* prevent enabling of the save buttons when data modified, if there is an invalid proxy address present */
-    if(fProxyIpValid)
-        setSaveButtonState(true);
+    setSaveButtonState(true);
 }
 
 void OptionsDialog::disableSaveButtons()
@@ -186,7 +151,7 @@ void OptionsDialog::on_resetButton_clicked()
         disableApplyButton();
 
         /* disable restart warning messages display */
-        fRestartWarningDisplayed_Lang = fRestartWarningDisplayed_Proxy = true;
+        fRestartWarningDisplayed_Lang = true;
 
         /* reset all options and save the default values (QSettings) */
         model->Reset();
@@ -194,7 +159,7 @@ void OptionsDialog::on_resetButton_clicked()
         mapper->submit();
 
         /* re-enable restart warning messages display */
-        fRestartWarningDisplayed_Lang = fRestartWarningDisplayed_Proxy = false;
+        fRestartWarningDisplayed_Lang = false;
     }
 }
 
@@ -215,15 +180,6 @@ void OptionsDialog::on_applyButton_clicked()
     disableApplyButton();
 }
 
-void OptionsDialog::showRestartWarning_Proxy()
-{
-    if(!fRestartWarningDisplayed_Proxy)
-    {
-        QMessageBox::warning(this, tr("Warning"), tr("This setting will take effect after restarting Primecoin."), QMessageBox::Ok);
-        fRestartWarningDisplayed_Proxy = true;
-    }
-}
-
 void OptionsDialog::showRestartWarning_Lang()
 {
     if(!fRestartWarningDisplayed_Lang)
@@ -240,37 +196,4 @@ void OptionsDialog::updateDisplayUnit()
         /* Update transactionFee with the current unit */
         ui->transactionFee->setDisplayUnit(model->getDisplayUnit());
     }
-}
-
-void OptionsDialog::handleProxyIpValid(QValidatedLineEdit *object, bool fState)
-{
-    // this is used in a check before re-enabling the save buttons
-    fProxyIpValid = fState;
-
-    if(fProxyIpValid)
-    {
-        enableSaveButtons();
-        ui->statusLabel->clear();
-    }
-    else
-    {
-        disableSaveButtons();
-        object->setValid(fProxyIpValid);
-        ui->statusLabel->setStyleSheet("QLabel { color: red; }");
-        ui->statusLabel->setText(tr("The supplied proxy address is invalid."));
-    }
-}
-
-bool OptionsDialog::eventFilter(QObject *object, QEvent *event)
-{
-    if(event->type() == QEvent::FocusOut)
-    {
-        if(object == ui->proxyIp)
-        {
-            CService addr;
-            /* Check proxyIp for a valid IPv4/IPv6 address and emit the proxyIpValid signal */
-            emit proxyIpValid(ui->proxyIp, LookupNumeric(ui->proxyIp->text().toStdString().c_str(), addr));
-        }
-    }
-    return QDialog::eventFilter(object, event);
 }
