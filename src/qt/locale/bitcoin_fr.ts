@@ -1,32 +1,9 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="fr" version="2.0">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.0" language="fr">
 <defaultcodec>UTF-8</defaultcodec>
 <context>
     <name>AboutDialog</name>
-    <message>
-        <location filename="../forms/aboutdialog.ui" line="+14"/>
-        <source>About Bitcoin</source>
-        <translation>À propos de Primecoin</translation>
-    </message>
-    <message>
-        <location line="+39"/>
-        <source>&lt;b&gt;Bitcoin&lt;/b&gt; version</source>
-        <translation>&lt;b&gt;Bitcoin&lt;/b&gt; version</translation>
-    </message>
-    <message>
-        <location line="+57"/>
-        <source>
-This is experimental software.
-
-Distributed under the MIT/X11 software license, see the accompanying file COPYING or http://www.opensource.org/licenses/mit-license.php.
-
-This product includes software developed by the OpenSSL Project for use in the OpenSSL Toolkit (http://www.openssl.org/) and cryptographic software written by Eric Young (eay@cryptsoft.com) and UPnP software written by Thomas Bernard.</source>
-        <translation>
- Ce logiciel est en phase expérimentale.
-
- Distribué sous licence MIT/X11, voir le fichier COPYING ou http://www.opensource.org/licenses/mit-license.php.
-
- Ce produit comprend des fonctionnalités développées par le projet OpenSSL pour être utilisés dans la boîte à outils OpenSSL (http://www.openssl.org/), un logiciel cryptographique écrit par Eric Young (eay@cryptsoft.com), et des fonctionnalités développées pour le logiciel UPnP écrit par Thomas Bernard.</translation>
-    </message>
     <message>
         <location filename="../aboutdialog.cpp" line="+14"/>
         <source>Copyright</source>
@@ -34,8 +11,28 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="+0"/>
-        <source>The Bitcoin developers</source>
-        <translation>Les développeurs Primecoin</translation>
+        <source>The Primecoin developers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../forms/aboutdialog.ui" line="+14"/>
+        <source>About Primecoin</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+39"/>
+        <source>&lt;b&gt;Primecoin&lt;/b&gt; version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+89"/>
+        <source>
+This is experimental software.
+
+Distributed under conditional MIT/X11 software license, see the accompanying file COPYING.
+
+This product includes software developed by the OpenSSL Project for use in the OpenSSL Toolkit (http://www.openssl.org/) and cryptographic software written by Eric Young (eay@cryptsoft.com) and UPnP software written by Thomas Bernard.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -66,7 +63,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>&amp;Nouvelle adresse</translation>
     </message>
     <message>
-        <location filename="../addressbookpage.cpp" line="+63"/>
+        <location filename="../addressbookpage.cpp" line="+57"/>
         <source>These are your Primecoin addresses for receiving payments. You may want to give a different one to each sender so you can keep track of who is paying you.</source>
         <translation>Voici vos adresses Primecoin qui vous permettent de recevoir des paiements. Vous pouvez donner une adresse différente à chaque expéditeur afin de savoir qui vous paye.</translation>
     </message>
@@ -248,16 +245,21 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="+1"/>
-        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR BITCOINS&lt;/b&gt;!</source>
-        <translation>Attention : Si vous chiffrez votre porte-monnaie et perdez votre phrase de passe, vous &lt;b&gt;PERDREZ ACCÈS À TOUS VOS BITCOINS&lt;/b&gt; !</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>Are you sure you wish to encrypt your wallet?</source>
         <translation>Êtes-vous sûr de vouloir chiffrer votre porte-monnaie ?</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+0"/>
+        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR PRIMECOINS&lt;/b&gt;!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Primecoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your primecoins from being stolen by malware infecting your computer.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+4"/>
         <source>IMPORTANT: Any previous backups you have made of your wallet file should be replaced with the newly generated, encrypted wallet file. For security reasons, previous backups of the unencrypted wallet file will become useless as soon as you start using the new, encrypted wallet.</source>
         <translation>IMPORTANT : Les sauvegardes précédentes de votre fichier de porte-monnaie devraient être remplacées par le nouveau fichier crypté de porte-monnaie. Pour des raisons de sécurité, les précédentes sauvegardes de votre fichier de porte-monnaie non chiffré deviendront inutilisables dès que vous commencerez à utiliser le nouveau porte-monnaie chiffré.</translation>
     </message>
@@ -274,12 +276,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>Porte-monnaie chiffré</translation>
     </message>
     <message>
-        <location line="-56"/>
-        <source>Primecoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your bitcoins from being stolen by malware infecting your computer.</source>
-        <translation>Primecoin va à présent se fermer pour terminer la procédure de cryptage. N&apos;oubliez pas que le chiffrement de votre porte-monnaie ne peut pas fournir une protection totale contre le vol par des logiciels malveillants qui infecteraient votre ordinateur.</translation>
-    </message>
-    <message>
-        <location line="+13"/>
+        <location line="-43"/>
         <location line="+7"/>
         <location line="+42"/>
         <location line="+6"/>
@@ -321,318 +318,335 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
 </context>
 <context>
-    <name>PrimecoinGUI</name>
+    <name>BitcoinGUI</name>
     <message>
-        <location filename="../bitcoingui.cpp" line="+233"/>
-        <source>Sign &amp;message...</source>
-        <translation>Signer un &amp;message...</translation>
+        <location filename="../bitcoin.cpp" line="+107"/>
+        <source>A fatal error occurred. Primecoin can no longer continue safely and will quit.</source>
+        <translation type="unfinished">Une erreur fatale est survenue. Primecoin ne peut plus continuer à fonctionner de façon sûre et va s&apos;arrêter.</translation>
     </message>
     <message>
-        <location line="+280"/>
-        <source>Synchronizing with network...</source>
-        <translation>Synchronisation avec le réseau…</translation>
+        <location filename="../bitcoingui.cpp" line="+65"/>
+        <location line="+490"/>
+        <source>Primecoin</source>
+        <translation type="unfinished">Primecoin</translation>
     </message>
     <message>
-        <location line="-349"/>
+        <location line="-490"/>
+        <source>Wallet</source>
+        <translation type="unfinished">Porte-monnaie</translation>
+    </message>
+    <message>
+        <location line="+76"/>
         <source>&amp;Overview</source>
-        <translation>&amp;Vue d&apos;ensemble</translation>
+        <translation type="unfinished">&amp;Vue d&apos;ensemble</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Show general overview of wallet</source>
-        <translation>Afficher une vue d’ensemble du porte-monnaie</translation>
+        <translation type="unfinished">Afficher une vue d’ensemble du porte-monnaie</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+6"/>
+        <source>&amp;Send</source>
+        <translation type="unfinished">&amp;Envoyer</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Send coins to a Primecoin address</source>
+        <translation type="unfinished">Envoyer des pièces à une adresse Primecoin</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>&amp;Receive</source>
+        <translation type="unfinished">&amp;Recevoir</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show the list of addresses for receiving payments</source>
+        <translation type="unfinished">Afficher la liste des adresses pour recevoir des paiements</translation>
+    </message>
+    <message>
+        <location line="+6"/>
         <source>&amp;Transactions</source>
-        <translation>&amp;Transactions</translation>
+        <translation type="unfinished">&amp;Transactions</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Browse transaction history</source>
-        <translation>Parcourir l&apos;historique des transactions</translation>
+        <translation type="unfinished">Parcourir l&apos;historique des transactions</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>&amp;Addresses</source>
+        <translation type="unfinished">&amp;Adresses</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Edit the list of stored addresses and labels</source>
-        <translation>Éditer la liste des adresses et des étiquettes stockées</translation>
+        <translation type="unfinished">Éditer la liste des adresses et des étiquettes stockées</translation>
     </message>
     <message>
-        <location line="-14"/>
-        <source>Show the list of addresses for receiving payments</source>
-        <translation>Afficher la liste des adresses pour recevoir des paiements</translation>
-    </message>
-    <message>
-        <location line="+31"/>
+        <location line="+17"/>
         <source>E&amp;xit</source>
-        <translation>Q&amp;uitter</translation>
+        <translation type="unfinished">Q&amp;uitter</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Quit application</source>
-        <translation>Quitter l’application</translation>
+        <translation type="unfinished">Quitter l’application</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+3"/>
+        <source>&amp;About Primecoin</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Show information about Primecoin</source>
-        <translation>Afficher des informations à propos de Primecoin</translation>
+        <translation type="unfinished">Afficher des informations à propos de Primecoin</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>About &amp;Qt</source>
-        <translation>À propos de &amp;Qt</translation>
+        <translation type="unfinished">À propos de &amp;Qt</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Show information about Qt</source>
-        <translation>Afficher des informations sur Qt</translation>
+        <translation type="unfinished">Afficher des informations sur Qt</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>&amp;Options...</source>
-        <translation>&amp;Options…</translation>
-    </message>
-    <message>
-        <location line="+6"/>
-        <source>&amp;Encrypt Wallet...</source>
-        <translation>&amp;Chiffrer le porte-monnaie...</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>&amp;Backup Wallet...</source>
-        <translation>&amp;Sauvegarder le porte-monnaie...</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>&amp;Change Passphrase...</source>
-        <translation>&amp;Modifier la phrase de passe...</translation>
-    </message>
-    <message>
-        <location line="+285"/>
-        <source>Importing blocks from disk...</source>
-        <translation>Importation des blocs depuis le disque...</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Reindexing blocks on disk...</source>
-        <translation>Réindexation des blocs sur le disque...</translation>
-    </message>
-    <message>
-        <location line="-347"/>
-        <source>Send coins to a Primecoin address</source>
-        <translation>Envoyer des pièces à une adresse Primecoin</translation>
-    </message>
-    <message>
-        <location line="+49"/>
-        <source>Modify configuration options for Primecoin</source>
-        <translation>Modifier les options de configuration de Primecoin</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Backup wallet to another location</source>
-        <translation>Sauvegarder le porte-monnaie à un autre emplacement</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Change the passphrase used for wallet encryption</source>
-        <translation>Modifier la phrase de passe utilisée pour le chiffrement du porte-monnaie</translation>
-    </message>
-    <message>
-        <location line="+6"/>
-        <source>&amp;Debug window</source>
-        <translation>Fenêtre de &amp;débogage</translation>
+        <translation type="unfinished">&amp;Options…</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Open debugging and diagnostic console</source>
-        <translation>Ouvrir une console de débogage et de diagnostic</translation>
+        <source>Modify configuration options for Primecoin</source>
+        <translation type="unfinished">Modifier les options de configuration de Primecoin</translation>
     </message>
     <message>
-        <location line="-4"/>
-        <source>&amp;Verify message...</source>
-        <translation>&amp;Vérifier un message...</translation>
-    </message>
-    <message>
-        <location line="-165"/>
-        <location line="+530"/>
-        <source>Primecoin</source>
-        <translation>Primecoin</translation>
-    </message>
-    <message>
-        <location line="-530"/>
-        <source>Wallet</source>
-        <translation>Porte-monnaie</translation>
-    </message>
-    <message>
-        <location line="+101"/>
-        <source>&amp;Send</source>
-        <translation>&amp;Envoyer</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>&amp;Receive</source>
-        <translation>&amp;Recevoir</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>&amp;Addresses</source>
-        <translation>&amp;Adresses</translation>
-    </message>
-    <message>
-        <location line="+22"/>
-        <source>&amp;About Bitcoin</source>
-        <translation>À &amp;propos de Primecoin</translation>
-    </message>
-    <message>
-        <location line="+9"/>
+        <location line="+2"/>
         <source>&amp;Show / Hide</source>
-        <translation>&amp;Afficher / Cacher</translation>
+        <translation type="unfinished">&amp;Afficher / Cacher</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Show or hide the main Window</source>
-        <translation>Afficher ou masquer la fenêtre principale</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Encrypt the private keys that belong to your wallet</source>
-        <translation>Crypter les clefs privées de votre porte-monnaie</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>Sign messages with your Primecoin addresses to prove you own them</source>
-        <translation>Signer les messages avec vos adresses Primecoin pour prouver que vous les détenez</translation>
+        <translation type="unfinished">Afficher ou masquer la fenêtre principale</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Verify messages to ensure they were signed with specified Primecoin addresses</source>
-        <translation>Vérifier les messages pour vous assurer qu&apos;ils ont bien été signés avec les adresses Primecoin spécifiées</translation>
+        <source>&amp;Encrypt Wallet...</source>
+        <translation type="unfinished">&amp;Chiffrer le porte-monnaie...</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location line="+1"/>
+        <source>Encrypt the private keys that belong to your wallet</source>
+        <translation type="unfinished">Crypter les clefs privées de votre porte-monnaie</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>&amp;Backup Wallet...</source>
+        <translation type="unfinished">&amp;Sauvegarder le porte-monnaie...</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Backup wallet to another location</source>
+        <translation type="unfinished">Sauvegarder le porte-monnaie à un autre emplacement</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&amp;Change Passphrase...</source>
+        <translation type="unfinished">&amp;Modifier la phrase de passe...</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Change the passphrase used for wallet encryption</source>
+        <translation type="unfinished">Modifier la phrase de passe utilisée pour le chiffrement du porte-monnaie</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Sign &amp;message...</source>
+        <translation type="unfinished">Signer un &amp;message...</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Sign messages with your Primecoin addresses to prove you own them</source>
+        <translation type="unfinished">Signer les messages avec vos adresses Primecoin pour prouver que vous les détenez</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&amp;Verify message...</source>
+        <translation type="unfinished">&amp;Vérifier un message...</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Verify messages to ensure they were signed with specified Primecoin addresses</source>
+        <translation type="unfinished">Vérifier les messages pour vous assurer qu&apos;ils ont bien été signés avec les adresses Primecoin spécifiées</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>&amp;Debug window</source>
+        <translation type="unfinished">Fenêtre de &amp;débogage</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Open debugging and diagnostic console</source>
+        <translation type="unfinished">Ouvrir une console de débogage et de diagnostic</translation>
+    </message>
+    <message>
+        <location line="+20"/>
         <source>&amp;File</source>
-        <translation>&amp;Fichier</translation>
+        <translation type="unfinished">&amp;Fichier</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>&amp;Settings</source>
-        <translation>&amp;Réglages</translation>
+        <translation type="unfinished">&amp;Réglages</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>&amp;Help</source>
-        <translation>&amp;Aide</translation>
+        <translation type="unfinished">&amp;Aide</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Tabs toolbar</source>
-        <translation>Barre d&apos;outils des onglets</translation>
+        <translation type="unfinished">Barre d&apos;outils des onglets</translation>
     </message>
     <message>
         <location line="+17"/>
-        <location line="+10"/>
+        <location line="+6"/>
         <source>[testnet]</source>
-        <translation>[testnet]</translation>
+        <translation type="unfinished">[testnet]</translation>
     </message>
     <message>
-        <location line="+47"/>
+        <location line="+46"/>
         <source>Primecoin client</source>
-        <translation>Client Primecoin</translation>
+        <translation type="unfinished">Client Primecoin</translation>
     </message>
     <message numerus="yes">
-        <location line="+141"/>
+        <location line="+129"/>
         <source>%n active connection(s) to Primecoin network</source>
-        <translation><numerusform>%n connexion active avec le réseau Primecoin</numerusform><numerusform>%n connexions actives avec le réseau Bitcoin</numerusform></translation>
+        <translation type="unfinished">
+            <numerusform>%n connexion active avec le réseau Primecoin</numerusform>
+            <numerusform>%n connexions actives avec le réseau Bitcoin</numerusform>
+        </translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+12"/>
+        <source>Synchronizing with network...</source>
+        <translation type="unfinished">Synchronisation avec le réseau…</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Importing blocks from disk...</source>
+        <translation type="unfinished">Importation des blocs depuis le disque...</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Reindexing blocks on disk...</source>
+        <translation type="unfinished">Réindexation des blocs sur le disque...</translation>
+    </message>
+    <message>
+        <location line="+4"/>
         <source>No block source available...</source>
-        <translation>Aucune source de bloc disponible...</translation>
+        <translation type="unfinished">Aucune source de bloc disponible...</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Processed %1 of %2 (estimated) blocks of transaction history.</source>
-        <translation>%1 blocs sur %2 (estimés) de l&apos;historique des transactions traités.</translation>
+        <translation type="unfinished">%1 blocs sur %2 (estimés) de l&apos;historique des transactions traités.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Processed %1 blocks of transaction history.</source>
-        <translation>%1 blocs de l&apos;historique des transactions traités.</translation>
+        <translation type="unfinished">%1 blocs de l&apos;historique des transactions traités.</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Up to date</source>
+        <translation type="unfinished">À jour</translation>
     </message>
     <message numerus="yes">
-        <location line="+20"/>
+        <location line="+14"/>
         <source>%n hour(s)</source>
-        <translation><numerusform>%n heure</numerusform><numerusform>%n heures</numerusform></translation>
+        <translation type="unfinished">
+            <numerusform>%n heure</numerusform>
+            <numerusform>%n heures</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <location line="+4"/>
         <source>%n day(s)</source>
-        <translation><numerusform>%n jour</numerusform><numerusform>%n jours</numerusform></translation>
+        <translation type="unfinished">
+            <numerusform>%n jour</numerusform>
+            <numerusform>%n jours</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <location line="+4"/>
         <source>%n week(s)</source>
-        <translation><numerusform>%n semaine</numerusform><numerusform>%n semaines</numerusform></translation>
+        <translation type="unfinished">
+            <numerusform>%n semaine</numerusform>
+            <numerusform>%n semaines</numerusform>
+        </translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1 behind</source>
-        <translation>%1 en arrière</translation>
+        <translation type="unfinished">%1 en arrière</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+5"/>
+        <source>Catching up...</source>
+        <translation type="unfinished">Rattrapage…</translation>
+    </message>
+    <message>
+        <location line="+9"/>
         <source>Last received block was generated %1 ago.</source>
-        <translation>Le dernier bloc reçu avait été généré il y a %1.</translation>
+        <translation type="unfinished">Le dernier bloc reçu avait été généré il y a %1.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Transactions after this will not yet be visible.</source>
-        <translation>Les transactions après cela ne seront pas encore visibles.</translation>
+        <translation type="unfinished">Les transactions après cela ne seront pas encore visibles.</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>Error</source>
-        <translation>Erreur</translation>
+        <translation type="unfinished">Erreur</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Warning</source>
-        <translation>Avertissement</translation>
+        <translation type="unfinished">Avertissement</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Information</source>
-        <translation>Information</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+70"/>
+        <location line="+66"/>
         <source>This transaction is over the size limit. You can still send it for a fee of %1, which goes to the nodes that process your transaction and helps to support the network. Do you want to pay the fee?</source>
-        <translation>Cette transaction dépasse la limite de taille. Vous pouvez quand même l&apos;envoyer en vous acquittant de frais d&apos;un montant de %1 qui iront aux nœuds qui traiteront la transaction et aideront à soutenir le réseau. Voulez-vous payer les frais ?</translation>
+        <translation type="unfinished">Cette transaction dépasse la limite de taille. Vous pouvez quand même l&apos;envoyer en vous acquittant de frais d&apos;un montant de %1 qui iront aux nœuds qui traiteront la transaction et aideront à soutenir le réseau. Voulez-vous payer les frais ?</translation>
     </message>
     <message>
-        <location line="-140"/>
-        <source>Up to date</source>
-        <translation>À jour</translation>
-    </message>
-    <message>
-        <location line="+31"/>
-        <source>Catching up...</source>
-        <translation>Rattrapage…</translation>
-    </message>
-    <message>
-        <location line="+113"/>
+        <location line="+4"/>
         <source>Confirm transaction fee</source>
-        <translation>Confirmer les frais de transaction</translation>
+        <translation type="unfinished">Confirmer les frais de transaction</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Sent transaction</source>
-        <translation>Transaction envoyée</translation>
+        <translation type="unfinished">Transaction envoyée</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Incoming transaction</source>
-        <translation>Transaction entrante</translation>
+        <translation type="unfinished">Transaction entrante</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -641,7 +655,7 @@ Amount: %2
 Type: %3
 Address: %4
 </source>
-        <translation>Date : %1
+        <translation type="unfinished">Date : %1
 Montant : %2
 Type : %3
 Adresse : %4
@@ -651,36 +665,23 @@ Adresse : %4
         <location line="+33"/>
         <location line="+23"/>
         <source>URI handling</source>
-        <translation>Gestion des URI</translation>
+        <translation type="unfinished">Gestion des URI</translation>
     </message>
     <message>
         <location line="-23"/>
         <location line="+23"/>
         <source>URI can not be parsed! This can be caused by an invalid Primecoin address or malformed URI parameters.</source>
-        <translation>L&apos;URI ne peut être analysé ! Cela peut être causé par une adresse Primecoin invalide ou par des paramètres d&apos;URI malformés.</translation>
+        <translation type="unfinished">L&apos;URI ne peut être analysé ! Cela peut être causé par une adresse Primecoin invalide ou par des paramètres d&apos;URI malformés.</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;unlocked&lt;/b&gt;</source>
-        <translation>Le porte-monnaie est &lt;b&gt;chiffré&lt;/b&gt; et est actuellement &lt;b&gt;déverrouillé&lt;/b&gt;</translation>
+        <translation type="unfinished">Le porte-monnaie est &lt;b&gt;chiffré&lt;/b&gt; et est actuellement &lt;b&gt;déverrouillé&lt;/b&gt;</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;locked&lt;/b&gt;</source>
-        <translation>Le porte-monnaie est &lt;b&gt;chiffré&lt;/b&gt; et est actuellement &lt;b&gt;verrouillé&lt;/b&gt;</translation>
-    </message>
-    <message>
-        <location filename="../bitcoin.cpp" line="+111"/>
-        <source>A fatal error occurred. Primecoin can no longer continue safely and will quit.</source>
-        <translation>Une erreur fatale est survenue. Primecoin ne peut plus continuer à fonctionner de façon sûre et va s&apos;arrêter.</translation>
-    </message>
-</context>
-<context>
-    <name>ClientModel</name>
-    <message>
-        <location filename="../clientmodel.cpp" line="+104"/>
-        <source>Network Alert</source>
-        <translation>Alerte réseau</translation>
+        <translation type="unfinished">Le porte-monnaie est &lt;b&gt;chiffré&lt;/b&gt; et est actuellement &lt;b&gt;verrouillé&lt;/b&gt;</translation>
     </message>
 </context>
 <context>
@@ -754,7 +755,7 @@ Adresse : %4
 <context>
     <name>GUIUtil::HelpMessageBox</name>
     <message>
-        <location filename="../guiutil.cpp" line="+424"/>
+        <location filename="../guiutil.cpp" line="+331"/>
         <location line="+12"/>
         <source>Primecoin-Qt</source>
         <translation>Primecoin-Qt</translation>
@@ -839,61 +840,6 @@ Adresse : %4
     </message>
     <message>
         <location line="+13"/>
-        <source>&amp;Network</source>
-        <translation>&amp;Réseau</translation>
-    </message>
-    <message>
-        <location line="+6"/>
-        <source>Automatically open the Primecoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>Ouvrir le port du client Primecoin automatiquement sur le routeur. Cela ne fonctionne que si votre routeur supporte l&apos;UPnP et si la fonctionnalité est activée.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Map port using &amp;UPnP</source>
-        <translation>Ouvrir le port avec l&apos;&amp;UPnP</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>Connect to the Primecoin network through a SOCKS proxy (e.g. when connecting through Tor).</source>
-        <translation>Connexion au réseau Primecoin à travers un proxy SOCKS (par ex. lors d&apos;une connexion via Tor).</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>&amp;Connect through SOCKS proxy:</source>
-        <translation>&amp;Connexion à travers un proxy SOCKS :</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Proxy &amp;IP:</source>
-        <translation>&amp;IP du proxy :</translation>
-    </message>
-    <message>
-        <location line="+19"/>
-        <source>IP address of the proxy (e.g. 127.0.0.1)</source>
-        <translation>Adresse IP du proxy (par ex. 127.0.0.1)</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>&amp;Port:</source>
-        <translation>&amp;Port :</translation>
-    </message>
-    <message>
-        <location line="+19"/>
-        <source>Port of the proxy (e.g. 9050)</source>
-        <translation>Port du proxy (par ex. 9050)</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>SOCKS &amp;Version:</source>
-        <translation>&amp;Version SOCKS :</translation>
-    </message>
-    <message>
-        <location line="+13"/>
-        <source>SOCKS version of the proxy (e.g. 5)</source>
-        <translation>Version SOCKS du serveur mandataire (par ex. 5)</translation>
-    </message>
-    <message>
-        <location line="+36"/>
         <source>&amp;Window</source>
         <translation>&amp;Fenêtre</translation>
     </message>
@@ -968,12 +914,12 @@ Adresse : %4
         <translation>&amp;Appliquer</translation>
     </message>
     <message>
-        <location filename="../optionsdialog.cpp" line="+53"/>
+        <location filename="../optionsdialog.cpp" line="+28"/>
         <source>default</source>
         <translation>par défaut</translation>
     </message>
     <message>
-        <location line="+130"/>
+        <location line="+116"/>
         <source>Confirm options reset</source>
         <translation>Confirmer la remise à zéro des options</translation>
     </message>
@@ -989,20 +935,13 @@ Adresse : %4
     </message>
     <message>
         <location line="+42"/>
-        <location line="+9"/>
         <source>Warning</source>
         <translation>Avertissement</translation>
     </message>
     <message>
-        <location line="-9"/>
-        <location line="+9"/>
+        <location line="+0"/>
         <source>This setting will take effect after restarting Primecoin.</source>
         <translation>Ce réglage sera pris en compte après un redémarrage de Primecoin.</translation>
-    </message>
-    <message>
-        <location line="+29"/>
-        <source>The supplied proxy address is invalid.</source>
-        <translation>L&apos;adresse de proxy fournie est invalide.</translation>
     </message>
 </context>
 <context>
@@ -1013,7 +952,7 @@ Adresse : %4
         <translation>Formulaire</translation>
     </message>
     <message>
-        <location line="+50"/>
+        <location line="+34"/>
         <location line="+166"/>
         <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Primecoin network after a connection is established, but this process has not completed yet.</source>
         <translation>Les informations affichées peuvent être obsolètes. Votre porte-monnaie est automatiquement synchronisé avec le réseau Primecoin lorsque la connexion s&apos;établit, or ce processus n&apos;est pas encore terminé.</translation>
@@ -1068,9 +1007,9 @@ Adresse : %4
 <context>
     <name>PaymentServer</name>
     <message>
-        <location filename="../paymentserver.cpp" line="+107"/>
-        <source>Cannot start bitcoin: click-to-pay handler</source>
-        <translation>Impossible de démarrer primecoin : gestionnaire de cliquer-pour-payer</translation>
+        <location filename="../paymentserver.cpp" line="+108"/>
+        <source>Cannot start primecoin: click-to-pay handler</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1148,7 +1087,7 @@ Adresse : %4
         <location line="+53"/>
         <location line="+23"/>
         <location line="+23"/>
-        <location filename="../rpcconsole.cpp" line="+339"/>
+        <location filename="../rpcconsole.cpp" line="+340"/>
         <source>N/A</source>
         <translation>Indisponible</translation>
     </message>
@@ -1218,12 +1157,7 @@ Adresse : %4
         <translation>Options de ligne de commande</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <source>Show the Primecoin-Qt help message to get a list with possible Bitcoin command-line options.</source>
-        <translation>Afficher le message d&apos;aide de Primecoin-Qt pour obtenir la liste des options de ligne de commande disponibles pour Bitcoin.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+10"/>
         <source>&amp;Show</source>
         <translation>&amp;Afficher</translation>
     </message>
@@ -1258,7 +1192,12 @@ Adresse : %4
         <translation>Ouvrir le journal de débogage de Primecoin depuis le répertoire de données actuel. Cela peut prendre quelques secondes pour les journaux de grande taille.</translation>
     </message>
     <message>
-        <location line="+102"/>
+        <location line="+26"/>
+        <source>Show the Primecoin-Qt help message to get a list with possible Primecoin command-line options.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+76"/>
         <source>Clear console</source>
         <translation>Nettoyer la console</translation>
     </message>
@@ -1282,7 +1221,7 @@ Adresse : %4
     <name>SendCoinsDialog</name>
     <message>
         <location filename="../forms/sendcoinsdialog.ui" line="+14"/>
-        <location filename="../sendcoinsdialog.cpp" line="+124"/>
+        <location filename="../sendcoinsdialog.cpp" line="+121"/>
         <location line="+5"/>
         <location line="+5"/>
         <location line="+5"/>
@@ -1359,8 +1298,8 @@ Adresse : %4
     </message>
     <message>
         <location line="+5"/>
-        <source>The amount to pay must be larger than 0.</source>
-        <translation>Le montant à payer doit être supérieur à 0.</translation>
+        <source>The amount to pay must be at least one cent (0.01).</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+5"/>
@@ -1448,8 +1387,8 @@ Adresse : %4
     </message>
     <message>
         <location filename="../sendcoinsentry.cpp" line="+1"/>
-        <source>Enter a Primecoin address (e.g. 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</source>
-        <translation>Entrez une adresse Primecoin (par ex. 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</translation>
+        <source>Enter a Primecoin address</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1565,8 +1504,8 @@ Adresse : %4
     <message>
         <location filename="../signverifymessagedialog.cpp" line="+27"/>
         <location line="+3"/>
-        <source>Enter a Primecoin address (e.g. 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</source>
-        <translation>Entrez une adresse Primecoin (par ex. 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</translation>
+        <source>Enter a Primecoin address</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="-2"/>
@@ -1649,8 +1588,18 @@ Adresse : %4
     <name>SplashScreen</name>
     <message>
         <location filename="../splashscreen.cpp" line="+22"/>
+        <source>The Primecoin developers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>The Bitcoin developers</source>
         <translation>Les développeurs Primecoin</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The PPCoin developers</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+1"/>
@@ -1688,7 +1637,10 @@ Adresse : %4
     <message numerus="yes">
         <location line="+7"/>
         <source>, broadcast through %n node(s)</source>
-        <translation><numerusform>, diffusée à travers %n nœud</numerusform><numerusform>, diffusée à travers %n nœuds</numerusform></translation>
+        <translation>
+            <numerusform>, diffusée à travers %n nœud</numerusform>
+            <numerusform>, diffusée à travers %n nœuds</numerusform>
+        </translation>
     </message>
     <message>
         <location line="+4"/>
@@ -1741,7 +1693,10 @@ Adresse : %4
     <message numerus="yes">
         <location line="-102"/>
         <source>matures in %n more block(s)</source>
-        <translation><numerusform>arrive à maturité dans %n bloc</numerusform><numerusform>arrive à maturité dans %n blocs de plus</numerusform></translation>
+        <translation>
+            <numerusform>arrive à maturité dans %n bloc</numerusform>
+            <numerusform>arrive à maturité dans %n blocs de plus</numerusform>
+        </translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1783,8 +1738,8 @@ Adresse : %4
     </message>
     <message>
         <location line="+3"/>
-        <source>Generated coins must mature 120 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to &quot;not accepted&quot; and it won&apos;t be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
-        <translation>Les pièces générées doivent mûrir pendant 120 blocs avant de pouvoir être dépensées. Lorsque vous avez généré ce bloc, il a été diffusé sur le réseau pour être ajouté à la chaîne de blocs. S’il échoue a intégrer la chaîne, son état sera modifié en « non accepté » et il ne sera pas possible de le dépenser. Cela peut arriver occasionnellement si un autre nœud génère un bloc quelques secondes avant ou après vous.</translation>
+        <source>Generated coins must mature 3200 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to &quot;not accepted&quot; and it won&apos;t be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
+        <translation type="unfinished">Les pièces générées doivent mûrir pendant 120 blocs avant de pouvoir être dépensées. Lorsque vous avez généré ce bloc, il a été diffusé sur le réseau pour être ajouté à la chaîne de blocs. S’il échoue a intégrer la chaîne, son état sera modifié en « non accepté » et il ne sera pas possible de le dépenser. Cela peut arriver occasionnellement si un autre nœud génère un bloc quelques secondes avant ou après vous. {3200 ?}</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -1824,7 +1779,10 @@ Adresse : %4
     <message numerus="yes">
         <location line="-35"/>
         <source>Open for %n more block(s)</source>
-        <translation><numerusform>Ouvert pour %n bloc de plus</numerusform><numerusform>Ouvert pour %n blocs de plus</numerusform></translation>
+        <translation>
+            <numerusform>Ouvert pour %n bloc de plus</numerusform>
+            <numerusform>Ouvert pour %n blocs de plus</numerusform>
+        </translation>
     </message>
     <message>
         <location line="+70"/>
@@ -1870,7 +1828,10 @@ Adresse : %4
     <message numerus="yes">
         <location line="+57"/>
         <source>Open for %n more block(s)</source>
-        <translation><numerusform>Ouvert pour %n bloc de plus</numerusform><numerusform>Ouvert pour %n blocs de plus</numerusform></translation>
+        <translation>
+            <numerusform>Ouvert pour %n bloc de plus</numerusform>
+            <numerusform>Ouvert pour %n blocs de plus</numerusform>
+        </translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1895,7 +1856,10 @@ Adresse : %4
     <message numerus="yes">
         <location line="+8"/>
         <source>Mined balance will be available when it matures in %n more block(s)</source>
-        <translation><numerusform>Le solde généré (mined) sera disponible quand il aura mûri dans %n bloc</numerusform><numerusform>Le solde généré (mined) sera disponible quand il aura mûri dans %n blocs</numerusform></translation>
+        <translation>
+            <numerusform>Le solde généré (mined) sera disponible quand il aura mûri dans %n bloc</numerusform>
+            <numerusform>Le solde généré (mined) sera disponible quand il aura mûri dans %n blocs</numerusform>
+        </translation>
     </message>
     <message>
         <location line="+5"/>
@@ -1966,13 +1930,13 @@ Adresse : %4
 <context>
     <name>TransactionView</name>
     <message>
-        <location filename="../transactionview.cpp" line="+52"/>
-        <location line="+16"/>
+        <location filename="../transactionview.cpp" line="+46"/>
+        <location line="+12"/>
         <source>All</source>
         <translation>Toutes</translation>
     </message>
     <message>
-        <location line="-15"/>
+        <location line="-11"/>
         <source>Today</source>
         <translation>Aujourd’hui</translation>
     </message>
@@ -2002,7 +1966,7 @@ Adresse : %4
         <translation>Intervalle…</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+7"/>
         <source>Received with</source>
         <translation>Reçues avec</translation>
     </message>
@@ -2037,7 +2001,7 @@ Adresse : %4
         <translation>Montant min</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+26"/>
         <source>Copy address</source>
         <translation>Copier l’adresse</translation>
     </message>
@@ -2143,7 +2107,7 @@ Adresse : %4
 <context>
     <name>WalletView</name>
     <message>
-        <location filename="../walletview.cpp" line="+42"/>
+        <location filename="../walletview.cpp" line="+41"/>
         <source>&amp;Export</source>
         <translation>&amp;Exporter</translation>
     </message>
@@ -2153,7 +2117,7 @@ Adresse : %4
         <translation>Exporter les données de l&apos;onglet courant vers un fichier</translation>
     </message>
     <message>
-        <location line="+193"/>
+        <location line="+192"/>
         <source>Backup Wallet</source>
         <translation>Sauvegarder le porte-monnaie</translation>
     </message>
@@ -2186,17 +2150,12 @@ Adresse : %4
 <context>
     <name>bitcoin-core</name>
     <message>
-        <location filename="../bitcoinstrings.cpp" line="+94"/>
-        <source>Bitcoin version</source>
-        <translation>Version de Primecoin</translation>
-    </message>
-    <message>
-        <location line="+102"/>
+        <location filename="../bitcoinstrings.cpp" line="+194"/>
         <source>Usage:</source>
         <translation>Utilisation :</translation>
     </message>
     <message>
-        <location line="-29"/>
+        <location line="-28"/>
         <source>Send command to -server or primecoind</source>
         <translation>Envoyer une commande à -server ou à primecoind</translation>
     </message>
@@ -2206,17 +2165,17 @@ Adresse : %4
         <translation>Lister les commandes</translation>
     </message>
     <message>
-        <location line="-12"/>
+        <location line="-9"/>
         <source>Get help for a command</source>
         <translation>Obtenir de l’aide pour une commande</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+21"/>
         <source>Options:</source>
         <translation>Options :</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+23"/>
         <source>Specify configuration file (default: primecoin.conf)</source>
         <translation>Spécifier le fichier de configuration (par défaut : primecoin.conf)</translation>
     </message>
@@ -2236,7 +2195,7 @@ Adresse : %4
         <translation>Définir la taille du tampon en mégaoctets (par défaut : 25)</translation>
     </message>
     <message>
-        <location line="-28"/>
+        <location line="-27"/>
         <source>Listen for connections on &lt;port&gt; (default: 9911 or testnet: 9913)</source>
         <translation>Écouter les connexions sur le &lt;port&gt; (par défaut : 9911 ou testnet : 9913)</translation>
     </message>
@@ -2246,12 +2205,12 @@ Adresse : %4
         <translation>Garder au plus &lt;n&gt; connexions avec les pairs (par défaut : 125)</translation>
     </message>
     <message>
-        <location line="-48"/>
+        <location line="-46"/>
         <source>Connect to a node to retrieve peer addresses, and disconnect</source>
         <translation>Se connecter à un nœud pour obtenir des adresses de pairs puis se déconnecter</translation>
     </message>
     <message>
-        <location line="+82"/>
+        <location line="+79"/>
         <source>Specify your own public address</source>
         <translation>Spécifier votre propre adresse publique</translation>
     </message>
@@ -2261,12 +2220,27 @@ Adresse : %4
         <translation>Seuil de déconnexion des pairs de mauvaise qualité (par défaut : 100)</translation>
     </message>
     <message>
-        <location line="-134"/>
+        <location line="-131"/>
         <source>Number of seconds to keep misbehaving peers from reconnecting (default: 86400)</source>
         <translation>Délai en secondes de refus de reconnexion aux pairs de mauvaise qualité (par défaut : 86400)</translation>
     </message>
     <message>
-        <location line="-29"/>
+        <location line="-45"/>
+        <source>%s, you must set a rpcpassword in the configuration file:
+%s
+It is recommended you use the following random password:
+rpcuser=primecoinrpc
+rpcpassword=%s
+(you do not need to remember this password)
+The username and password MUST NOT be the same.
+If the file does not exist, create it with owner-readable-only file permissions.
+It is also recommended to set alertnotify so you are notified of problems;
+for example: alertnotify=echo %%s | mail -s &quot;Primecoin Alert&quot; admin@foo.com
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+16"/>
         <source>An error occurred while setting up the RPC port %u for listening on IPv4: %s</source>
         <translation>Une erreur est survenue lors de la mise en place du port RPC %u pour écouter sur IPv4 : %s</translation>
     </message>
@@ -2276,52 +2250,27 @@ Adresse : %4
         <translation>Écouter les connexions JSON-RPC sur le &lt;port&gt; (par défaut : 9912 ou tesnet : 9914)</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+40"/>
         <source>Accept command line and JSON-RPC commands</source>
         <translation>Accepter les commandes de JSON-RPC et de la ligne de commande</translation>
     </message>
     <message>
-        <location line="+76"/>
+        <location line="+72"/>
         <source>Run in the background as a daemon and accept commands</source>
         <translation>Fonctionner en arrière-plan en tant que démon et accepter les commandes</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+32"/>
         <source>Use the test network</source>
         <translation>Utiliser le réseau de test</translation>
     </message>
     <message>
-        <location line="-112"/>
+        <location line="-103"/>
         <source>Accept connections from outside (default: 1 if no -proxy or -connect)</source>
         <translation>Accepter les connexions entrantes (par défaut : 1 si -proxy ou -connect ne sont pas présents)</translation>
     </message>
     <message>
-        <location line="-80"/>
-        <source>%s, you must set a rpcpassword in the configuration file:
-%s
-It is recommended you use the following random password:
-rpcuser=bitcoinrpc
-rpcpassword=%s
-(you do not need to remember this password)
-The username and password MUST NOT be the same.
-If the file does not exist, create it with owner-readable-only file permissions.
-It is also recommended to set alertnotify so you are notified of problems;
-for example: alertnotify=echo %%s | mail -s &quot;Primecoin Alert&quot; admin@foo.com
-</source>
-        <translation>%s, vous devez définir un mot de passe rpc dans le fichier de configuration : 
-%s
-Il vous est conseillé d&apos;utiliser le mot de passe aléatoire suivant :
-rpcuser=bitcoinrpc
-rpcpassword=%s
-(vous n&apos;avez pas besoin de retenir ce mot de passe)
-Le nom d&apos;utilisateur et le mot de passe NE DOIVENT PAS être identiques.
-Si le fichier n&apos;existe pas, créez-le avec les droits de lecture accordés au propriétaire.
-Il est aussi conseillé de régler alertnotify pour être prévenu des problèmes ;
-par exemple : alertnotify=echo %%s | mail -s &quot;Primecoin Alert&quot; admin@foo.com
-</translation>
-    </message>
-    <message>
-        <location line="+17"/>
+        <location line="-66"/>
         <source>An error occurred while setting up the RPC port %u for listening on IPv6, falling back to IPv4: %s</source>
         <translation>Une erreur est survenue lors de la mise en place du port RPC %u pour écouter sur IPv6, retour à IPv4 : %s</translation>
     </message>
@@ -2382,6 +2331,11 @@ par exemple : alertnotify=echo %%s | mail -s &quot;Primecoin Alert&quot; admin@f
     </message>
     <message>
         <location line="+3"/>
+        <source>Warning: checkpoint on different blockchain fork, contact developers to resolve the issue</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Warning: error reading wallet.dat! All keys read correctly, but transaction data or address book entries might be missing or incorrect.</source>
         <translation>Avertissement : une erreur est survenue lors de la lecture de wallet.dat ! Toutes les clefs ont été lues correctement mais les données de transaction ou les entrées du carnet d&apos;adresses pourraient être incorrectes ou manquantes.</translation>
     </message>
@@ -2396,17 +2350,17 @@ par exemple : alertnotify=echo %%s | mail -s &quot;Primecoin Alert&quot; admin@f
         <translation>Tenter de récupérer les clefs privées d&apos;un wallet.dat corrompu</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+1"/>
         <source>Block creation options:</source>
         <translation>Options de création des blocs :</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+4"/>
         <source>Connect only to the specified node(s)</source>
         <translation>Ne se connecter qu&apos;au(x) nœud(s) spécifié(s)</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+2"/>
         <source>Corrupted block database detected</source>
         <translation>Base de données des blocs corrompue détectée</translation>
     </message>
@@ -2477,6 +2431,11 @@ par exemple : alertnotify=echo %%s | mail -s &quot;Primecoin Alert&quot; admin@f
     </message>
     <message>
         <location line="+1"/>
+        <source>Failed to write block index for moneysupply</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Failed to write block index</source>
         <translation>L&apos;&apos;écriture de l&apos;index des blocs a échoué</translation>
     </message>
@@ -2511,7 +2470,12 @@ par exemple : alertnotify=echo %%s | mail -s &quot;Primecoin Alert&quot; admin@f
         <translation>L&apos;écriture des données d&apos;annulation a échoué</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+1"/>
+        <source>Fee per KB to add to transactions you send (minimum 1 cent)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Find peers using DNS lookup (default: 1 unless -connect)</source>
         <translation>Trouver des pairs en utilisant la recherche DNS (par défaut : 1 sauf si -connect est utilisé)</translation>
     </message>
@@ -2531,22 +2495,42 @@ par exemple : alertnotify=echo %%s | mail -s &quot;Primecoin Alert&quot; admin@f
         <translation>Niveau d&apos;approfondissement de la vérification des blocs (0-4, par défaut : 3)</translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="+16"/>
         <source>Not enough file descriptors available.</source>
         <translation>Pas assez de descripteurs de fichiers disponibles.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>Prepend debug output with timestamp (default: 1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Primecoin version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Rebuild block chain index from current blk000??.dat files</source>
         <translation>Reconstruire l&apos;index de la chaîne des blocs à partir des fichiers blk000??.dat actuels</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+4"/>
+        <source>SSL options: (see the Bitcoin Wiki for SSL setup instructions)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
         <source>Set the number of threads to service RPC calls (default: 4)</source>
         <translation>Définir le nombre d&apos;exétrons pour desservir les appels RPC (par défaut : 4)</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+16"/>
+        <source>Unable to sign checkpoint, wrong checkpointkey?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
         <source>Verifying blocks...</source>
         <translation>Vérification des blocs...</translation>
     </message>
@@ -2556,37 +2540,22 @@ par exemple : alertnotify=echo %%s | mail -s &quot;Primecoin Alert&quot; admin@f
         <translation>Vérification du porte-monnaie...</translation>
     </message>
     <message>
-        <location line="-69"/>
+        <location line="-62"/>
         <source>Imports blocks from external blk000??.dat file</source>
         <translation>Importe des blocs depuis un fichier blk000??.dat externe</translation>
     </message>
     <message>
-        <location line="-76"/>
+        <location line="-77"/>
         <source>Set the number of script verification threads (up to 16, 0 = auto, &lt;0 = leave that many cores free, default: 0)</source>
         <translation>Définir le nombre de fils d’exécution pour la vérification des scripts (maximum 16, 0 = auto, &lt; 0 = laisser ce nombre de cœurs libres, par défaut : 0)</translation>
     </message>
     <message>
-        <location line="+77"/>
+        <location line="+78"/>
         <source>Information</source>
         <translation>Informations</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Invalid -tor address: &apos;%s&apos;</source>
-        <translation>Adresse -tor invalide : « %s »</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Invalid amount for -minrelaytxfee=&lt;amount&gt;: &apos;%s&apos;</source>
-        <translation>Montant invalide pour -minrelayfee=&lt;montant&gt; : « %s »</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Invalid amount for -mintxfee=&lt;amount&gt;: &apos;%s&apos;</source>
-        <translation>Montant invalide pour -mintxfee=&lt;montant&gt; : « %s »</translation>
-    </message>
-    <message>
-        <location line="+8"/>
+        <location line="+10"/>
         <source>Maintain a full transaction index (default: 0)</source>
         <translation>Maintenir un index complet des transactions (par défaut : 0)</translation>
     </message>
@@ -2621,29 +2590,9 @@ par exemple : alertnotify=echo %%s | mail -s &quot;Primecoin Alert&quot; admin@f
         <translation>Afficher des informations de débogage réseau supplémentaires</translation>
     </message>
     <message>
-        <location line="+2"/>
-        <source>Prepend debug output with timestamp</source>
-        <translation>Faire précéder les données de débogage par un horodatage</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>SSL options: (see the Primecoin Wiki for SSL setup instructions)</source>
-        <translation>Options SSL : (cf. le wiki de Primecoin pour les instructions de configuration du SSL)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Select the version of socks proxy to use (4-5, default: 5)</source>
-        <translation>Sélectionner la version du proxy socks à utiliser (4-5, 5 étant la valeur par défaut)</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+11"/>
         <source>Send trace/debug info to console instead of debug.log file</source>
         <translation>Envoyer les informations de débogage/trace à la console au lieu du fichier debug.log</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Send trace/debug info to debugger</source>
-        <translation>Envoyer les informations de débogage/trace au débogueur</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -2691,22 +2640,7 @@ par exemple : alertnotify=echo %%s | mail -s &quot;Primecoin Alert&quot; admin@f
         <translation>Transaction trop volumineuse</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <source>Use UPnP to map the listening port (default: 0)</source>
-        <translation>Utiliser l&apos;UPnP pour rediriger le port d&apos;écoute (par défaut : 0)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Use UPnP to map the listening port (default: 1 when listening)</source>
-        <translation>Utiliser l&apos;UPnP pour rediriger le port d&apos;écoute (par défaut : 1 lors de l&apos;écoute)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Use proxy to reach tor hidden services (default: same as -proxy)</source>
-        <translation>Utiliser un proxy pour atteindre les services cachés de Tor (par défaut : même valeur que -proxy)</translation>
-    </message>
-    <message>
-        <location line="+2"/>
+        <location line="+8"/>
         <source>Username for JSON-RPC connections</source>
         <translation>Nom d&apos;utilisateur pour les connexions JSON-RPC</translation>
     </message>
@@ -2731,42 +2665,37 @@ par exemple : alertnotify=echo %%s | mail -s &quot;Primecoin Alert&quot; admin@f
         <translation>wallet.dat corrompu, la récupération a échoué</translation>
     </message>
     <message>
-        <location line="-50"/>
+        <location line="-46"/>
         <source>Password for JSON-RPC connections</source>
         <translation>Mot de passe pour les connexions JSON-RPC</translation>
     </message>
     <message>
-        <location line="-67"/>
+        <location line="-62"/>
         <source>Allow JSON-RPC connections from specified IP address</source>
         <translation>Autoriser les connexions JSON-RPC depuis l&apos;adresse IP spécifiée</translation>
     </message>
     <message>
-        <location line="+76"/>
+        <location line="+71"/>
         <source>Send commands to node running on &lt;ip&gt; (default: 127.0.0.1)</source>
         <translation>Envoyer des commandes au nœud fonctionnant à &lt;ip&gt; (par défaut : 127.0.0.1)</translation>
     </message>
     <message>
-        <location line="-120"/>
+        <location line="-118"/>
         <source>Execute command when the best block changes (%s in cmd is replaced by block hash)</source>
         <translation>Exécuter la commande lorsque le meilleur bloc change (%s est remplacé par le hachage du bloc dans cmd)</translation>
     </message>
     <message>
-        <location line="+147"/>
-        <source>Upgrade wallet to latest format</source>
-        <translation>Mettre à jour le format du porte-monnaie</translation>
-    </message>
-    <message>
-        <location line="-21"/>
+        <location line="+123"/>
         <source>Set key pool size to &lt;n&gt; (default: 100)</source>
         <translation>Régler la taille de la plage de clefs sur &lt;n&gt; (par défaut : 100)</translation>
     </message>
     <message>
-        <location line="-12"/>
+        <location line="-10"/>
         <source>Rescan the block chain for missing wallet transactions</source>
         <translation>Réanalyser la chaîne de blocs pour les transactions de porte-monnaie manquantes</translation>
     </message>
     <message>
-        <location line="+35"/>
+        <location line="+33"/>
         <source>Use OpenSSL (https) for JSON-RPC connections</source>
         <translation>Utiliser OpenSSL (https) pour les connexions JSON-RPC</translation>
     </message>
@@ -2781,12 +2710,12 @@ par exemple : alertnotify=echo %%s | mail -s &quot;Primecoin Alert&quot; admin@f
         <translation>Clef privée du serveur (par défaut : server.pem)</translation>
     </message>
     <message>
-        <location line="-151"/>
+        <location line="-148"/>
         <source>Acceptable ciphers (default: TLSv1+HIGH:!SSLv2:!aNULL:!eNULL:!AH:!3DES:@STRENGTH)</source>
         <translation>Clefs de chiffrement acceptables (par défaut : TLSv1+HIGH:!SSLv2:!aNULL:!eNULL:!AH:!3DES:@STRENGTH)</translation>
     </message>
     <message>
-        <location line="+165"/>
+        <location line="+162"/>
         <source>This help message</source>
         <translation>Ce message d&apos;aide</translation>
     </message>
@@ -2796,22 +2725,17 @@ par exemple : alertnotify=echo %%s | mail -s &quot;Primecoin Alert&quot; admin@f
         <translation>Impossible de se lier à %s sur cet ordinateur (bind a retourné l&apos;erreur %d, %s)</translation>
     </message>
     <message>
-        <location line="-91"/>
-        <source>Connect through socks proxy</source>
-        <translation>Connexion via un proxy socks</translation>
-    </message>
-    <message>
-        <location line="-10"/>
+        <location line="-95"/>
         <source>Allow DNS lookups for -addnode, -seednode and -connect</source>
         <translation>Autoriser les recherches DNS pour -addnode, -seednode et -connect</translation>
     </message>
     <message>
-        <location line="+55"/>
+        <location line="+50"/>
         <source>Loading addresses...</source>
         <translation>Chargement des adresses…</translation>
     </message>
     <message>
-        <location line="-35"/>
+        <location line="-33"/>
         <source>Error loading wallet.dat: Wallet corrupted</source>
         <translation>Erreur lors du chargement de wallet.dat : porte-monnaie corrompu</translation>
     </message>
@@ -2821,22 +2745,22 @@ par exemple : alertnotify=echo %%s | mail -s &quot;Primecoin Alert&quot; admin@f
         <translation>Erreur lors du chargement de wallet.dat : le porte-monnaie nécessite une version plus récente de Primecoin</translation>
     </message>
     <message>
-        <location line="+93"/>
+        <location line="+87"/>
         <source>Wallet needed to be rewritten: restart Primecoin to complete</source>
         <translation>Le porte-monnaie nécessitait une réécriture : veuillez redémarrer Primecoin pour terminer l&apos;opération</translation>
     </message>
     <message>
-        <location line="-95"/>
+        <location line="-89"/>
         <source>Error loading wallet.dat</source>
         <translation>Erreur lors du chargement de wallet.dat</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location line="+29"/>
         <source>Invalid -proxy address: &apos;%s&apos;</source>
         <translation>Adresse -proxy invalide : « %s »</translation>
     </message>
     <message>
-        <location line="+56"/>
+        <location line="+53"/>
         <source>Unknown network specified in -onlynet: &apos;%s&apos;</source>
         <translation>Réseau inconnu spécifié sur -onlynet : « %s »</translation>
     </message>
@@ -2846,7 +2770,7 @@ par exemple : alertnotify=echo %%s | mail -s &quot;Primecoin Alert&quot; admin@f
         <translation>Version inconnue de proxy -socks demandée : %i</translation>
     </message>
     <message>
-        <location line="-96"/>
+        <location line="-93"/>
         <source>Cannot resolve -bind address: &apos;%s&apos;</source>
         <translation>Impossible de résoudre l&apos;adresse -bind : « %s »</translation>
     </message>
@@ -2856,7 +2780,7 @@ par exemple : alertnotify=echo %%s | mail -s &quot;Primecoin Alert&quot; admin@f
         <translation>Impossible de résoudre l&apos;adresse -externalip : « %s »</translation>
     </message>
     <message>
-        <location line="+44"/>
+        <location line="+41"/>
         <source>Invalid amount for -paytxfee=&lt;amount&gt;: &apos;%s&apos;</source>
         <translation>Montant invalide pour -paytxfee=&lt;montant&gt; : « %s »</translation>
     </message>
@@ -2866,67 +2790,57 @@ par exemple : alertnotify=echo %%s | mail -s &quot;Primecoin Alert&quot; admin@f
         <translation>Montant invalide</translation>
     </message>
     <message>
-        <location line="-6"/>
+        <location line="-3"/>
         <source>Insufficient funds</source>
         <translation>Fonds insuffisants</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+7"/>
         <source>Loading block index...</source>
         <translation>Chargement de l’index des blocs…</translation>
     </message>
     <message>
-        <location line="-57"/>
+        <location line="-52"/>
         <source>Add a node to connect to and attempt to keep the connection open</source>
         <translation>Ajouter un nœud auquel se connecter et tenter de garder la connexion ouverte</translation>
     </message>
     <message>
-        <location line="-25"/>
+        <location line="-28"/>
         <source>Unable to bind to %s on this computer. Primecoin is probably already running.</source>
         <translation>Impossible de se lier à %s sur cet ordinateur. Primecoin fonctionne probablement déjà.</translation>
     </message>
     <message>
-        <location line="+64"/>
-        <source>Fee per KB to add to transactions you send</source>
-        <translation>Frais par Ko à ajouter aux transactions que vous enverrez</translation>
-    </message>
-    <message>
-        <location line="+19"/>
+        <location line="+81"/>
         <source>Loading wallet...</source>
         <translation>Chargement du porte-monnaie…</translation>
     </message>
     <message>
-        <location line="-52"/>
-        <source>Cannot downgrade wallet</source>
-        <translation>Impossible de revenir à une version antérieure du porte-monnaie</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="-46"/>
         <source>Cannot write default address</source>
         <translation>Impossible d&apos;écrire l&apos;adresse par défaut</translation>
     </message>
     <message>
-        <location line="+64"/>
+        <location line="+62"/>
         <source>Rescanning...</source>
         <translation>Nouvelle analyse…</translation>
     </message>
     <message>
-        <location line="-57"/>
+        <location line="-56"/>
         <source>Done loading</source>
         <translation>Chargement terminé</translation>
     </message>
     <message>
-        <location line="+82"/>
+        <location line="+79"/>
         <source>To use the %s option</source>
         <translation>Pour utiliser l&apos;option %s</translation>
     </message>
     <message>
-        <location line="-74"/>
+        <location line="-71"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location line="-31"/>
+        <location line="-28"/>
         <source>You must set rpcpassword=&lt;password&gt; in the configuration file:
 %s
 If the file does not exist, create it with owner-readable-only file permissions.</source>

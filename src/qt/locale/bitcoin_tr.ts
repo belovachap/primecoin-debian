@@ -1,32 +1,9 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="tr" version="2.0">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.0" language="tr">
 <defaultcodec>UTF-8</defaultcodec>
 <context>
     <name>AboutDialog</name>
-    <message>
-        <location filename="../forms/aboutdialog.ui" line="+14"/>
-        <source>About Bitcoin</source>
-        <translation>Primecoin hakkında</translation>
-    </message>
-    <message>
-        <location line="+39"/>
-        <source>&lt;b&gt;Bitcoin&lt;/b&gt; version</source>
-        <translation>&lt;b&gt;Bitcoin&lt;/b&gt; sürüm</translation>
-    </message>
-    <message>
-        <location line="+57"/>
-        <source>
-This is experimental software.
-
-Distributed under the MIT/X11 software license, see the accompanying file COPYING or http://www.opensource.org/licenses/mit-license.php.
-
-This product includes software developed by the OpenSSL Project for use in the OpenSSL Toolkit (http://www.openssl.org/) and cryptographic software written by Eric Young (eay@cryptsoft.com) and UPnP software written by Thomas Bernard.</source>
-        <translation>
- Bu yazılım deneme safhasındadır.
-
- MIT/X11 yazılım lisansı kapsamında yayınlanmıştır, COPYING dosyasına ya da http://www.opensource.org/licenses/mit-license.php sayfasına bakınız.
-
- Bu ürün OpenSSL projesi tarafından OpenSSL araç takımı (http://www.openssl.org/) için geliştirilen yazılımlar, Eric Young (eay@cryptsoft.com) tarafından hazırlanmış şifreleme yazılımları ve Thomas Bernard tarafından programlanmış UPnP yazılımı içerir.</translation>
-    </message>
     <message>
         <location filename="../aboutdialog.cpp" line="+14"/>
         <source>Copyright</source>
@@ -34,8 +11,28 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="+0"/>
-        <source>The Bitcoin developers</source>
-        <translation>Primecoin geliştiricileri</translation>
+        <source>The Primecoin developers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../forms/aboutdialog.ui" line="+14"/>
+        <source>About Primecoin</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+39"/>
+        <source>&lt;b&gt;Primecoin&lt;/b&gt; version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+89"/>
+        <source>
+This is experimental software.
+
+Distributed under conditional MIT/X11 software license, see the accompanying file COPYING.
+
+This product includes software developed by the OpenSSL Project for use in the OpenSSL Toolkit (http://www.openssl.org/) and cryptographic software written by Eric Young (eay@cryptsoft.com) and UPnP software written by Thomas Bernard.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -66,7 +63,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>&amp;Yeni adres</translation>
     </message>
     <message>
-        <location filename="../addressbookpage.cpp" line="+63"/>
+        <location filename="../addressbookpage.cpp" line="+57"/>
         <source>These are your Primecoin addresses for receiving payments. You may want to give a different one to each sender so you can keep track of who is paying you.</source>
         <translation>Bunlar, ödeme almak için Primecoin adresleridir. Kimin ödeme yaptığını izleyebilmek için her ödeme yollaması gereken kişiye değişik bir adres verebilirsiniz.</translation>
     </message>
@@ -248,16 +245,21 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="+1"/>
-        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR BITCOINS&lt;/b&gt;!</source>
-        <translation>Uyarı: Eğer cüzdanınızı şifrelerseniz ve parolanızı kaybederseniz, &lt;b&gt;TÜM BİTCOİNLERİNİZİ KAYBEDERSİNİZ&lt;/b&gt;!</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>Are you sure you wish to encrypt your wallet?</source>
         <translation>Cüzdanınızı şifrelemek istediğinizden emin misiniz?</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+0"/>
+        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR PRIMECOINS&lt;/b&gt;!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Primecoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your primecoins from being stolen by malware infecting your computer.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+4"/>
         <source>IMPORTANT: Any previous backups you have made of your wallet file should be replaced with the newly generated, encrypted wallet file. For security reasons, previous backups of the unencrypted wallet file will become useless as soon as you start using the new, encrypted wallet.</source>
         <translation>ÖNEMLİ: Önceden yapmış olduğunuz cüzdan dosyası yedeklemelerinin yeni oluşturulan şifrelenmiş cüzdan dosyası ile değiştirilmeleri gerekir. Güvenlik nedenleriyle yeni, şifrelenmiş cüzdanı kullanmaya başladığınızda eski şifrelenmemiş cüzdan dosyaları işe yaramaz hale gelecektir.</translation>
     </message>
@@ -274,12 +276,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>Cüzdan şifrelendi</translation>
     </message>
     <message>
-        <location line="-56"/>
-        <source>Primecoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your bitcoins from being stolen by malware infecting your computer.</source>
-        <translation>Şifreleme işlemini tamamlamak için Primecoin şimdi kapanacaktır. Cüzdanınızı şifrelemenin, Bitcoinlerinizin bilgisayara bulaşan kötücül bir yazılım tarafından çalınmaya karşı tamamen koruyamayacağını unutmayınız.</translation>
-    </message>
-    <message>
-        <location line="+13"/>
+        <location line="-43"/>
         <location line="+7"/>
         <location line="+42"/>
         <location line="+6"/>
@@ -321,318 +318,331 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
 </context>
 <context>
-    <name>PrimecoinGUI</name>
+    <name>BitcoinGUI</name>
     <message>
-        <location filename="../bitcoingui.cpp" line="+233"/>
-        <source>Sign &amp;message...</source>
-        <translation>&amp;Mesaj imzala...</translation>
+        <location filename="../bitcoin.cpp" line="+107"/>
+        <source>A fatal error occurred. Primecoin can no longer continue safely and will quit.</source>
+        <translation type="unfinished">Ciddi bir hata oluştu. Primecoin artık güvenli bir şekilde işlemeye devam edemez ve kapanacaktır.</translation>
     </message>
     <message>
-        <location line="+280"/>
-        <source>Synchronizing with network...</source>
-        <translation>Şebeke ile senkronizasyon...</translation>
+        <location filename="../bitcoingui.cpp" line="+65"/>
+        <location line="+490"/>
+        <source>Primecoin</source>
+        <translation type="unfinished">Primecoin</translation>
     </message>
     <message>
-        <location line="-349"/>
+        <location line="-490"/>
+        <source>Wallet</source>
+        <translation type="unfinished">Cüzdan</translation>
+    </message>
+    <message>
+        <location line="+76"/>
         <source>&amp;Overview</source>
-        <translation>&amp;Genel bakış</translation>
+        <translation type="unfinished">&amp;Genel bakış</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Show general overview of wallet</source>
-        <translation>Cüzdana genel bakışı göster</translation>
+        <translation type="unfinished">Cüzdana genel bakışı göster</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+6"/>
+        <source>&amp;Send</source>
+        <translation type="unfinished">&amp;Gönder</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Send coins to a Primecoin address</source>
+        <translation type="unfinished">Bir Primecoin adresine Bitcoin yolla</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>&amp;Receive</source>
+        <translation type="unfinished">&amp;Al</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show the list of addresses for receiving payments</source>
+        <translation type="unfinished">Ödeme alma adreslerinin listesini göster</translation>
+    </message>
+    <message>
+        <location line="+6"/>
         <source>&amp;Transactions</source>
-        <translation>&amp;Muameleler</translation>
+        <translation type="unfinished">&amp;Muameleler</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Browse transaction history</source>
-        <translation>Muamele tarihçesini tara</translation>
+        <translation type="unfinished">Muamele tarihçesini tara</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>&amp;Addresses</source>
+        <translation type="unfinished">&amp;Adresler</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Edit the list of stored addresses and labels</source>
-        <translation>Saklanan adres ve etiket listesini düzenle</translation>
+        <translation type="unfinished">Saklanan adres ve etiket listesini düzenle</translation>
     </message>
     <message>
-        <location line="-14"/>
-        <source>Show the list of addresses for receiving payments</source>
-        <translation>Ödeme alma adreslerinin listesini göster</translation>
-    </message>
-    <message>
-        <location line="+31"/>
+        <location line="+17"/>
         <source>E&amp;xit</source>
-        <translation>&amp;Çık</translation>
+        <translation type="unfinished">&amp;Çık</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Quit application</source>
-        <translation>Uygulamadan çık</translation>
+        <translation type="unfinished">Uygulamadan çık</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+3"/>
+        <source>&amp;About Primecoin</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Show information about Primecoin</source>
-        <translation>Primecoin hakkında bilgi göster</translation>
+        <translation type="unfinished">Primecoin hakkında bilgi göster</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>About &amp;Qt</source>
-        <translation>&amp;Qt hakkında</translation>
+        <translation type="unfinished">&amp;Qt hakkında</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Show information about Qt</source>
-        <translation>Qt hakkında bilgi görüntü</translation>
+        <translation type="unfinished">Qt hakkında bilgi görüntü</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>&amp;Options...</source>
-        <translation>&amp;Seçenekler...</translation>
-    </message>
-    <message>
-        <location line="+6"/>
-        <source>&amp;Encrypt Wallet...</source>
-        <translation>Cüzdanı &amp;şifrele...</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>&amp;Backup Wallet...</source>
-        <translation>Cüzdanı &amp;yedekle...</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>&amp;Change Passphrase...</source>
-        <translation>Parolayı &amp;değiştir...</translation>
-    </message>
-    <message>
-        <location line="+285"/>
-        <source>Importing blocks from disk...</source>
-        <translation>Bloklar diskten içe aktarılıyor...</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Reindexing blocks on disk...</source>
-        <translation>Diskteki bloklar yeniden endeksleniyor...</translation>
-    </message>
-    <message>
-        <location line="-347"/>
-        <source>Send coins to a Primecoin address</source>
-        <translation>Bir Primecoin adresine Bitcoin yolla</translation>
-    </message>
-    <message>
-        <location line="+49"/>
-        <source>Modify configuration options for Primecoin</source>
-        <translation>Primecoin seçeneklerinin yapılandırmasını değiştir</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Backup wallet to another location</source>
-        <translation>Cüzdanı diğer bir konumda yedekle</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Change the passphrase used for wallet encryption</source>
-        <translation>Cüzdan şifrelemesi için kullanılan parolayı değiştir</translation>
-    </message>
-    <message>
-        <location line="+6"/>
-        <source>&amp;Debug window</source>
-        <translation>&amp;Hata ayıklama penceresi</translation>
+        <translation type="unfinished">&amp;Seçenekler...</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Open debugging and diagnostic console</source>
-        <translation>Hata ayıklama ve teşhis penceresini aç</translation>
+        <source>Modify configuration options for Primecoin</source>
+        <translation type="unfinished">Primecoin seçeneklerinin yapılandırmasını değiştir</translation>
     </message>
     <message>
-        <location line="-4"/>
-        <source>&amp;Verify message...</source>
-        <translation>Mesaj &amp;kontrol et...</translation>
-    </message>
-    <message>
-        <location line="-165"/>
-        <location line="+530"/>
-        <source>Primecoin</source>
-        <translation>Primecoin</translation>
-    </message>
-    <message>
-        <location line="-530"/>
-        <source>Wallet</source>
-        <translation>Cüzdan</translation>
-    </message>
-    <message>
-        <location line="+101"/>
-        <source>&amp;Send</source>
-        <translation>&amp;Gönder</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>&amp;Receive</source>
-        <translation>&amp;Al</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>&amp;Addresses</source>
-        <translation>&amp;Adresler</translation>
-    </message>
-    <message>
-        <location line="+22"/>
-        <source>&amp;About Bitcoin</source>
-        <translation>Primecoin &amp;Hakkında</translation>
-    </message>
-    <message>
-        <location line="+9"/>
+        <location line="+2"/>
         <source>&amp;Show / Hide</source>
-        <translation>&amp;Göster / Sakla</translation>
+        <translation type="unfinished">&amp;Göster / Sakla</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Show or hide the main Window</source>
-        <translation>Ana pencereyi görüntüle ya da sakla</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Encrypt the private keys that belong to your wallet</source>
-        <translation>Cüzdanınızın özel anahtarlarını şifrele</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>Sign messages with your Primecoin addresses to prove you own them</source>
-        <translation>Mesajları adreslerin size ait olduğunu ispatlamak için Primecoin adresleri ile imzala</translation>
+        <translation type="unfinished">Ana pencereyi görüntüle ya da sakla</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Verify messages to ensure they were signed with specified Primecoin addresses</source>
-        <translation>Belirtilen Primecoin adresleri ile imzalandıklarından emin olmak için mesajları kontrol et</translation>
+        <source>&amp;Encrypt Wallet...</source>
+        <translation type="unfinished">Cüzdanı &amp;şifrele...</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location line="+1"/>
+        <source>Encrypt the private keys that belong to your wallet</source>
+        <translation type="unfinished">Cüzdanınızın özel anahtarlarını şifrele</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>&amp;Backup Wallet...</source>
+        <translation type="unfinished">Cüzdanı &amp;yedekle...</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Backup wallet to another location</source>
+        <translation type="unfinished">Cüzdanı diğer bir konumda yedekle</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&amp;Change Passphrase...</source>
+        <translation type="unfinished">Parolayı &amp;değiştir...</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Change the passphrase used for wallet encryption</source>
+        <translation type="unfinished">Cüzdan şifrelemesi için kullanılan parolayı değiştir</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Sign &amp;message...</source>
+        <translation type="unfinished">&amp;Mesaj imzala...</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Sign messages with your Primecoin addresses to prove you own them</source>
+        <translation type="unfinished">Mesajları adreslerin size ait olduğunu ispatlamak için Primecoin adresleri ile imzala</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&amp;Verify message...</source>
+        <translation type="unfinished">Mesaj &amp;kontrol et...</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Verify messages to ensure they were signed with specified Primecoin addresses</source>
+        <translation type="unfinished">Belirtilen Primecoin adresleri ile imzalandıklarından emin olmak için mesajları kontrol et</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>&amp;Debug window</source>
+        <translation type="unfinished">&amp;Hata ayıklama penceresi</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Open debugging and diagnostic console</source>
+        <translation type="unfinished">Hata ayıklama ve teşhis penceresini aç</translation>
+    </message>
+    <message>
+        <location line="+20"/>
         <source>&amp;File</source>
-        <translation>&amp;Dosya</translation>
+        <translation type="unfinished">&amp;Dosya</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>&amp;Settings</source>
-        <translation>&amp;Ayarlar</translation>
+        <translation type="unfinished">&amp;Ayarlar</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>&amp;Help</source>
-        <translation>&amp;Yardım</translation>
+        <translation type="unfinished">&amp;Yardım</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Tabs toolbar</source>
-        <translation>Sekme araç çubuğu</translation>
+        <translation type="unfinished">Sekme araç çubuğu</translation>
     </message>
     <message>
         <location line="+17"/>
-        <location line="+10"/>
+        <location line="+6"/>
         <source>[testnet]</source>
-        <translation>[testnet]</translation>
+        <translation type="unfinished">[testnet]</translation>
     </message>
     <message>
-        <location line="+47"/>
+        <location line="+46"/>
         <source>Primecoin client</source>
-        <translation>Primecoin istemcisi</translation>
+        <translation type="unfinished">Primecoin istemcisi</translation>
     </message>
     <message numerus="yes">
-        <location line="+141"/>
+        <location line="+129"/>
         <source>%n active connection(s) to Primecoin network</source>
-        <translation><numerusform>Primecoin şebekesine %n faal bağlantı</numerusform><numerusform>Bitcoin şebekesine %n faal bağlantı</numerusform></translation>
+        <translation type="unfinished">
+            <numerusform>Primecoin şebekesine %n faal bağlantı</numerusform>
+        </translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+12"/>
+        <source>Synchronizing with network...</source>
+        <translation type="unfinished">Şebeke ile senkronizasyon...</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Importing blocks from disk...</source>
+        <translation type="unfinished">Bloklar diskten içe aktarılıyor...</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Reindexing blocks on disk...</source>
+        <translation type="unfinished">Diskteki bloklar yeniden endeksleniyor...</translation>
+    </message>
+    <message>
+        <location line="+4"/>
         <source>No block source available...</source>
-        <translation>Hiçbir blok kaynağı mevcut değil...</translation>
+        <translation type="unfinished">Hiçbir blok kaynağı mevcut değil...</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Processed %1 of %2 (estimated) blocks of transaction history.</source>
-        <translation>Muamele tarihçesinin toplam (tahmini) %2 blokundan %1 blok işlendi.</translation>
+        <translation type="unfinished">Muamele tarihçesinin toplam (tahmini) %2 blokundan %1 blok işlendi.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Processed %1 blocks of transaction history.</source>
-        <translation>Muamele tarihçesinde %1 blok işlendi.</translation>
+        <translation type="unfinished">Muamele tarihçesinde %1 blok işlendi.</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Up to date</source>
+        <translation type="unfinished">Güncel</translation>
     </message>
     <message numerus="yes">
-        <location line="+20"/>
+        <location line="+14"/>
         <source>%n hour(s)</source>
-        <translation><numerusform>%n saat</numerusform><numerusform>%n saat</numerusform></translation>
+        <translation type="unfinished">
+            <numerusform>%n saat</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <location line="+4"/>
         <source>%n day(s)</source>
-        <translation><numerusform>%n gün</numerusform><numerusform>%n gün</numerusform></translation>
+        <translation type="unfinished">
+            <numerusform>%n gün</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <location line="+4"/>
         <source>%n week(s)</source>
-        <translation><numerusform>%n hafta</numerusform><numerusform>%n hafta</numerusform></translation>
+        <translation type="unfinished">
+            <numerusform>%n hafta</numerusform>
+        </translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1 behind</source>
-        <translation>%1 geride</translation>
+        <translation type="unfinished">%1 geride</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+5"/>
+        <source>Catching up...</source>
+        <translation type="unfinished">Aralık kapatılıyor...</translation>
+    </message>
+    <message>
+        <location line="+9"/>
         <source>Last received block was generated %1 ago.</source>
-        <translation>Son alınan blok %1 evvel oluşturulmuştu.</translation>
+        <translation type="unfinished">Son alınan blok %1 evvel oluşturulmuştu.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Transactions after this will not yet be visible.</source>
-        <translation>Bundan sonraki muameleler henüz görüntülenemez.</translation>
+        <translation type="unfinished">Bundan sonraki muameleler henüz görüntülenemez.</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>Error</source>
-        <translation>Hata</translation>
+        <translation type="unfinished">Hata</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Warning</source>
-        <translation>Uyarı</translation>
+        <translation type="unfinished">Uyarı</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Information</source>
-        <translation>Bilgi</translation>
+        <translation type="unfinished">Bilgi</translation>
     </message>
     <message>
-        <location line="+70"/>
+        <location line="+66"/>
         <source>This transaction is over the size limit. You can still send it for a fee of %1, which goes to the nodes that process your transaction and helps to support the network. Do you want to pay the fee?</source>
-        <translation>Bu muamele boyut sınırlarını aşmıştır. Gene de %1 ücret ödeyerek gönderebilirsiniz, ki bu ücret muamelenizi işleyen ve şebekeye yardım eden düğümlere ödenecektir. Ücreti ödemek istiyor musunuz?</translation>
+        <translation type="unfinished">Bu muamele boyut sınırlarını aşmıştır. Gene de %1 ücret ödeyerek gönderebilirsiniz, ki bu ücret muamelenizi işleyen ve şebekeye yardım eden düğümlere ödenecektir. Ücreti ödemek istiyor musunuz?</translation>
     </message>
     <message>
-        <location line="-140"/>
-        <source>Up to date</source>
-        <translation>Güncel</translation>
-    </message>
-    <message>
-        <location line="+31"/>
-        <source>Catching up...</source>
-        <translation>Aralık kapatılıyor...</translation>
-    </message>
-    <message>
-        <location line="+113"/>
+        <location line="+4"/>
         <source>Confirm transaction fee</source>
-        <translation>Muamele ücretini teyit et</translation>
+        <translation type="unfinished">Muamele ücretini teyit et</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Sent transaction</source>
-        <translation>Muamele yollandı</translation>
+        <translation type="unfinished">Muamele yollandı</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Incoming transaction</source>
-        <translation>Gelen muamele</translation>
+        <translation type="unfinished">Gelen muamele</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -641,7 +651,7 @@ Amount: %2
 Type: %3
 Address: %4
 </source>
-        <translation>Tarih: %1
+        <translation type="unfinished">Tarih: %1
 Miktar: %2
 Tür: %3
 Adres: %4
@@ -651,36 +661,23 @@ Adres: %4
         <location line="+33"/>
         <location line="+23"/>
         <source>URI handling</source>
-        <translation>URI yönetimi</translation>
+        <translation type="unfinished">URI yönetimi</translation>
     </message>
     <message>
         <location line="-23"/>
         <location line="+23"/>
         <source>URI can not be parsed! This can be caused by an invalid Primecoin address or malformed URI parameters.</source>
-        <translation>URI okunamadı! Sebebi geçersiz bir Primecoin adresi veya hatalı URI parametreleri olabilir.</translation>
+        <translation type="unfinished">URI okunamadı! Sebebi geçersiz bir Primecoin adresi veya hatalı URI parametreleri olabilir.</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;unlocked&lt;/b&gt;</source>
-        <translation>Cüzdan &lt;b&gt;şifrelenmiştir&lt;/b&gt; ve şu anda &lt;b&gt;kilidi açıktır&lt;/b&gt;</translation>
+        <translation type="unfinished">Cüzdan &lt;b&gt;şifrelenmiştir&lt;/b&gt; ve şu anda &lt;b&gt;kilidi açıktır&lt;/b&gt;</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;locked&lt;/b&gt;</source>
-        <translation>Cüzdan &lt;b&gt;şifrelenmiştir&lt;/b&gt; ve şu anda &lt;b&gt;kilitlidir&lt;/b&gt;</translation>
-    </message>
-    <message>
-        <location filename="../bitcoin.cpp" line="+111"/>
-        <source>A fatal error occurred. Primecoin can no longer continue safely and will quit.</source>
-        <translation>Ciddi bir hata oluştu. Primecoin artık güvenli bir şekilde işlemeye devam edemez ve kapanacaktır.</translation>
-    </message>
-</context>
-<context>
-    <name>ClientModel</name>
-    <message>
-        <location filename="../clientmodel.cpp" line="+104"/>
-        <source>Network Alert</source>
-        <translation>Şebeke hakkında uyarı</translation>
+        <translation type="unfinished">Cüzdan &lt;b&gt;şifrelenmiştir&lt;/b&gt; ve şu anda &lt;b&gt;kilitlidir&lt;/b&gt;</translation>
     </message>
 </context>
 <context>
@@ -754,7 +751,7 @@ Adres: %4
 <context>
     <name>GUIUtil::HelpMessageBox</name>
     <message>
-        <location filename="../guiutil.cpp" line="+424"/>
+        <location filename="../guiutil.cpp" line="+331"/>
         <location line="+12"/>
         <source>Primecoin-Qt</source>
         <translation>Primecoin-Qt</translation>
@@ -839,61 +836,6 @@ Adres: %4
     </message>
     <message>
         <location line="+13"/>
-        <source>&amp;Network</source>
-        <translation>&amp;Şebeke</translation>
-    </message>
-    <message>
-        <location line="+6"/>
-        <source>Automatically open the Primecoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>Yönlendiricide Primecoin istemci portlarını otomatik olarak açar. Bu, sadece yönlendiricinizin UPnP desteği bulunuyorsa ve etkinse çalışabilir.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Map port using &amp;UPnP</source>
-        <translation>Portları &amp;UPnP kullanarak haritala</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>Connect to the Primecoin network through a SOCKS proxy (e.g. when connecting through Tor).</source>
-        <translation>Primecoin şebekesine SOCKS vekil sunucusu vasıtasıyla bağlan (mesela Tor ile bağlanıldığında).</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>&amp;Connect through SOCKS proxy:</source>
-        <translation>SOCKS vekil sunucusu vasıtasıyla ba&amp;ğlan:</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Proxy &amp;IP:</source>
-        <translation>Vekil &amp;İP:</translation>
-    </message>
-    <message>
-        <location line="+19"/>
-        <source>IP address of the proxy (e.g. 127.0.0.1)</source>
-        <translation>Vekil sunucunun İP adresi (mesela 127.0.0.1)</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>&amp;Port:</source>
-        <translation>&amp;Port:</translation>
-    </message>
-    <message>
-        <location line="+19"/>
-        <source>Port of the proxy (e.g. 9050)</source>
-        <translation>Vekil sunucunun portu (mesela 9050)</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>SOCKS &amp;Version:</source>
-        <translation>SOCKS &amp;sürümü:</translation>
-    </message>
-    <message>
-        <location line="+13"/>
-        <source>SOCKS version of the proxy (e.g. 5)</source>
-        <translation>Vekil sunucunun SOCKS sürümü (mesela 5)</translation>
-    </message>
-    <message>
-        <location line="+36"/>
         <source>&amp;Window</source>
         <translation>&amp;Pencere</translation>
     </message>
@@ -968,12 +910,12 @@ Adres: %4
         <translation>&amp;Uygula</translation>
     </message>
     <message>
-        <location filename="../optionsdialog.cpp" line="+53"/>
+        <location filename="../optionsdialog.cpp" line="+28"/>
         <source>default</source>
         <translation>varsayılan</translation>
     </message>
     <message>
-        <location line="+130"/>
+        <location line="+116"/>
         <source>Confirm options reset</source>
         <translation>Seçeneklerin sıfırlanmasını teyit et</translation>
     </message>
@@ -989,20 +931,13 @@ Adres: %4
     </message>
     <message>
         <location line="+42"/>
-        <location line="+9"/>
         <source>Warning</source>
         <translation>Uyarı</translation>
     </message>
     <message>
-        <location line="-9"/>
-        <location line="+9"/>
+        <location line="+0"/>
         <source>This setting will take effect after restarting Primecoin.</source>
         <translation>Bu ayarlar Primecoin tekrar başlatıldığında etkinleşecektir.</translation>
-    </message>
-    <message>
-        <location line="+29"/>
-        <source>The supplied proxy address is invalid.</source>
-        <translation>Girilen vekil sunucu adresi geçersizdir.</translation>
     </message>
 </context>
 <context>
@@ -1013,7 +948,7 @@ Adres: %4
         <translation>Form</translation>
     </message>
     <message>
-        <location line="+50"/>
+        <location line="+34"/>
         <location line="+166"/>
         <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Primecoin network after a connection is established, but this process has not completed yet.</source>
         <translation>Görüntülenen veriler zaman aşımına uğramış olabilir. Bağlantı kurulduğunda cüzdanınız otomatik olarak şebeke ile eşleşir ancak bu işlem henüz tamamlanmamıştır.</translation>
@@ -1068,9 +1003,9 @@ Adres: %4
 <context>
     <name>PaymentServer</name>
     <message>
-        <location filename="../paymentserver.cpp" line="+107"/>
-        <source>Cannot start bitcoin: click-to-pay handler</source>
-        <translation>Primecoin başlatılamadı: tıkla-ve-öde yöneticisi</translation>
+        <location filename="../paymentserver.cpp" line="+108"/>
+        <source>Cannot start primecoin: click-to-pay handler</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1148,7 +1083,7 @@ Adres: %4
         <location line="+53"/>
         <location line="+23"/>
         <location line="+23"/>
-        <location filename="../rpcconsole.cpp" line="+339"/>
+        <location filename="../rpcconsole.cpp" line="+340"/>
         <source>N/A</source>
         <translation>Mevcut değil</translation>
     </message>
@@ -1218,12 +1153,7 @@ Adres: %4
         <translation>Komut satırı seçenekleri</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <source>Show the Primecoin-Qt help message to get a list with possible Bitcoin command-line options.</source>
-        <translation>Mevcut Primecoin komut satırı seçeneklerinin listesini içeren Bitcoin-Qt yardımını göster.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+10"/>
         <source>&amp;Show</source>
         <translation>&amp;Göster</translation>
     </message>
@@ -1258,7 +1188,12 @@ Adres: %4
         <translation>Güncel veri klasöründen Primecoin hata ayıklama kütük dosyasını açar. Büyük kütük dosyaları için bu birkaç saniye alabilir.</translation>
     </message>
     <message>
-        <location line="+102"/>
+        <location line="+26"/>
+        <source>Show the Primecoin-Qt help message to get a list with possible Primecoin command-line options.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+76"/>
         <source>Clear console</source>
         <translation>Konsolu temizle</translation>
     </message>
@@ -1282,7 +1217,7 @@ Adres: %4
     <name>SendCoinsDialog</name>
     <message>
         <location filename="../forms/sendcoinsdialog.ui" line="+14"/>
-        <location filename="../sendcoinsdialog.cpp" line="+124"/>
+        <location filename="../sendcoinsdialog.cpp" line="+121"/>
         <location line="+5"/>
         <location line="+5"/>
         <location line="+5"/>
@@ -1359,8 +1294,8 @@ Adres: %4
     </message>
     <message>
         <location line="+5"/>
-        <source>The amount to pay must be larger than 0.</source>
-        <translation>Ödeyeceğiniz tutarın sıfırdan yüksek olması gerekir.</translation>
+        <source>The amount to pay must be at least one cent (0.01).</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+5"/>
@@ -1448,8 +1383,8 @@ Adres: %4
     </message>
     <message>
         <location filename="../sendcoinsentry.cpp" line="+1"/>
-        <source>Enter a Primecoin address (e.g. 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</source>
-        <translation>Primecoin adresi giriniz (mesela 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</translation>
+        <source>Enter a Primecoin address</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1565,8 +1500,8 @@ Adres: %4
     <message>
         <location filename="../signverifymessagedialog.cpp" line="+27"/>
         <location line="+3"/>
-        <source>Enter a Primecoin address (e.g. 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</source>
-        <translation>Primecoin adresi giriniz (mesela 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</translation>
+        <source>Enter a Primecoin address</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="-2"/>
@@ -1649,8 +1584,18 @@ Adres: %4
     <name>SplashScreen</name>
     <message>
         <location filename="../splashscreen.cpp" line="+22"/>
+        <source>The Primecoin developers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>The Bitcoin developers</source>
         <translation>Primecoin geliştiricileri</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The PPCoin developers</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+1"/>
@@ -1688,7 +1633,9 @@ Adres: %4
     <message numerus="yes">
         <location line="+7"/>
         <source>, broadcast through %n node(s)</source>
-        <translation><numerusform>, %n düğüm vasıtasıyla yayınlandı</numerusform><numerusform>, %n düğüm vasıtasıyla yayınlandı</numerusform></translation>
+        <translation>
+            <numerusform>, %n düğüm vasıtasıyla yayınlandı</numerusform>
+        </translation>
     </message>
     <message>
         <location line="+4"/>
@@ -1741,7 +1688,9 @@ Adres: %4
     <message numerus="yes">
         <location line="-102"/>
         <source>matures in %n more block(s)</source>
-        <translation><numerusform>%n ek blok sonrasında olgunlaşacak</numerusform><numerusform>%n ek blok sonrasında olgunlaşacak</numerusform></translation>
+        <translation>
+            <numerusform>%n ek blok sonrasında olgunlaşacak</numerusform>
+        </translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1783,8 +1732,8 @@ Adres: %4
     </message>
     <message>
         <location line="+3"/>
-        <source>Generated coins must mature 120 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to &quot;not accepted&quot; and it won&apos;t be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
-        <translation>Oluşturulan Primecoin&apos;lerin harcanabilmelerinden önce 120 blok beklemeleri gerekmektedir. Bu blok, oluşturduğunuzda blok zincirine eklenmesi için ağda yayınlandı. Zincire eklenmesi başarısız olursa, durumu &quot;kabul edilmedi&quot; olarak değiştirilecek ve harcanamayacaktır. Bu, bazen başka bir düğüm sizden birkaç saniye önce ya da sonra blok oluşturursa meydana gelebilir.</translation>
+        <source>Generated coins must mature 3200 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to &quot;not accepted&quot; and it won&apos;t be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
+        <translation type="unfinished">Oluşturulan Primecoin&apos;lerin harcanabilmelerinden önce 120 blok beklemeleri gerekmektedir. Bu blok, oluşturduğunuzda blok zincirine eklenmesi için ağda yayınlandı. Zincire eklenmesi başarısız olursa, durumu &quot;kabul edilmedi&quot; olarak değiştirilecek ve harcanamayacaktır. Bu, bazen başka bir düğüm sizden birkaç saniye önce ya da sonra blok oluşturursa meydana gelebilir. {3200 ?}</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -1824,7 +1773,9 @@ Adres: %4
     <message numerus="yes">
         <location line="-35"/>
         <source>Open for %n more block(s)</source>
-        <translation><numerusform>%n ilâve blok için açık</numerusform><numerusform>%n ilâve blok için açık</numerusform></translation>
+        <translation>
+            <numerusform>%n ilâve blok için açık</numerusform>
+        </translation>
     </message>
     <message>
         <location line="+70"/>
@@ -1870,7 +1821,9 @@ Adres: %4
     <message numerus="yes">
         <location line="+57"/>
         <source>Open for %n more block(s)</source>
-        <translation><numerusform>%n ilâve blok için açık</numerusform><numerusform>%n ilâve blok için açık</numerusform></translation>
+        <translation>
+            <numerusform>%n ilâve blok için açık</numerusform>
+        </translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1895,7 +1848,9 @@ Adres: %4
     <message numerus="yes">
         <location line="+8"/>
         <source>Mined balance will be available when it matures in %n more block(s)</source>
-        <translation><numerusform>Madenden çıkarılan bakiye %n ek blok sonrasında olgunlaştığında kullanılabilecektir</numerusform><numerusform>Madenden çıkarılan bakiye %n ek blok sonrasında olgunlaştığında kullanılabilecektir</numerusform></translation>
+        <translation>
+            <numerusform>Madenden çıkarılan bakiye %n ek blok sonrasında olgunlaştığında kullanılabilecektir</numerusform>
+        </translation>
     </message>
     <message>
         <location line="+5"/>
@@ -1966,13 +1921,13 @@ Adres: %4
 <context>
     <name>TransactionView</name>
     <message>
-        <location filename="../transactionview.cpp" line="+52"/>
-        <location line="+16"/>
+        <location filename="../transactionview.cpp" line="+46"/>
+        <location line="+12"/>
         <source>All</source>
         <translation>Hepsi</translation>
     </message>
     <message>
-        <location line="-15"/>
+        <location line="-11"/>
         <source>Today</source>
         <translation>Bugün</translation>
     </message>
@@ -2002,7 +1957,7 @@ Adres: %4
         <translation>Aralık...</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+7"/>
         <source>Received with</source>
         <translation>Şununla alınan</translation>
     </message>
@@ -2037,7 +1992,7 @@ Adres: %4
         <translation>Asgari miktar</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+26"/>
         <source>Copy address</source>
         <translation>Adresi kopyala</translation>
     </message>
@@ -2143,7 +2098,7 @@ Adres: %4
 <context>
     <name>WalletView</name>
     <message>
-        <location filename="../walletview.cpp" line="+42"/>
+        <location filename="../walletview.cpp" line="+41"/>
         <source>&amp;Export</source>
         <translation>&amp;Dışa aktar</translation>
     </message>
@@ -2153,7 +2108,7 @@ Adres: %4
         <translation>Güncel sekmedeki verileri bir dosyaya aktar</translation>
     </message>
     <message>
-        <location line="+193"/>
+        <location line="+192"/>
         <source>Backup Wallet</source>
         <translation>Cüzdanı yedekle</translation>
     </message>
@@ -2186,17 +2141,12 @@ Adres: %4
 <context>
     <name>bitcoin-core</name>
     <message>
-        <location filename="../bitcoinstrings.cpp" line="+94"/>
-        <source>Bitcoin version</source>
-        <translation>Primecoin sürümü</translation>
-    </message>
-    <message>
-        <location line="+102"/>
+        <location filename="../bitcoinstrings.cpp" line="+194"/>
         <source>Usage:</source>
         <translation>Kullanım:</translation>
     </message>
     <message>
-        <location line="-29"/>
+        <location line="-28"/>
         <source>Send command to -server or primecoind</source>
         <translation>-server ya da primecoind&apos;ye komut gönder</translation>
     </message>
@@ -2206,17 +2156,17 @@ Adres: %4
         <translation>Komutları listele</translation>
     </message>
     <message>
-        <location line="-12"/>
+        <location line="-9"/>
         <source>Get help for a command</source>
         <translation>Bir komut için yardım al</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+21"/>
         <source>Options:</source>
         <translation>Seçenekler:</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+23"/>
         <source>Specify configuration file (default: primecoin.conf)</source>
         <translation>Yapılandırma dosyası belirt (varsayılan: primecoin.conf)</translation>
     </message>
@@ -2236,7 +2186,7 @@ Adres: %4
         <translation>Veritabanı önbellek boyutunu megabayt olarak belirt (varsayılan: 25)</translation>
     </message>
     <message>
-        <location line="-28"/>
+        <location line="-27"/>
         <source>Listen for connections on &lt;port&gt; (default: 9911 or testnet: 9913)</source>
         <translation>Bağlantılar için dinlenecek &lt;port&gt; (varsayılan: 9911 ya da testnet: 9913)</translation>
     </message>
@@ -2246,12 +2196,12 @@ Adres: %4
         <translation>Eşler ile en çok &lt;n&gt; adet bağlantı kur (varsayılan: 125)</translation>
     </message>
     <message>
-        <location line="-48"/>
+        <location line="-46"/>
         <source>Connect to a node to retrieve peer addresses, and disconnect</source>
         <translation>Eş adresleri elde etmek için bir düğüme bağlan ve ardından bağlantıyı kes</translation>
     </message>
     <message>
-        <location line="+82"/>
+        <location line="+79"/>
         <source>Specify your own public address</source>
         <translation>Kendi genel adresinizi tanımlayın</translation>
     </message>
@@ -2261,12 +2211,27 @@ Adres: %4
         <translation>Aksaklık gösteren eşlerle bağlantıyı kesme sınırı (varsayılan: 100)</translation>
     </message>
     <message>
-        <location line="-134"/>
+        <location line="-131"/>
         <source>Number of seconds to keep misbehaving peers from reconnecting (default: 86400)</source>
         <translation>Aksaklık gösteren eşlerle yeni bağlantıları engelleme süresi, saniye olarak (varsayılan: 86400)</translation>
     </message>
     <message>
-        <location line="-29"/>
+        <location line="-45"/>
+        <source>%s, you must set a rpcpassword in the configuration file:
+%s
+It is recommended you use the following random password:
+rpcuser=primecoinrpc
+rpcpassword=%s
+(you do not need to remember this password)
+The username and password MUST NOT be the same.
+If the file does not exist, create it with owner-readable-only file permissions.
+It is also recommended to set alertnotify so you are notified of problems;
+for example: alertnotify=echo %%s | mail -s &quot;Primecoin Alert&quot; admin@foo.com
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+16"/>
         <source>An error occurred while setting up the RPC port %u for listening on IPv4: %s</source>
         <translation>IPv4 üzerinde dinlemek için %u numaralı RPC portunun kurulumu sırasında hata meydana geldi: %s</translation>
     </message>
@@ -2276,52 +2241,27 @@ Adres: %4
         <translation>JSON-RPC bağlantılarını &lt;port&gt; üzerinde dinle (varsayılan: 9912 veya tesnet: 9914)</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+40"/>
         <source>Accept command line and JSON-RPC commands</source>
         <translation>Konut satırı ve JSON-RPC komutlarını kabul et</translation>
     </message>
     <message>
-        <location line="+76"/>
+        <location line="+72"/>
         <source>Run in the background as a daemon and accept commands</source>
         <translation>Arka planda daemon (servis) olarak çalış ve komutları kabul et</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+32"/>
         <source>Use the test network</source>
         <translation>Deneme şebekesini kullan</translation>
     </message>
     <message>
-        <location line="-112"/>
+        <location line="-103"/>
         <source>Accept connections from outside (default: 1 if no -proxy or -connect)</source>
         <translation>Dışarıdan gelen bağlantıları kabul et (varsayılan: -proxy veya -connect yoksa 1)</translation>
     </message>
     <message>
-        <location line="-80"/>
-        <source>%s, you must set a rpcpassword in the configuration file:
-%s
-It is recommended you use the following random password:
-rpcuser=bitcoinrpc
-rpcpassword=%s
-(you do not need to remember this password)
-The username and password MUST NOT be the same.
-If the file does not exist, create it with owner-readable-only file permissions.
-It is also recommended to set alertnotify so you are notified of problems;
-for example: alertnotify=echo %%s | mail -s &quot;Primecoin Alert&quot; admin@foo.com
-</source>
-        <translation>%s, şu yapılandırma dosyasında rpc parolası belirtmeniz gerekir:
-%s
-Aşağıdaki rastgele oluşturulan parolayı kullanmanız tavsiye edilir:
-rpcuser=bitcoinrpc
-rpcpassword=%s
-(bu parolayı hatırlamanız gerekli değildir)
-Kullanıcı ismi ile parolanın FARKLI olmaları gerekir.
-Dosya mevcut değilse, sadece sahibi için okumayla sınırlı izin ile oluşturunuz.
-Sorunlar hakkında bildiri almak için alertnotify unsurunu ayarlamanız tavsiye edilir;
-mesela: alertnotify=echo %%s | mail -s &quot;Primecoin Alert&quot; admin@foo.com
-</translation>
-    </message>
-    <message>
-        <location line="+17"/>
+        <location line="-66"/>
         <source>An error occurred while setting up the RPC port %u for listening on IPv6, falling back to IPv4: %s</source>
         <translation>IPv6 üzerinde dinlemek için %u numaralı RPC portu kurulurken bir hata meydana geldi, IPv4&apos;e dönülüyor: %s</translation>
     </message>
@@ -2382,6 +2322,11 @@ mesela: alertnotify=echo %%s | mail -s &quot;Primecoin Alert&quot; admin@foo.com
     </message>
     <message>
         <location line="+3"/>
+        <source>Warning: checkpoint on different blockchain fork, contact developers to resolve the issue</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Warning: error reading wallet.dat! All keys read correctly, but transaction data or address book entries might be missing or incorrect.</source>
         <translation>Uyarı: wallet.dat dosyasının okunması sırasında bir hata meydana geldi! Tüm anahtarlar doğru bir şekilde okundu, ancak muamele verileri ya da adres defteri unsurları hatalı veya eksik olabilir.</translation>
     </message>
@@ -2396,17 +2341,17 @@ mesela: alertnotify=echo %%s | mail -s &quot;Primecoin Alert&quot; admin@foo.com
         <translation>Bozuk bir wallet.dat dosyasından özel anahtarları geri kazanmayı dene</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+1"/>
         <source>Block creation options:</source>
         <translation>Blok oluşturma seçenekleri:</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+4"/>
         <source>Connect only to the specified node(s)</source>
         <translation>Sadece belirtilen düğüme veya düğümlere bağlan</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+2"/>
         <source>Corrupted block database detected</source>
         <translation>Bozuk blok veritabanı tespit edildi</translation>
     </message>
@@ -2477,6 +2422,11 @@ mesela: alertnotify=echo %%s | mail -s &quot;Primecoin Alert&quot; admin@foo.com
     </message>
     <message>
         <location line="+1"/>
+        <source>Failed to write block index for moneysupply</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Failed to write block index</source>
         <translation>Blok indeksi yazılamadı</translation>
     </message>
@@ -2511,7 +2461,12 @@ mesela: alertnotify=echo %%s | mail -s &quot;Primecoin Alert&quot; admin@foo.com
         <translation>Geri alma verilerinin yazılamadı</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+1"/>
+        <source>Fee per KB to add to transactions you send (minimum 1 cent)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Find peers using DNS lookup (default: 1 unless -connect)</source>
         <translation>Eşleri DNS araması vasıtasıyla bul (varsayılan: 1, eğer -connect kullanılmadıysa)</translation>
     </message>
@@ -2531,22 +2486,42 @@ mesela: alertnotify=echo %%s | mail -s &quot;Primecoin Alert&quot; admin@foo.com
         <translation>Blok kontrolünün ne kadar derin olacağı (0 ilâ 4, varsayılan: 3)</translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="+16"/>
         <source>Not enough file descriptors available.</source>
         <translation>Kafi derecede dosya tanımlayıcıları mevcut değil.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>Prepend debug output with timestamp (default: 1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Primecoin version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Rebuild block chain index from current blk000??.dat files</source>
         <translation>Blok zinciri indeksini güncel blk000??.dat dosyalarından tekrar inşa et</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+4"/>
+        <source>SSL options: (see the Bitcoin Wiki for SSL setup instructions)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
         <source>Set the number of threads to service RPC calls (default: 4)</source>
         <translation>RPC aramaları için iş parçacığı sayısını belirle (varsayılan: 4)</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+16"/>
+        <source>Unable to sign checkpoint, wrong checkpointkey?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
         <source>Verifying blocks...</source>
         <translation>Bloklar kontrol ediliyor...</translation>
     </message>
@@ -2556,37 +2531,22 @@ mesela: alertnotify=echo %%s | mail -s &quot;Primecoin Alert&quot; admin@foo.com
         <translation>Cüzdan kontrol ediliyor...</translation>
     </message>
     <message>
-        <location line="-69"/>
+        <location line="-62"/>
         <source>Imports blocks from external blk000??.dat file</source>
         <translation>Harici blk000??.dat dosyasından blokları içe aktarır</translation>
     </message>
     <message>
-        <location line="-76"/>
+        <location line="-77"/>
         <source>Set the number of script verification threads (up to 16, 0 = auto, &lt;0 = leave that many cores free, default: 0)</source>
         <translation>Betik kontrolü iş parçacığı sayısını belirt (azami 16, 0 = otomatik, &lt;0 = bu sayıda çekirdeği boş bırak, varsayılan: 0)</translation>
     </message>
     <message>
-        <location line="+77"/>
+        <location line="+78"/>
         <source>Information</source>
         <translation>Bilgi</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Invalid -tor address: &apos;%s&apos;</source>
-        <translation>Geçersiz -tor adresi: &apos;%s&apos;</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Invalid amount for -minrelaytxfee=&lt;amount&gt;: &apos;%s&apos;</source>
-        <translation>-minrelaytxfee=&lt;amount&gt; için geçersiz meblağ: &apos;%s&apos;</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Invalid amount for -mintxfee=&lt;amount&gt;: &apos;%s&apos;</source>
-        <translation>-mintxfee=&lt;amount&gt; için geçersiz meblağ: &apos;%s&apos;</translation>
-    </message>
-    <message>
-        <location line="+8"/>
+        <location line="+10"/>
         <source>Maintain a full transaction index (default: 0)</source>
         <translation>Muamelelerin tamamının indeksini tut (varsayılan: 0)</translation>
     </message>
@@ -2621,29 +2581,9 @@ mesela: alertnotify=echo %%s | mail -s &quot;Primecoin Alert&quot; admin@foo.com
         <translation>İlâve şebeke hata ayıklama verileri çıkart</translation>
     </message>
     <message>
-        <location line="+2"/>
-        <source>Prepend debug output with timestamp</source>
-        <translation>Hata ayıklama çıktısına tarih ön ekleri ilâve et</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>SSL options: (see the Primecoin Wiki for SSL setup instructions)</source>
-        <translation> SSL seçenekleri: (SSL kurulum bilgisi için Primecoin vikisine bakınız)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Select the version of socks proxy to use (4-5, default: 5)</source>
-        <translation>Kullanılacak socks vekil sunucu sürümünü seç (4-5, varsayılan: 5)</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+11"/>
         <source>Send trace/debug info to console instead of debug.log file</source>
         <translation>Trace/hata ayıklama verilerini debug.log dosyası yerine konsola gönder</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Send trace/debug info to debugger</source>
-        <translation>Hata ayıklayıcıya -debugger- trace/hata ayıklama verileri gönder</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -2691,22 +2631,7 @@ mesela: alertnotify=echo %%s | mail -s &quot;Primecoin Alert&quot; admin@foo.com
         <translation>Muamele çok büyük</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <source>Use UPnP to map the listening port (default: 0)</source>
-        <translation>Dinlenecek portu haritalamak için UPnP kullan (varsayılan: 0)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Use UPnP to map the listening port (default: 1 when listening)</source>
-        <translation>Dinlenecek portu haritalamak için UPnP kullan (varsayılan: dinlenildiğinde 1)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Use proxy to reach tor hidden services (default: same as -proxy)</source>
-        <translation>Gizli tor servislerine erişmek için vekil sunucu kullan (varsayılan: -proxy ile aynısı)</translation>
-    </message>
-    <message>
-        <location line="+2"/>
+        <location line="+8"/>
         <source>Username for JSON-RPC connections</source>
         <translation>JSON-RPC bağlantıları için kullanıcı ismi</translation>
     </message>
@@ -2731,42 +2656,37 @@ mesela: alertnotify=echo %%s | mail -s &quot;Primecoin Alert&quot; admin@foo.com
         <translation>wallet.dat bozuk, geri kazanım başarısız oldu</translation>
     </message>
     <message>
-        <location line="-50"/>
+        <location line="-46"/>
         <source>Password for JSON-RPC connections</source>
         <translation>JSON-RPC bağlantıları için parola</translation>
     </message>
     <message>
-        <location line="-67"/>
+        <location line="-62"/>
         <source>Allow JSON-RPC connections from specified IP address</source>
         <translation>Belirtilen İP adresinden JSON-RPC bağlantılarını kabul et</translation>
     </message>
     <message>
-        <location line="+76"/>
+        <location line="+71"/>
         <source>Send commands to node running on &lt;ip&gt; (default: 127.0.0.1)</source>
         <translation>Şu &lt;ip&gt; adresinde (varsayılan: 127.0.0.1) çalışan düğüme komut yolla</translation>
     </message>
     <message>
-        <location line="-120"/>
+        <location line="-118"/>
         <source>Execute command when the best block changes (%s in cmd is replaced by block hash)</source>
         <translation>En iyi blok değiştiğinde komutu çalıştır (komut için %s parametresi blok hash değeri ile değiştirilecektir)</translation>
     </message>
     <message>
-        <location line="+147"/>
-        <source>Upgrade wallet to latest format</source>
-        <translation>Cüzdanı en yeni biçime güncelle</translation>
-    </message>
-    <message>
-        <location line="-21"/>
+        <location line="+123"/>
         <source>Set key pool size to &lt;n&gt; (default: 100)</source>
         <translation>Anahtar alan boyutunu &lt;n&gt; değerine ayarla (varsayılan: 100)</translation>
     </message>
     <message>
-        <location line="-12"/>
+        <location line="-10"/>
         <source>Rescan the block chain for missing wallet transactions</source>
         <translation>Blok zincirini eksik cüzdan muameleleri için tekrar tara</translation>
     </message>
     <message>
-        <location line="+35"/>
+        <location line="+33"/>
         <source>Use OpenSSL (https) for JSON-RPC connections</source>
         <translation>JSON-RPC bağlantıları için OpenSSL (https) kullan</translation>
     </message>
@@ -2781,12 +2701,12 @@ mesela: alertnotify=echo %%s | mail -s &quot;Primecoin Alert&quot; admin@foo.com
         <translation>Sunucu özel anahtarı (varsayılan: server.pem)</translation>
     </message>
     <message>
-        <location line="-151"/>
+        <location line="-148"/>
         <source>Acceptable ciphers (default: TLSv1+HIGH:!SSLv2:!aNULL:!eNULL:!AH:!3DES:@STRENGTH)</source>
         <translation>Kabul edilebilir şifreler (varsayılan: TLSv1+HIGH:!SSLv2:!aNULL:!eNULL:!AH:!3DES:@STRENGTH)</translation>
     </message>
     <message>
-        <location line="+165"/>
+        <location line="+162"/>
         <source>This help message</source>
         <translation>Bu yardım mesajı</translation>
     </message>
@@ -2796,22 +2716,17 @@ mesela: alertnotify=echo %%s | mail -s &quot;Primecoin Alert&quot; admin@foo.com
         <translation>Bu bilgisayarda %s unsuruna bağlanılamadı. (bind şu hatayı iletti: %d, %s)</translation>
     </message>
     <message>
-        <location line="-91"/>
-        <source>Connect through socks proxy</source>
-        <translation>Socks vekil sunucusu vasıtasıyla bağlan</translation>
-    </message>
-    <message>
-        <location line="-10"/>
+        <location line="-95"/>
         <source>Allow DNS lookups for -addnode, -seednode and -connect</source>
         <translation>-addnode, -seednode ve -connect için DNS aramalarına izin ver</translation>
     </message>
     <message>
-        <location line="+55"/>
+        <location line="+50"/>
         <source>Loading addresses...</source>
         <translation>Adresler yükleniyor...</translation>
     </message>
     <message>
-        <location line="-35"/>
+        <location line="-33"/>
         <source>Error loading wallet.dat: Wallet corrupted</source>
         <translation>wallet.dat dosyasının yüklenmesinde hata oluştu: bozuk cüzdan</translation>
     </message>
@@ -2821,22 +2736,22 @@ mesela: alertnotify=echo %%s | mail -s &quot;Primecoin Alert&quot; admin@foo.com
         <translation>wallet.dat dosyasının yüklenmesinde hata oluştu: cüzdanın daha yeni bir Primecoin sürümüne ihtiyacı var</translation>
     </message>
     <message>
-        <location line="+93"/>
+        <location line="+87"/>
         <source>Wallet needed to be rewritten: restart Primecoin to complete</source>
         <translation>Cüzdanın tekrar yazılması gerekiyordu: işlemi tamamlamak için Primecoin&apos;i yeniden başlatınız</translation>
     </message>
     <message>
-        <location line="-95"/>
+        <location line="-89"/>
         <source>Error loading wallet.dat</source>
         <translation>wallet.dat dosyasının yüklenmesinde hata oluştu</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location line="+29"/>
         <source>Invalid -proxy address: &apos;%s&apos;</source>
         <translation>Geçersiz -proxy adresi: &apos;%s&apos;</translation>
     </message>
     <message>
-        <location line="+56"/>
+        <location line="+53"/>
         <source>Unknown network specified in -onlynet: &apos;%s&apos;</source>
         <translation>-onlynet için bilinmeyen bir şebeke belirtildi: &apos;%s&apos;</translation>
     </message>
@@ -2846,7 +2761,7 @@ mesela: alertnotify=echo %%s | mail -s &quot;Primecoin Alert&quot; admin@foo.com
         <translation>Bilinmeyen bir -socks vekil sürümü talep edildi: %i</translation>
     </message>
     <message>
-        <location line="-96"/>
+        <location line="-93"/>
         <source>Cannot resolve -bind address: &apos;%s&apos;</source>
         <translation>-bind adresi çözümlenemedi: &apos;%s&apos;</translation>
     </message>
@@ -2856,7 +2771,7 @@ mesela: alertnotify=echo %%s | mail -s &quot;Primecoin Alert&quot; admin@foo.com
         <translation>-externalip adresi çözümlenemedi: &apos;%s&apos;</translation>
     </message>
     <message>
-        <location line="+44"/>
+        <location line="+41"/>
         <source>Invalid amount for -paytxfee=&lt;amount&gt;: &apos;%s&apos;</source>
         <translation>-paytxfee=&lt;miktar&gt; için geçersiz miktar: &apos;%s&apos;</translation>
     </message>
@@ -2866,67 +2781,57 @@ mesela: alertnotify=echo %%s | mail -s &quot;Primecoin Alert&quot; admin@foo.com
         <translation>Geçersiz miktar</translation>
     </message>
     <message>
-        <location line="-6"/>
+        <location line="-3"/>
         <source>Insufficient funds</source>
         <translation>Yetersiz bakiye</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+7"/>
         <source>Loading block index...</source>
         <translation>Blok indeksi yükleniyor...</translation>
     </message>
     <message>
-        <location line="-57"/>
+        <location line="-52"/>
         <source>Add a node to connect to and attempt to keep the connection open</source>
         <translation>Bağlanılacak düğüm ekle ve bağlantıyı zinde tutmaya çalış</translation>
     </message>
     <message>
-        <location line="-25"/>
+        <location line="-28"/>
         <source>Unable to bind to %s on this computer. Primecoin is probably already running.</source>
         <translation>Bu bilgisayarda %s unsuruna bağlanılamadı. Primecoin muhtemelen hâlihazırda çalışmaktadır.</translation>
     </message>
     <message>
-        <location line="+64"/>
-        <source>Fee per KB to add to transactions you send</source>
-        <translation>Yolladığınız muameleler için eklenecek KB başı ücret</translation>
-    </message>
-    <message>
-        <location line="+19"/>
+        <location line="+81"/>
         <source>Loading wallet...</source>
         <translation>Cüzdan yükleniyor...</translation>
     </message>
     <message>
-        <location line="-52"/>
-        <source>Cannot downgrade wallet</source>
-        <translation>Cüzdan eski biçime geri alınamaz</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="-46"/>
         <source>Cannot write default address</source>
         <translation>Varsayılan adres yazılamadı</translation>
     </message>
     <message>
-        <location line="+64"/>
+        <location line="+62"/>
         <source>Rescanning...</source>
         <translation>Yeniden tarama...</translation>
     </message>
     <message>
-        <location line="-57"/>
+        <location line="-56"/>
         <source>Done loading</source>
         <translation>Yükleme tamamlandı</translation>
     </message>
     <message>
-        <location line="+82"/>
+        <location line="+79"/>
         <source>To use the %s option</source>
         <translation>%s seçeneğini kullanmak için</translation>
     </message>
     <message>
-        <location line="-74"/>
+        <location line="-71"/>
         <source>Error</source>
         <translation>Hata</translation>
     </message>
     <message>
-        <location line="-31"/>
+        <location line="-28"/>
         <source>You must set rpcpassword=&lt;password&gt; in the configuration file:
 %s
 If the file does not exist, create it with owner-readable-only file permissions.</source>

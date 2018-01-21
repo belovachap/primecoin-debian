@@ -1,32 +1,9 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="et" version="2.0">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.0" language="et">
 <defaultcodec>UTF-8</defaultcodec>
 <context>
     <name>AboutDialog</name>
-    <message>
-        <location filename="../forms/aboutdialog.ui" line="+14"/>
-        <source>About Bitcoin</source>
-        <translation>Primecoinist</translation>
-    </message>
-    <message>
-        <location line="+39"/>
-        <source>&lt;b&gt;Bitcoin&lt;/b&gt; version</source>
-        <translation>&lt;b&gt;Primecoini&lt;/b&gt; versioon</translation>
-    </message>
-    <message>
-        <location line="+57"/>
-        <source>
-This is experimental software.
-
-Distributed under the MIT/X11 software license, see the accompanying file COPYING or http://www.opensource.org/licenses/mit-license.php.
-
-This product includes software developed by the OpenSSL Project for use in the OpenSSL Toolkit (http://www.openssl.org/) and cryptographic software written by Eric Young (eay@cryptsoft.com) and UPnP software written by Thomas Bernard.</source>
-        <translation>⏎
-See on eksperimentaalne tarkvara.⏎
-⏎
-Levitatud MIT/X11 tarkvara litsentsi all, vaata kaasasolevat faili COPYING või http://www.opensource.org/licenses/mit-license.php⏎
-⏎
-Toode sisaldab OpenSSL Projekti all toodetud tarkvara, mis on kasutamiseks OpenSSL Toolkitis (http://www.openssl.org/) ja Eric Young&apos;i poolt loodud krüptograafilist tarkvara (eay@cryptsoft.com) ning Thomas Bernard&apos;i loodud UPnP tarkvara.</translation>
-    </message>
     <message>
         <location filename="../aboutdialog.cpp" line="+14"/>
         <source>Copyright</source>
@@ -34,8 +11,28 @@ Toode sisaldab OpenSSL Projekti all toodetud tarkvara, mis on kasutamiseks OpenS
     </message>
     <message>
         <location line="+0"/>
-        <source>The Bitcoin developers</source>
-        <translation type="unfinished"/>
+        <source>The Primecoin developers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../forms/aboutdialog.ui" line="+14"/>
+        <source>About Primecoin</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+39"/>
+        <source>&lt;b&gt;Primecoin&lt;/b&gt; version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+89"/>
+        <source>
+This is experimental software.
+
+Distributed under conditional MIT/X11 software license, see the accompanying file COPYING.
+
+This product includes software developed by the OpenSSL Project for use in the OpenSSL Toolkit (http://www.openssl.org/) and cryptographic software written by Eric Young (eay@cryptsoft.com) and UPnP software written by Thomas Bernard.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -66,7 +63,7 @@ Toode sisaldab OpenSSL Projekti all toodetud tarkvara, mis on kasutamiseks OpenS
         <translation>&amp;Uus aadress</translation>
     </message>
     <message>
-        <location filename="../addressbookpage.cpp" line="+63"/>
+        <location filename="../addressbookpage.cpp" line="+57"/>
         <source>These are your Primecoin addresses for receiving payments. You may want to give a different one to each sender so you can keep track of who is paying you.</source>
         <translation>Maksete saamiseks kasutatavad Primecoini aadressid. Maksjate paremaks jälgimiseks võib igaühele anda erineva.</translation>
     </message>
@@ -98,12 +95,12 @@ Toode sisaldab OpenSSL Projekti all toodetud tarkvara, mis on kasutamiseks OpenS
     <message>
         <location line="+27"/>
         <source>Export the data in the current tab to a file</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+3"/>
         <source>&amp;Export</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="-44"/>
@@ -248,16 +245,21 @@ Toode sisaldab OpenSSL Projekti all toodetud tarkvara, mis on kasutamiseks OpenS
     </message>
     <message>
         <location line="+1"/>
-        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR BITCOINS&lt;/b&gt;!</source>
-        <translation>Hoiatus: Kui sa kaotad oma, rahakoti krüpteerimisel kasutatud, salafraasi, siis &lt;b&gt;KAOTAD KA KÕIK OMA BITCOINID&lt;/b&gt;!</translation>
-    </message>
-    <message>
-        <location line="+0"/>
         <source>Are you sure you wish to encrypt your wallet?</source>
         <translation>Kas soovid oma rahakoti krüpteerida?</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+0"/>
+        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR PRIMECOINS&lt;/b&gt;!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Primecoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your primecoins from being stolen by malware infecting your computer.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+4"/>
         <source>IMPORTANT: Any previous backups you have made of your wallet file should be replaced with the newly generated, encrypted wallet file. For security reasons, previous backups of the unencrypted wallet file will become useless as soon as you start using the new, encrypted wallet.</source>
         <translation>TÄHTIS: Kõik varasemad rahakoti varundfailid tuleks üle kirjutada äsja loodud krüpteeritud rahakoti failiga. Turvakaalutlustel tühistatakse krüpteerimata rahakoti failid alates uue, krüpteeritud rahakoti, kasutusele võtust.</translation>
     </message>
@@ -274,12 +276,7 @@ Toode sisaldab OpenSSL Projekti all toodetud tarkvara, mis on kasutamiseks OpenS
         <translation>Rahakott krüpteeritud</translation>
     </message>
     <message>
-        <location line="-56"/>
-        <source>Primecoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your bitcoins from being stolen by malware infecting your computer.</source>
-        <translation>Primecoin sulgub krüpteeringu lõpetamiseks. Pea meeles, et rahakoti krüpteerimine ei välista bitcoinide vargust, kui sinu arvuti on nakatunud pahavaraga.</translation>
-    </message>
-    <message>
-        <location line="+13"/>
+        <location line="-43"/>
         <location line="+7"/>
         <location line="+42"/>
         <location line="+6"/>
@@ -321,318 +318,335 @@ Toode sisaldab OpenSSL Projekti all toodetud tarkvara, mis on kasutamiseks OpenS
     </message>
 </context>
 <context>
-    <name>PrimecoinGUI</name>
+    <name>BitcoinGUI</name>
     <message>
-        <location filename="../bitcoingui.cpp" line="+233"/>
-        <source>Sign &amp;message...</source>
-        <translation>Signeeri &amp;sõnum</translation>
+        <location filename="../bitcoin.cpp" line="+107"/>
+        <source>A fatal error occurred. Primecoin can no longer continue safely and will quit.</source>
+        <translation type="unfinished">Ilmnes kriitiline tõrge. Primecoin suletakse turvakaalutluste tõttu.</translation>
     </message>
     <message>
-        <location line="+280"/>
-        <source>Synchronizing with network...</source>
-        <translation>Võrgusünkimine...</translation>
+        <location filename="../bitcoingui.cpp" line="+65"/>
+        <location line="+490"/>
+        <source>Primecoin</source>
+        <translation type="unfinished">Primecoin</translation>
     </message>
     <message>
-        <location line="-349"/>
+        <location line="-490"/>
+        <source>Wallet</source>
+        <translation type="unfinished">Rahakott</translation>
+    </message>
+    <message>
+        <location line="+76"/>
         <source>&amp;Overview</source>
-        <translation>&amp;Ülevaade</translation>
+        <translation type="unfinished">&amp;Ülevaade</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Show general overview of wallet</source>
-        <translation>Kuva rahakoti üld-ülevaade</translation>
+        <translation type="unfinished">Kuva rahakoti üld-ülevaade</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+6"/>
+        <source>&amp;Send</source>
+        <translation type="unfinished">&amp;Saada</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Send coins to a Primecoin address</source>
+        <translation type="unfinished">Saada münte Primecoini aadressile</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>&amp;Receive</source>
+        <translation type="unfinished">&amp;Saama</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Show the list of addresses for receiving payments</source>
+        <translation type="unfinished">Kuva saadud maksete aadresside loetelu</translation>
+    </message>
+    <message>
+        <location line="+6"/>
         <source>&amp;Transactions</source>
-        <translation>&amp;Tehingud</translation>
+        <translation type="unfinished">&amp;Tehingud</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Browse transaction history</source>
-        <translation>Sirvi tehingute ajalugu</translation>
+        <translation type="unfinished">Sirvi tehingute ajalugu</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
+        <source>&amp;Addresses</source>
+        <translation type="unfinished">&amp;Aadressid</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Edit the list of stored addresses and labels</source>
-        <translation>Salvestatud aadresside ja märgiste loetelu muutmine</translation>
+        <translation type="unfinished">Salvestatud aadresside ja märgiste loetelu muutmine</translation>
     </message>
     <message>
-        <location line="-14"/>
-        <source>Show the list of addresses for receiving payments</source>
-        <translation>Kuva saadud maksete aadresside loetelu</translation>
-    </message>
-    <message>
-        <location line="+31"/>
+        <location line="+17"/>
         <source>E&amp;xit</source>
-        <translation>V&amp;älju</translation>
+        <translation type="unfinished">V&amp;älju</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Quit application</source>
-        <translation>Väljumine</translation>
+        <translation type="unfinished">Väljumine</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+3"/>
+        <source>&amp;About Primecoin</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Show information about Primecoin</source>
-        <translation>Kuva info Primecoini kohta</translation>
+        <translation type="unfinished">Kuva info Primecoini kohta</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>About &amp;Qt</source>
-        <translation>Teave &amp;Qt kohta</translation>
+        <translation type="unfinished">Teave &amp;Qt kohta</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Show information about Qt</source>
-        <translation>Kuva Qt kohta käiv info</translation>
+        <translation type="unfinished">Kuva Qt kohta käiv info</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>&amp;Options...</source>
-        <translation>&amp;Valikud...</translation>
-    </message>
-    <message>
-        <location line="+6"/>
-        <source>&amp;Encrypt Wallet...</source>
-        <translation>&amp;Krüpteeri Rahakott</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>&amp;Backup Wallet...</source>
-        <translation>&amp;Varunda Rahakott</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>&amp;Change Passphrase...</source>
-        <translation>&amp;Salafraasi muutmine</translation>
-    </message>
-    <message>
-        <location line="+285"/>
-        <source>Importing blocks from disk...</source>
-        <translation>Impordi blokid kettalt...</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Reindexing blocks on disk...</source>
-        <translation>Kettal olevate blokkide re-indekseerimine...</translation>
-    </message>
-    <message>
-        <location line="-347"/>
-        <source>Send coins to a Primecoin address</source>
-        <translation>Saada münte Primecoini aadressile</translation>
-    </message>
-    <message>
-        <location line="+49"/>
-        <source>Modify configuration options for Primecoin</source>
-        <translation>Muuda Primecoini seadeid</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Backup wallet to another location</source>
-        <translation>Varunda rahakott teise asukohta</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Change the passphrase used for wallet encryption</source>
-        <translation>Rahakoti krüpteerimise salafraasi muutmine</translation>
-    </message>
-    <message>
-        <location line="+6"/>
-        <source>&amp;Debug window</source>
-        <translation>&amp;Debugimise aken</translation>
+        <translation type="unfinished">&amp;Valikud...</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Open debugging and diagnostic console</source>
-        <translation>Ava debugimise ja diagnostika konsool</translation>
+        <source>Modify configuration options for Primecoin</source>
+        <translation type="unfinished">Muuda Primecoini seadeid</translation>
     </message>
     <message>
-        <location line="-4"/>
-        <source>&amp;Verify message...</source>
-        <translation>&amp;Kontrolli sõnumit...</translation>
-    </message>
-    <message>
-        <location line="-165"/>
-        <location line="+530"/>
-        <source>Primecoin</source>
-        <translation>Primecoin</translation>
-    </message>
-    <message>
-        <location line="-530"/>
-        <source>Wallet</source>
-        <translation>Rahakott</translation>
-    </message>
-    <message>
-        <location line="+101"/>
-        <source>&amp;Send</source>
-        <translation>&amp;Saada</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>&amp;Receive</source>
-        <translation>&amp;Saama</translation>
-    </message>
-    <message>
-        <location line="+14"/>
-        <source>&amp;Addresses</source>
-        <translation>&amp;Aadressid</translation>
-    </message>
-    <message>
-        <location line="+22"/>
-        <source>&amp;About Bitcoin</source>
-        <translation>%Primecoinist</translation>
-    </message>
-    <message>
-        <location line="+9"/>
+        <location line="+2"/>
         <source>&amp;Show / Hide</source>
-        <translation>&amp;Näita / Peida</translation>
+        <translation type="unfinished">&amp;Näita / Peida</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Show or hide the main Window</source>
-        <translation>Näita või peida peaaken</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Encrypt the private keys that belong to your wallet</source>
-        <translation>Krüpteeri oma rahakoti privaatvõtmed</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>Sign messages with your Primecoin addresses to prove you own them</source>
-        <translation>Omandi tõestamiseks allkirjasta sõnumid oma Primecoini aadressiga</translation>
+        <translation type="unfinished">Näita või peida peaaken</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Verify messages to ensure they were signed with specified Primecoin addresses</source>
-        <translation>Kinnita sõnumid kindlustamaks et need allkirjastati määratud Primecoini aadressiga</translation>
+        <source>&amp;Encrypt Wallet...</source>
+        <translation type="unfinished">&amp;Krüpteeri Rahakott</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location line="+1"/>
+        <source>Encrypt the private keys that belong to your wallet</source>
+        <translation type="unfinished">Krüpteeri oma rahakoti privaatvõtmed</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>&amp;Backup Wallet...</source>
+        <translation type="unfinished">&amp;Varunda Rahakott</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Backup wallet to another location</source>
+        <translation type="unfinished">Varunda rahakott teise asukohta</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&amp;Change Passphrase...</source>
+        <translation type="unfinished">&amp;Salafraasi muutmine</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Change the passphrase used for wallet encryption</source>
+        <translation type="unfinished">Rahakoti krüpteerimise salafraasi muutmine</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Sign &amp;message...</source>
+        <translation type="unfinished">Signeeri &amp;sõnum</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Sign messages with your Primecoin addresses to prove you own them</source>
+        <translation type="unfinished">Omandi tõestamiseks allkirjasta sõnumid oma Primecoini aadressiga</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&amp;Verify message...</source>
+        <translation type="unfinished">&amp;Kontrolli sõnumit...</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Verify messages to ensure they were signed with specified Primecoin addresses</source>
+        <translation type="unfinished">Kinnita sõnumid kindlustamaks et need allkirjastati määratud Primecoini aadressiga</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>&amp;Debug window</source>
+        <translation type="unfinished">&amp;Debugimise aken</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Open debugging and diagnostic console</source>
+        <translation type="unfinished">Ava debugimise ja diagnostika konsool</translation>
+    </message>
+    <message>
+        <location line="+20"/>
         <source>&amp;File</source>
-        <translation>&amp;Fail</translation>
+        <translation type="unfinished">&amp;Fail</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>&amp;Settings</source>
-        <translation>&amp;Seaded</translation>
+        <translation type="unfinished">&amp;Seaded</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>&amp;Help</source>
-        <translation>&amp;Abi</translation>
+        <translation type="unfinished">&amp;Abi</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Tabs toolbar</source>
-        <translation>Vahelehe tööriistariba</translation>
+        <translation type="unfinished">Vahelehe tööriistariba</translation>
     </message>
     <message>
         <location line="+17"/>
-        <location line="+10"/>
+        <location line="+6"/>
         <source>[testnet]</source>
-        <translation>[testnet]</translation>
+        <translation type="unfinished">[testnet]</translation>
     </message>
     <message>
-        <location line="+47"/>
+        <location line="+46"/>
         <source>Primecoin client</source>
-        <translation>Primecoini klient</translation>
+        <translation type="unfinished">Primecoini klient</translation>
     </message>
     <message numerus="yes">
-        <location line="+141"/>
+        <location line="+129"/>
         <source>%n active connection(s) to Primecoin network</source>
-        <translation><numerusform>%n aktiivne ühendus Primecoini võrku</numerusform><numerusform>%n aktiivset ühendust Bitcoini võrku</numerusform></translation>
+        <translation type="unfinished">
+            <numerusform>%n aktiivne ühendus Primecoini võrku</numerusform>
+            <numerusform>%n aktiivset ühendust Bitcoini võrku</numerusform>
+        </translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+12"/>
+        <source>Synchronizing with network...</source>
+        <translation type="unfinished">Võrgusünkimine...</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Importing blocks from disk...</source>
+        <translation type="unfinished">Impordi blokid kettalt...</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Reindexing blocks on disk...</source>
+        <translation type="unfinished">Kettal olevate blokkide re-indekseerimine...</translation>
+    </message>
+    <message>
+        <location line="+4"/>
         <source>No block source available...</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Processed %1 of %2 (estimated) blocks of transaction history.</source>
-        <translation>Protsessitud %1 (arvutuslikult) tehingu ajaloo blokki %2-st.</translation>
+        <translation type="unfinished">Protsessitud %1 (arvutuslikult) tehingu ajaloo blokki %2-st.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Processed %1 blocks of transaction history.</source>
-        <translation>Protsessitud %1 tehingute ajaloo blokki.</translation>
+        <translation type="unfinished">Protsessitud %1 tehingute ajaloo blokki.</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Up to date</source>
+        <translation type="unfinished">Ajakohane</translation>
     </message>
     <message numerus="yes">
-        <location line="+20"/>
+        <location line="+14"/>
         <source>%n hour(s)</source>
-        <translation><numerusform>%n tund</numerusform><numerusform>%n tundi</numerusform></translation>
+        <translation type="unfinished">
+            <numerusform>%n tund</numerusform>
+            <numerusform>%n tundi</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <location line="+4"/>
         <source>%n day(s)</source>
-        <translation><numerusform>%n päev</numerusform><numerusform>%n päeva</numerusform></translation>
+        <translation type="unfinished">
+            <numerusform>%n päev</numerusform>
+            <numerusform>%n päeva</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <location line="+4"/>
         <source>%n week(s)</source>
-        <translation><numerusform>%n nädal</numerusform><numerusform>%n nädalat</numerusform></translation>
+        <translation type="unfinished">
+            <numerusform>%n nädal</numerusform>
+            <numerusform>%n nädalat</numerusform>
+        </translation>
     </message>
     <message>
         <location line="+4"/>
         <source>%1 behind</source>
-        <translation>%1 maas</translation>
+        <translation type="unfinished">%1 maas</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+5"/>
+        <source>Catching up...</source>
+        <translation type="unfinished">Jõuan...</translation>
+    </message>
+    <message>
+        <location line="+9"/>
         <source>Last received block was generated %1 ago.</source>
-        <translation>Viimane saabunud blokk loodi %1 tagasi.</translation>
+        <translation type="unfinished">Viimane saabunud blokk loodi %1 tagasi.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Transactions after this will not yet be visible.</source>
-        <translation>Peale seda ei ole tehingud veel nähtavad.</translation>
+        <translation type="unfinished">Peale seda ei ole tehingud veel nähtavad.</translation>
     </message>
     <message>
         <location line="+22"/>
         <source>Error</source>
-        <translation>Tõrge</translation>
+        <translation type="unfinished">Tõrge</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Warning</source>
-        <translation>Hoiatus</translation>
+        <translation type="unfinished">Hoiatus</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Information</source>
-        <translation>Informatsioon</translation>
+        <translation type="unfinished">Informatsioon</translation>
     </message>
     <message>
-        <location line="+70"/>
+        <location line="+66"/>
         <source>This transaction is over the size limit. You can still send it for a fee of %1, which goes to the nodes that process your transaction and helps to support the network. Do you want to pay the fee?</source>
-        <translation>See tehing ületab mahupiirangu. Saatmine on võimalik %1, node&apos;idele ning võrgustiku toetuseks, makstava lisatasu eest. Kas nõustud lisatasuga?</translation>
+        <translation type="unfinished">See tehing ületab mahupiirangu. Saatmine on võimalik %1, node&apos;idele ning võrgustiku toetuseks, makstava lisatasu eest. Kas nõustud lisatasuga?</translation>
     </message>
     <message>
-        <location line="-140"/>
-        <source>Up to date</source>
-        <translation>Ajakohane</translation>
-    </message>
-    <message>
-        <location line="+31"/>
-        <source>Catching up...</source>
-        <translation>Jõuan...</translation>
-    </message>
-    <message>
-        <location line="+113"/>
+        <location line="+4"/>
         <source>Confirm transaction fee</source>
-        <translation>Kinnita tehingu tasu</translation>
+        <translation type="unfinished">Kinnita tehingu tasu</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Sent transaction</source>
-        <translation>Saadetud tehing</translation>
+        <translation type="unfinished">Saadetud tehing</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Incoming transaction</source>
-        <translation>Sisenev tehing</translation>
+        <translation type="unfinished">Sisenev tehing</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -641,7 +655,7 @@ Amount: %2
 Type: %3
 Address: %4
 </source>
-        <translation>Kuupäev: %1⏎
+        <translation type="unfinished">Kuupäev: %1⏎
 Summa: %2⏎
 Tüüp: %3⏎
 Aadress: %4⏎</translation>
@@ -650,36 +664,23 @@ Aadress: %4⏎</translation>
         <location line="+33"/>
         <location line="+23"/>
         <source>URI handling</source>
-        <translation>URI käsitsemine</translation>
+        <translation type="unfinished">URI käsitsemine</translation>
     </message>
     <message>
         <location line="-23"/>
         <location line="+23"/>
         <source>URI can not be parsed! This can be caused by an invalid Primecoin address or malformed URI parameters.</source>
-        <translation>URI ei suudeta parsida. Põhjuseks võib olla kehtetu Primecoini aadress või vigased URI parameetrid.</translation>
+        <translation type="unfinished">URI ei suudeta parsida. Põhjuseks võib olla kehtetu Primecoini aadress või vigased URI parameetrid.</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;unlocked&lt;/b&gt;</source>
-        <translation>Rahakott on &lt;b&gt;krüpteeritud&lt;/b&gt; ning hetkel &lt;b&gt;avatud&lt;/b&gt;</translation>
+        <translation type="unfinished">Rahakott on &lt;b&gt;krüpteeritud&lt;/b&gt; ning hetkel &lt;b&gt;avatud&lt;/b&gt;</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;locked&lt;/b&gt;</source>
-        <translation>Rahakott on &lt;b&gt;krüpteeritud&lt;/b&gt; ning hetkel &lt;b&gt;suletud&lt;/b&gt;</translation>
-    </message>
-    <message>
-        <location filename="../bitcoin.cpp" line="+111"/>
-        <source>A fatal error occurred. Primecoin can no longer continue safely and will quit.</source>
-        <translation>Ilmnes kriitiline tõrge. Primecoin suletakse turvakaalutluste tõttu.</translation>
-    </message>
-</context>
-<context>
-    <name>ClientModel</name>
-    <message>
-        <location filename="../clientmodel.cpp" line="+104"/>
-        <source>Network Alert</source>
-        <translation>Võrgu Häire</translation>
+        <translation type="unfinished">Rahakott on &lt;b&gt;krüpteeritud&lt;/b&gt; ning hetkel &lt;b&gt;suletud&lt;/b&gt;</translation>
     </message>
 </context>
 <context>
@@ -753,7 +754,7 @@ Aadress: %4⏎</translation>
 <context>
     <name>GUIUtil::HelpMessageBox</name>
     <message>
-        <location filename="../guiutil.cpp" line="+424"/>
+        <location filename="../guiutil.cpp" line="+331"/>
         <location line="+12"/>
         <source>Primecoin-Qt</source>
         <translation>Primecoini-Qt</translation>
@@ -809,7 +810,7 @@ Aadress: %4⏎</translation>
     <message>
         <location line="+6"/>
         <source>Optional transaction fee per kB that helps make sure your transactions are processed quickly. Most transactions are 1 kB.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+15"/>
@@ -838,61 +839,6 @@ Aadress: %4⏎</translation>
     </message>
     <message>
         <location line="+13"/>
-        <source>&amp;Network</source>
-        <translation>&amp;Võrk</translation>
-    </message>
-    <message>
-        <location line="+6"/>
-        <source>Automatically open the Primecoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>Primecoini kliendi pordi automaatne avamine ruuteris. Toimib, kui sinu ruuter aktsepteerib UPnP ühendust.</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Map port using &amp;UPnP</source>
-        <translation>Suuna port &amp;UPnP kaudu</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>Connect to the Primecoin network through a SOCKS proxy (e.g. when connecting through Tor).</source>
-        <translation>Kasuta Primecoini võrgustikku ühendumiseks SOCKS turva proxy&apos;t (nt Tor&apos;i kasutamisel).</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>&amp;Connect through SOCKS proxy:</source>
-        <translation>%Connect läbi turva proxi:</translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Proxy &amp;IP:</source>
-        <translation>Proxi &amp;IP:</translation>
-    </message>
-    <message>
-        <location line="+19"/>
-        <source>IP address of the proxy (e.g. 127.0.0.1)</source>
-        <translation>Proxi IP (nt 127.0.0.1)</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>&amp;Port:</source>
-        <translation>&amp;Port:</translation>
-    </message>
-    <message>
-        <location line="+19"/>
-        <source>Port of the proxy (e.g. 9050)</source>
-        <translation>Proxi port (nt 9050)</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>SOCKS &amp;Version:</source>
-        <translation>Turva proxi SOCKS &amp;Version:</translation>
-    </message>
-    <message>
-        <location line="+13"/>
-        <source>SOCKS version of the proxy (e.g. 5)</source>
-        <translation>Turva proxi SOCKS versioon (nt 5)</translation>
-    </message>
-    <message>
-        <location line="+36"/>
         <source>&amp;Window</source>
         <translation>&amp;Aken</translation>
     </message>
@@ -967,12 +913,12 @@ Aadress: %4⏎</translation>
         <translation>&amp;Rakenda</translation>
     </message>
     <message>
-        <location filename="../optionsdialog.cpp" line="+53"/>
+        <location filename="../optionsdialog.cpp" line="+28"/>
         <source>default</source>
         <translation>vaikeväärtus</translation>
     </message>
     <message>
-        <location line="+130"/>
+        <location line="+116"/>
         <source>Confirm options reset</source>
         <translation>Kinnita valikute algseadistamine</translation>
     </message>
@@ -988,20 +934,13 @@ Aadress: %4⏎</translation>
     </message>
     <message>
         <location line="+42"/>
-        <location line="+9"/>
         <source>Warning</source>
         <translation>Hoiatus</translation>
     </message>
     <message>
-        <location line="-9"/>
-        <location line="+9"/>
+        <location line="+0"/>
         <source>This setting will take effect after restarting Primecoin.</source>
         <translation>Tehtud valik rakendub Primecoini käivitamisel.</translation>
-    </message>
-    <message>
-        <location line="+29"/>
-        <source>The supplied proxy address is invalid.</source>
-        <translation>Sisestatud kehtetu proxy aadress.</translation>
     </message>
 </context>
 <context>
@@ -1012,7 +951,7 @@ Aadress: %4⏎</translation>
         <translation>Vorm</translation>
     </message>
     <message>
-        <location line="+50"/>
+        <location line="+34"/>
         <location line="+166"/>
         <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Primecoin network after a connection is established, but this process has not completed yet.</source>
         <translation>Kuvatav info ei pruugi olla ajakohane. Ühenduse loomisel süngitakse sinu rahakott automaatselt Bitconi võrgustikuga, kuid see toiming on hetkel lõpetamata.</translation>
@@ -1067,9 +1006,9 @@ Aadress: %4⏎</translation>
 <context>
     <name>PaymentServer</name>
     <message>
-        <location filename="../paymentserver.cpp" line="+107"/>
-        <source>Cannot start bitcoin: click-to-pay handler</source>
-        <translation>Primecoin ei käivitu: vajuta-maksa toiming</translation>
+        <location filename="../paymentserver.cpp" line="+108"/>
+        <source>Cannot start primecoin: click-to-pay handler</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1147,7 +1086,7 @@ Aadress: %4⏎</translation>
         <location line="+53"/>
         <location line="+23"/>
         <location line="+23"/>
-        <location filename="../rpcconsole.cpp" line="+339"/>
+        <location filename="../rpcconsole.cpp" line="+340"/>
         <source>N/A</source>
         <translation>N/A</translation>
     </message>
@@ -1217,12 +1156,7 @@ Aadress: %4⏎</translation>
         <translation>Käsurea valikud</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <source>Show the Primecoin-Qt help message to get a list with possible Bitcoin command-line options.</source>
-        <translation>Näita kehtivate käsurea valikute kuvamiseks Primecoini-Qt abiteksti</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+10"/>
         <source>&amp;Show</source>
         <translation>&amp;Kuva</translation>
     </message>
@@ -1257,7 +1191,12 @@ Aadress: %4⏎</translation>
         <translation>Ava Primecoini logifail praegusest andmekaustast. Toiminguks võib kuluda kuni mõni sekund.</translation>
     </message>
     <message>
-        <location line="+102"/>
+        <location line="+26"/>
+        <source>Show the Primecoin-Qt help message to get a list with possible Primecoin command-line options.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+76"/>
         <source>Clear console</source>
         <translation>Puhasta konsool</translation>
     </message>
@@ -1281,7 +1220,7 @@ Aadress: %4⏎</translation>
     <name>SendCoinsDialog</name>
     <message>
         <location filename="../forms/sendcoinsdialog.ui" line="+14"/>
-        <location filename="../sendcoinsdialog.cpp" line="+124"/>
+        <location filename="../sendcoinsdialog.cpp" line="+121"/>
         <location line="+5"/>
         <location line="+5"/>
         <location line="+5"/>
@@ -1358,8 +1297,8 @@ Aadress: %4⏎</translation>
     </message>
     <message>
         <location line="+5"/>
-        <source>The amount to pay must be larger than 0.</source>
-        <translation>Makstav summa peab olema suurem kui 0.</translation>
+        <source>The amount to pay must be at least one cent (0.01).</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+5"/>
@@ -1447,8 +1386,8 @@ Aadress: %4⏎</translation>
     </message>
     <message>
         <location filename="../sendcoinsentry.cpp" line="+1"/>
-        <source>Enter a Primecoin address (e.g. 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</source>
-        <translation>Sisesta Primecoini aadress (nt: 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</translation>
+        <source>Enter a Primecoin address</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1564,8 +1503,8 @@ Aadress: %4⏎</translation>
     <message>
         <location filename="../signverifymessagedialog.cpp" line="+27"/>
         <location line="+3"/>
-        <source>Enter a Primecoin address (e.g. 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</source>
-        <translation>Sisesta Primecoini aadress (nt: 1NS17iag9jJgTHD1VXjvLCEnZuQ3rJDE9L)</translation>
+        <source>Enter a Primecoin address</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="-2"/>
@@ -1648,13 +1587,23 @@ Aadress: %4⏎</translation>
     <name>SplashScreen</name>
     <message>
         <location filename="../splashscreen.cpp" line="+22"/>
+        <source>The Primecoin developers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>The Bitcoin developers</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>The PPCoin developers</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+1"/>
         <source>[testnet]</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">[testnet]</translation>
     </message>
 </context>
 <context>
@@ -1687,7 +1636,10 @@ Aadress: %4⏎</translation>
     <message numerus="yes">
         <location line="+7"/>
         <source>, broadcast through %n node(s)</source>
-        <translation><numerusform>, levita läbi %n node&apos;i</numerusform><numerusform>, levita läbi %n node&apos;i</numerusform></translation>
+        <translation>
+            <numerusform>, levita läbi %n node&apos;i</numerusform>
+            <numerusform>, levita läbi %n node&apos;i</numerusform>
+        </translation>
     </message>
     <message>
         <location line="+4"/>
@@ -1740,7 +1692,10 @@ Aadress: %4⏎</translation>
     <message numerus="yes">
         <location line="-102"/>
         <source>matures in %n more block(s)</source>
-        <translation><numerusform>aegub %n bloki pärast</numerusform><numerusform>aegub %n bloki pärast</numerusform></translation>
+        <translation>
+            <numerusform>aegub %n bloki pärast</numerusform>
+            <numerusform>aegub %n bloki pärast</numerusform>
+        </translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1782,8 +1737,8 @@ Aadress: %4⏎</translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>Generated coins must mature 120 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to &quot;not accepted&quot; and it won&apos;t be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
-        <translation>Enne, kui loodud münte saab kulutama asuda, peavad need läbima 120 blokki. Kui sina selle bloki lõid, levitati see, bloki jadasse ühendamiseks, võrgustikku. Kui jadasse ühendamine ei õnnestu, muudetakse tema staatus &quot;keeldutud&quot; olekusse ning seda ei saa kulutada. Selline olukord võib juhtuda, kui mõni teine node loob bloki sinuga samal ajal.</translation>
+        <source>Generated coins must mature 3200 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to &quot;not accepted&quot; and it won&apos;t be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
+        <translation type="unfinished">Enne, kui loodud münte saab kulutama asuda, peavad need läbima 120 blokki. Kui sina selle bloki lõid, levitati see, bloki jadasse ühendamiseks, võrgustikku. Kui jadasse ühendamine ei õnnestu, muudetakse tema staatus &quot;keeldutud&quot; olekusse ning seda ei saa kulutada. Selline olukord võib juhtuda, kui mõni teine node loob bloki sinuga samal ajal. {3200 ?}</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -1823,7 +1778,10 @@ Aadress: %4⏎</translation>
     <message numerus="yes">
         <location line="-35"/>
         <source>Open for %n more block(s)</source>
-        <translation><numerusform>Avaneb %n bloki pärast</numerusform><numerusform>Avaneb %n bloki pärast</numerusform></translation>
+        <translation>
+            <numerusform>Avaneb %n bloki pärast</numerusform>
+            <numerusform>Avaneb %n bloki pärast</numerusform>
+        </translation>
     </message>
     <message>
         <location line="+70"/>
@@ -1869,7 +1827,10 @@ Aadress: %4⏎</translation>
     <message numerus="yes">
         <location line="+57"/>
         <source>Open for %n more block(s)</source>
-        <translation><numerusform>Avaneb %n bloki pärast</numerusform><numerusform>Avaneb %n bloki pärast</numerusform></translation>
+        <translation>
+            <numerusform>Avaneb %n bloki pärast</numerusform>
+            <numerusform>Avaneb %n bloki pärast</numerusform>
+        </translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1894,7 +1855,10 @@ Aadress: %4⏎</translation>
     <message numerus="yes">
         <location line="+8"/>
         <source>Mined balance will be available when it matures in %n more block(s)</source>
-        <translation><numerusform>Mine&apos;itud jääk muutub kättesaadavaks %n bloki läbimisel</numerusform><numerusform>Mine&apos;itud jääk muutub kättesaadavaks %n bloki läbimisel</numerusform></translation>
+        <translation>
+            <numerusform>Mine&apos;itud jääk muutub kättesaadavaks %n bloki läbimisel</numerusform>
+            <numerusform>Mine&apos;itud jääk muutub kättesaadavaks %n bloki läbimisel</numerusform>
+        </translation>
     </message>
     <message>
         <location line="+5"/>
@@ -1965,13 +1929,13 @@ Aadress: %4⏎</translation>
 <context>
     <name>TransactionView</name>
     <message>
-        <location filename="../transactionview.cpp" line="+52"/>
-        <location line="+16"/>
+        <location filename="../transactionview.cpp" line="+46"/>
+        <location line="+12"/>
         <source>All</source>
         <translation>Kõik</translation>
     </message>
     <message>
-        <location line="-15"/>
+        <location line="-11"/>
         <source>Today</source>
         <translation>Täna</translation>
     </message>
@@ -2001,7 +1965,7 @@ Aadress: %4⏎</translation>
         <translation>Ulatus...</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+7"/>
         <source>Received with</source>
         <translation>Saadud koos</translation>
     </message>
@@ -2036,7 +2000,7 @@ Aadress: %4⏎</translation>
         <translation>Vähim summa</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+26"/>
         <source>Copy address</source>
         <translation>Aadressi kopeerimine</translation>
     </message>
@@ -2136,23 +2100,23 @@ Aadress: %4⏎</translation>
     <message>
         <location filename="../walletmodel.cpp" line="+193"/>
         <source>Send Coins</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Müntide saatmine</translation>
     </message>
 </context>
 <context>
     <name>WalletView</name>
     <message>
-        <location filename="../walletview.cpp" line="+42"/>
+        <location filename="../walletview.cpp" line="+41"/>
         <source>&amp;Export</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Export the data in the current tab to a file</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+193"/>
+        <location line="+192"/>
         <source>Backup Wallet</source>
         <translation>Varundatud Rahakott</translation>
     </message>
@@ -2185,17 +2149,12 @@ Aadress: %4⏎</translation>
 <context>
     <name>bitcoin-core</name>
     <message>
-        <location filename="../bitcoinstrings.cpp" line="+94"/>
-        <source>Bitcoin version</source>
-        <translation>Primecoini versioon</translation>
-    </message>
-    <message>
-        <location line="+102"/>
+        <location filename="../bitcoinstrings.cpp" line="+194"/>
         <source>Usage:</source>
         <translation>Kasutus:</translation>
     </message>
     <message>
-        <location line="-29"/>
+        <location line="-28"/>
         <source>Send command to -server or primecoind</source>
         <translation>Saada käsklus -serverile või primecoindile</translation>
     </message>
@@ -2205,17 +2164,17 @@ Aadress: %4⏎</translation>
         <translation>Käskluste loetelu</translation>
     </message>
     <message>
-        <location line="-12"/>
+        <location line="-9"/>
         <source>Get help for a command</source>
         <translation>Käskluste abiinfo</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+21"/>
         <source>Options:</source>
         <translation>Valikud:</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+23"/>
         <source>Specify configuration file (default: primecoin.conf)</source>
         <translation>Täpsusta sätete fail (vaikimisi: primecoin.conf)</translation>
     </message>
@@ -2235,7 +2194,7 @@ Aadress: %4⏎</translation>
         <translation>Sea andmebaasi vahemälu suurus MB (vaikeväärtus: 25)</translation>
     </message>
     <message>
-        <location line="-28"/>
+        <location line="-27"/>
         <source>Listen for connections on &lt;port&gt; (default: 9911 or testnet: 9913)</source>
         <translation>Kuula ühendusi pordil &lt;port&gt; (vaikeväärtus: 9911 või testnet: 9913)</translation>
     </message>
@@ -2245,12 +2204,12 @@ Aadress: %4⏎</translation>
         <translation>Säilita vähemalt &lt;n&gt; ühendust peeridega (vaikeväärtus: 125)</translation>
     </message>
     <message>
-        <location line="-48"/>
+        <location line="-46"/>
         <source>Connect to a node to retrieve peer addresses, and disconnect</source>
         <translation>Peeri aadressi saamiseks ühendu korraks node&apos;iga</translation>
     </message>
     <message>
-        <location line="+82"/>
+        <location line="+79"/>
         <source>Specify your own public address</source>
         <translation>Täpsusta enda avalik aadress</translation>
     </message>
@@ -2260,12 +2219,27 @@ Aadress: %4⏎</translation>
         <translation>Ulakate peeride valulävi (vaikeväärtus: 100)</translation>
     </message>
     <message>
-        <location line="-134"/>
+        <location line="-131"/>
         <source>Number of seconds to keep misbehaving peers from reconnecting (default: 86400)</source>
         <translation>Mitme sekundi pärast ulakad peerid tagasi võivad tulla (vaikeväärtus: 86400)</translation>
     </message>
     <message>
-        <location line="-29"/>
+        <location line="-45"/>
+        <source>%s, you must set a rpcpassword in the configuration file:
+%s
+It is recommended you use the following random password:
+rpcuser=primecoinrpc
+rpcpassword=%s
+(you do not need to remember this password)
+The username and password MUST NOT be the same.
+If the file does not exist, create it with owner-readable-only file permissions.
+It is also recommended to set alertnotify so you are notified of problems;
+for example: alertnotify=echo %%s | mail -s &quot;Primecoin Alert&quot; admin@foo.com
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+16"/>
         <source>An error occurred while setting up the RPC port %u for listening on IPv4: %s</source>
         <translation>RPC pordi %u kuulamiseks seadistamisel ilmnes viga IPv4&apos;l: %s</translation>
     </message>
@@ -2275,52 +2249,27 @@ Aadress: %4⏎</translation>
         <translation>Kuula JSON-RPC ühendusel seda porti &lt;port&gt; (vaikeväärtus: 9912 või testnet: 9914)</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+40"/>
         <source>Accept command line and JSON-RPC commands</source>
         <translation>Luba käsurea ning JSON-RPC käsklusi</translation>
     </message>
     <message>
-        <location line="+76"/>
+        <location line="+72"/>
         <source>Run in the background as a daemon and accept commands</source>
         <translation>Tööta taustal ning aktsepteeri käsklusi</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+32"/>
         <source>Use the test network</source>
         <translation>Testvõrgu kasutamine</translation>
     </message>
     <message>
-        <location line="-112"/>
+        <location line="-103"/>
         <source>Accept connections from outside (default: 1 if no -proxy or -connect)</source>
         <translation>Luba välisühendusi (vaikeväärtus: 1 kui puudub -proxy või -connect)</translation>
     </message>
     <message>
-        <location line="-80"/>
-        <source>%s, you must set a rpcpassword in the configuration file:
-%s
-It is recommended you use the following random password:
-rpcuser=bitcoinrpc
-rpcpassword=%s
-(you do not need to remember this password)
-The username and password MUST NOT be the same.
-If the file does not exist, create it with owner-readable-only file permissions.
-It is also recommended to set alertnotify so you are notified of problems;
-for example: alertnotify=echo %%s | mail -s &quot;Primecoin Alert&quot; admin@foo.com
-</source>
-        <translation>%s, sul tuleb rpcpassword määrata seadete failis:
-%s
-Soovitatav on kasutada järgmist juhuslikku parooli:
-rpcuser=bitcoinrpc
-rpcpassword=%s
-(seda parooli ei pea meeles pidama)
-Kasutajanimi ning parool EI TOHI kattuda.
-Kui faili ei leita, loo see ainult-omaniku-loetavas failiõigustes .
-Soovitatav on seadistada tõrgete puhul teavitus;
-nt: alertnotify=echo %%s | email -s &quot;Primecoin Alert&quot; admin@foo.com
-</translation>
-    </message>
-    <message>
-        <location line="+17"/>
+        <location line="-66"/>
         <source>An error occurred while setting up the RPC port %u for listening on IPv6, falling back to IPv4: %s</source>
         <translation>RPC pordi %u kuulamiseks seadistamisel ilmnes viga IPv6&apos;l, lülitumine tagasi IPv4&apos;le : %s</translation>
     </message>
@@ -2381,6 +2330,11 @@ nt: alertnotify=echo %%s | email -s &quot;Primecoin Alert&quot; admin@foo.com
     </message>
     <message>
         <location line="+3"/>
+        <source>Warning: checkpoint on different blockchain fork, contact developers to resolve the issue</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Warning: error reading wallet.dat! All keys read correctly, but transaction data or address book entries might be missing or incorrect.</source>
         <translation>Hoiatus: ilmnes tõrge wallet.dat faili lugemisel! Võtmed on terved, kuid tehingu andmed või aadressiraamatu kirjed võivad olla kadunud või vigased.</translation>
     </message>
@@ -2395,17 +2349,17 @@ nt: alertnotify=echo %%s | email -s &quot;Primecoin Alert&quot; admin@foo.com
         <translation>Püüa vigasest wallet.dat failist taastada turvavõtmed</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+1"/>
         <source>Block creation options:</source>
         <translation>Blokeeri loomise valikud:</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+4"/>
         <source>Connect only to the specified node(s)</source>
         <translation>Ühendu ainult määratud node&apos;i(de)ga</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+2"/>
         <source>Corrupted block database detected</source>
         <translation>Tuvastati vigane bloki andmebaas</translation>
     </message>
@@ -2476,6 +2430,11 @@ nt: alertnotify=echo %%s | email -s &quot;Primecoin Alert&quot; admin@foo.com
     </message>
     <message>
         <location line="+1"/>
+        <source>Failed to write block index for moneysupply</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Failed to write block index</source>
         <translation>Bloki indeksi kirjutamine ebaõnnestus</translation>
     </message>
@@ -2510,14 +2469,19 @@ nt: alertnotify=echo %%s | email -s &quot;Primecoin Alert&quot; admin@foo.com
         <translation>Tagasivõtmise andmete kirjutamine ebaõnnestus</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+1"/>
+        <source>Fee per KB to add to transactions you send (minimum 1 cent)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Find peers using DNS lookup (default: 1 unless -connect)</source>
         <translation>Otsi DNS&apos;i lookup&apos;i kastavaid peere (vaikeväärtus: 1, kui mitte -connect)</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Generate coins (default: 0)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2530,22 +2494,42 @@ nt: alertnotify=echo %%s | email -s &quot;Primecoin Alert&quot; admin@foo.com
         <translation>Blokkide kontrollimise põhjalikkus (0-4, vaikeväärtus: 3)</translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="+16"/>
         <source>Not enough file descriptors available.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
+        <source>Prepend debug output with timestamp (default: 1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Primecoin version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Rebuild block chain index from current blk000??.dat files</source>
         <translation>Taasta bloki jada indeks blk000??.dat failist</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+4"/>
+        <source>SSL options: (see the Bitcoin Wiki for SSL setup instructions)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
         <source>Set the number of threads to service RPC calls (default: 4)</source>
         <translation>Määra RPC kõnede haldurite arv (vaikeväärtus: 4)</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+16"/>
+        <source>Unable to sign checkpoint, wrong checkpointkey?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
         <source>Verifying blocks...</source>
         <translation>Kontrollin blokke...</translation>
     </message>
@@ -2555,37 +2539,22 @@ nt: alertnotify=echo %%s | email -s &quot;Primecoin Alert&quot; admin@foo.com
         <translation>Kontrollin rahakotti...</translation>
     </message>
     <message>
-        <location line="-69"/>
+        <location line="-62"/>
         <source>Imports blocks from external blk000??.dat file</source>
         <translation>Impordi blokid välisest blk000??.dat failist</translation>
     </message>
     <message>
-        <location line="-76"/>
+        <location line="-77"/>
         <source>Set the number of script verification threads (up to 16, 0 = auto, &lt;0 = leave that many cores free, default: 0)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+77"/>
+        <location line="+78"/>
         <source>Information</source>
         <translation>Informatsioon</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <source>Invalid -tor address: &apos;%s&apos;</source>
-        <translation>Vigane -tor aadress: &apos;%s&apos;</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Invalid amount for -minrelaytxfee=&lt;amount&gt;: &apos;%s&apos;</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Invalid amount for -mintxfee=&lt;amount&gt;: &apos;%s&apos;</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+8"/>
+        <location line="+10"/>
         <source>Maintain a full transaction index (default: 0)</source>
         <translation>Säilita kogu tehingu indeks (vaikeväärtus: 0)</translation>
     </message>
@@ -2620,29 +2589,9 @@ nt: alertnotify=echo %%s | email -s &quot;Primecoin Alert&quot; admin@foo.com
         <translation>Lisa võrgu debug&apos;imise info väljund</translation>
     </message>
     <message>
-        <location line="+2"/>
-        <source>Prepend debug output with timestamp</source>
-        <translation>Varusta debugi väljund ajatempliga</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>SSL options: (see the Primecoin Wiki for SSL setup instructions)</source>
-        <translation>SSL valikud: (vaata Primecoini Wikist või SSL sätete juhendist)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Select the version of socks proxy to use (4-5, default: 5)</source>
-        <translation>Vali turva proxi SOCKS versioon (4-5, vaikeväärtus: 5)</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="+11"/>
         <source>Send trace/debug info to console instead of debug.log file</source>
         <translation>Saada jälitus/debug, debug.log faili asemel, konsooli</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Send trace/debug info to debugger</source>
-        <translation>Saada jälitus/debug info debuggerile</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -2662,7 +2611,7 @@ nt: alertnotify=echo %%s | email -s &quot;Primecoin Alert&quot; admin@foo.com
     <message>
         <location line="+1"/>
         <source>Signing transaction failed</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2677,35 +2626,20 @@ nt: alertnotify=echo %%s | email -s &quot;Primecoin Alert&quot; admin@foo.com
     <message>
         <location line="+4"/>
         <source>Transaction amount too small</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Transaction amounts must be positive</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Transaction too large</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+7"/>
-        <source>Use UPnP to map the listening port (default: 0)</source>
-        <translation>Kasuta kuulatava pordi määramiseks UPnP ühendust (vaikeväärtus: 0)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Use UPnP to map the listening port (default: 1 when listening)</source>
-        <translation>Kasuta kuulatava pordi määramiseks UPnP ühendust (vaikeväärtus: 1, kui kuulatakse)</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Use proxy to reach tor hidden services (default: same as -proxy)</source>
-        <translation>Kasuta varjatud teenustele ligipääsuks proxy&apos;t (vaikeväärtus: sama, mis -proxy)</translation>
-    </message>
-    <message>
-        <location line="+2"/>
+        <location line="+8"/>
         <source>Username for JSON-RPC connections</source>
         <translation>JSON-RPC ühenduste kasutajatunnus</translation>
     </message>
@@ -2730,42 +2664,37 @@ nt: alertnotify=echo %%s | email -s &quot;Primecoin Alert&quot; admin@foo.com
         <translation>wallet.dat fail on katki, päästmine ebaõnnestus</translation>
     </message>
     <message>
-        <location line="-50"/>
+        <location line="-46"/>
         <source>Password for JSON-RPC connections</source>
         <translation>JSON-RPC ühenduste salasõna</translation>
     </message>
     <message>
-        <location line="-67"/>
+        <location line="-62"/>
         <source>Allow JSON-RPC connections from specified IP address</source>
         <translation>JSON-RPC ühenduste lubamine kindla IP pealt</translation>
     </message>
     <message>
-        <location line="+76"/>
+        <location line="+71"/>
         <source>Send commands to node running on &lt;ip&gt; (default: 127.0.0.1)</source>
         <translation>Saada käsklusi node&apos;ile IP&apos;ga &lt;ip&gt; (vaikeväärtus: 127.0.0.1)</translation>
     </message>
     <message>
-        <location line="-120"/>
+        <location line="-118"/>
         <source>Execute command when the best block changes (%s in cmd is replaced by block hash)</source>
         <translation>Käivita käsklus, kui parim plokk muutub (käskluse %s asendatakse ploki hash&apos;iga)</translation>
     </message>
     <message>
-        <location line="+147"/>
-        <source>Upgrade wallet to latest format</source>
-        <translation>Uuenda rahakott uusimasse vormingusse</translation>
-    </message>
-    <message>
-        <location line="-21"/>
+        <location line="+123"/>
         <source>Set key pool size to &lt;n&gt; (default: 100)</source>
         <translation>Sea võtmete hulgaks &lt;n&gt; (vaikeväärtus: 100)</translation>
     </message>
     <message>
-        <location line="-12"/>
+        <location line="-10"/>
         <source>Rescan the block chain for missing wallet transactions</source>
         <translation>Otsi ploki jadast rahakoti kadunud tehinguid</translation>
     </message>
     <message>
-        <location line="+35"/>
+        <location line="+33"/>
         <source>Use OpenSSL (https) for JSON-RPC connections</source>
         <translation>Kasuta JSON-RPC ühenduste jaoks OpenSSL&apos;i (https)</translation>
     </message>
@@ -2780,12 +2709,12 @@ nt: alertnotify=echo %%s | email -s &quot;Primecoin Alert&quot; admin@foo.com
         <translation>Serveri privaatvõti (vaikeväärtus: server.pem)</translation>
     </message>
     <message>
-        <location line="-151"/>
+        <location line="-148"/>
         <source>Acceptable ciphers (default: TLSv1+HIGH:!SSLv2:!aNULL:!eNULL:!AH:!3DES:@STRENGTH)</source>
         <translation>Lubatud šiffrid (vaikeväärtus: TLSv1+HIGH:!SSLv2:!aNULL:!eNULL:!AH:!3DES:@STRENGTH)</translation>
     </message>
     <message>
-        <location line="+165"/>
+        <location line="+162"/>
         <source>This help message</source>
         <translation>Käesolev abitekst</translation>
     </message>
@@ -2795,22 +2724,17 @@ nt: alertnotify=echo %%s | email -s &quot;Primecoin Alert&quot; admin@foo.com
         <translation>Selle arvutiga ei ole võimalik siduda %s külge (katse nurjus %d, %s tõttu)</translation>
     </message>
     <message>
-        <location line="-91"/>
-        <source>Connect through socks proxy</source>
-        <translation>Ühendu läbi turva proxi</translation>
-    </message>
-    <message>
-        <location line="-10"/>
+        <location line="-95"/>
         <source>Allow DNS lookups for -addnode, -seednode and -connect</source>
         <translation>-addnode, -seednode ja -connect tohivad kasutada DNS lookup&apos;i</translation>
     </message>
     <message>
-        <location line="+55"/>
+        <location line="+50"/>
         <source>Loading addresses...</source>
         <translation>Aadresside laadimine...</translation>
     </message>
     <message>
-        <location line="-35"/>
+        <location line="-33"/>
         <source>Error loading wallet.dat: Wallet corrupted</source>
         <translation>Viga wallet.dat käivitamisel. Vigane rahakkott</translation>
     </message>
@@ -2820,22 +2744,22 @@ nt: alertnotify=echo %%s | email -s &quot;Primecoin Alert&quot; admin@foo.com
         <translation>Viga wallet.dat käivitamisel: Rahakott nõuab Primecoini uusimat versiooni</translation>
     </message>
     <message>
-        <location line="+93"/>
+        <location line="+87"/>
         <source>Wallet needed to be rewritten: restart Primecoin to complete</source>
         <translation>Rahakott tuli ümberkirjutada: toimingu lõpetamiseks taaskäivita Primecoin</translation>
     </message>
     <message>
-        <location line="-95"/>
+        <location line="-89"/>
         <source>Error loading wallet.dat</source>
         <translation>Viga wallet.dat käivitamisel</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location line="+29"/>
         <source>Invalid -proxy address: &apos;%s&apos;</source>
         <translation>Vigane -proxi aadress: &apos;%s&apos;</translation>
     </message>
     <message>
-        <location line="+56"/>
+        <location line="+53"/>
         <source>Unknown network specified in -onlynet: &apos;%s&apos;</source>
         <translation>Kirjeldatud tundmatu võrgustik -onlynet&apos;is: &apos;%s&apos;</translation>
     </message>
@@ -2845,7 +2769,7 @@ nt: alertnotify=echo %%s | email -s &quot;Primecoin Alert&quot; admin@foo.com
         <translation>Küsitud tundmatu -socks proxi versioon: %i</translation>
     </message>
     <message>
-        <location line="-96"/>
+        <location line="-93"/>
         <source>Cannot resolve -bind address: &apos;%s&apos;</source>
         <translation>Tundmatu -bind aadress: &apos;%s&apos;</translation>
     </message>
@@ -2855,7 +2779,7 @@ nt: alertnotify=echo %%s | email -s &quot;Primecoin Alert&quot; admin@foo.com
         <translation>Tundmatu -externalip aadress: &apos;%s&apos;</translation>
     </message>
     <message>
-        <location line="+44"/>
+        <location line="+41"/>
         <source>Invalid amount for -paytxfee=&lt;amount&gt;: &apos;%s&apos;</source>
         <translation>-paytxfee=&lt;amount&gt; jaoks vigane kogus: &apos;%s&apos;</translation>
     </message>
@@ -2865,67 +2789,57 @@ nt: alertnotify=echo %%s | email -s &quot;Primecoin Alert&quot; admin@foo.com
         <translation>Kehtetu summa</translation>
     </message>
     <message>
-        <location line="-6"/>
+        <location line="-3"/>
         <source>Insufficient funds</source>
         <translation>Liiga suur summa</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+7"/>
         <source>Loading block index...</source>
         <translation>Klotside indeksi laadimine...</translation>
     </message>
     <message>
-        <location line="-57"/>
+        <location line="-52"/>
         <source>Add a node to connect to and attempt to keep the connection open</source>
         <translation>Lisa node ning hoia ühendus avatud</translation>
     </message>
     <message>
-        <location line="-25"/>
+        <location line="-28"/>
         <source>Unable to bind to %s on this computer. Primecoin is probably already running.</source>
         <translation>%s&apos;ga ei ole võimalik sellest arvutist siduda. Primecoin juba töötab.</translation>
     </message>
     <message>
-        <location line="+64"/>
-        <source>Fee per KB to add to transactions you send</source>
-        <translation>Minu saadetavate tehingute lisatasu KB kohta</translation>
-    </message>
-    <message>
-        <location line="+19"/>
+        <location line="+81"/>
         <source>Loading wallet...</source>
         <translation>Rahakoti laadimine...</translation>
     </message>
     <message>
-        <location line="-52"/>
-        <source>Cannot downgrade wallet</source>
-        <translation>Rahakoti vanandamine ebaõnnestus</translation>
-    </message>
-    <message>
-        <location line="+3"/>
+        <location line="-46"/>
         <source>Cannot write default address</source>
         <translation>Tõrge vaikimisi aadressi kirjutamisel</translation>
     </message>
     <message>
-        <location line="+64"/>
+        <location line="+62"/>
         <source>Rescanning...</source>
         <translation>Üleskaneerimine...</translation>
     </message>
     <message>
-        <location line="-57"/>
+        <location line="-56"/>
         <source>Done loading</source>
         <translation>Laetud</translation>
     </message>
     <message>
-        <location line="+82"/>
+        <location line="+79"/>
         <source>To use the %s option</source>
         <translation>%s valiku kasutamine</translation>
     </message>
     <message>
-        <location line="-74"/>
+        <location line="-71"/>
         <source>Error</source>
         <translation>Tõrge</translation>
     </message>
     <message>
-        <location line="-31"/>
+        <location line="-28"/>
         <source>You must set rpcpassword=&lt;password&gt; in the configuration file:
 %s
 If the file does not exist, create it with owner-readable-only file permissions.</source>

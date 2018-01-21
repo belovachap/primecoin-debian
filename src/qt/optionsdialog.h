@@ -1,5 +1,8 @@
-#ifndef OPTIONSDIALOG_H
-#define OPTIONSDIALOG_H
+// Copyright (c) 2017-2018 Chapman Shoop
+// See COPYING for license.
+
+#ifndef __OPTIONSDIALOG_H__
+#define __OPTIONSDIALOG_H__
 
 #include <QDialog>
 
@@ -22,9 +25,6 @@ public:
     void setModel(OptionsModel *model);
     void setMapper();
 
-protected:
-    bool eventFilter(QObject *object, QEvent *event);
-
 private slots:
     /* enable only apply button */
     void enableApplyButton();
@@ -41,21 +41,14 @@ private slots:
     void on_cancelButton_clicked();
     void on_applyButton_clicked();
 
-    void showRestartWarning_Proxy();
     void showRestartWarning_Lang();
     void updateDisplayUnit();
-    void handleProxyIpValid(QValidatedLineEdit *object, bool fState);
-
-signals:
-    void proxyIpValid(QValidatedLineEdit *object, bool fValid);
 
 private:
     Ui::OptionsDialog *ui;
     OptionsModel *model;
     MonitoredDataMapper *mapper;
-    bool fRestartWarningDisplayed_Proxy;
     bool fRestartWarningDisplayed_Lang;
-    bool fProxyIpValid;
 };
 
-#endif // OPTIONSDIALOG_H
+#endif // __OPTIONSDIALOG_H__

@@ -1,12 +1,7 @@
 # Copyright (c) 2009-2010 Satoshi Nakamoto
 # Copyright (c) 2013 Primecoind developers
-# Copyright (c) 2017 Chapman Shoop
+# Copyright (c) 2017-2018 Chapman Shoop
 # See COPYING for license.
-
-# :=0 --> UPnP support turned off by default at runtime
-# :=1 --> UPnP support turned on by default at runtime
-# :=- --> No UPnP support - miniupnp not required
-USE_UPNP:=0
 
 # :=1 --> Enable IPv6 support
 # :=0 --> Disable IPv6 support
@@ -46,14 +41,6 @@ LIBS += \
 TESTLIBS += \
  -Wl,-B$(LMODE) \
    -l boost_unit_test_framework$(BOOST_LIB_SUFFIX)
-
-ifndef USE_UPNP
-	override USE_UPNP = -
-endif
-ifneq (${USE_UPNP}, -)
-	LIBS += -l miniupnpc
-	DEFS += -DUSE_UPNP=$(USE_UPNP)
-endif
 
 ifneq (${USE_IPV6}, -)
 	DEFS += -DUSE_IPV6=$(USE_IPV6)

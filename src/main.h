@@ -63,11 +63,6 @@ static const int COINBASE_MATURITY = 3000;
 static const unsigned int LOCKTIME_THRESHOLD = 500000000; // Tue Nov  5 00:53:20 1985 UTC
 /** Maximum number of script-checking threads allowed */
 static const int MAX_SCRIPTCHECK_THREADS = 16;
-#ifdef USE_UPNP
-static const int fHaveUPnP = true;
-#else
-static const int fHaveUPnP = false;
-#endif
 
 static const uint256 hashGenesisBlockOfficial("0x963d17ba4dc753138078a2f56afb3af9674e2546822badff26837db9a0152106");
 static const uint256 hashGenesisBlockTestNet("0x221156cf301bc3585e72de34fe1efdb6fbd703bc27cfc468faa1cdd889d0efa0");
