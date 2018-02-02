@@ -2,18 +2,31 @@
 
 A fork of the reference primecoin client that focuses on support for Debian :wink:
 
-## Debian
-
 https://en.wikipedia.org/wiki/Debian
 
-### Debian 7
+## Debian 7 ("wheezy")
 
-[![Build Status](https://travis-ci.org/belovachap/primecoin.svg?branch=release-v0.0)](https://travis-ci.org/belovachap/primecoin)
+https://www.debian.org/releases/wheezy/
 
-Latest release tag: TBD
+https://wiki.debian.org/DebianWheezy
+
+[![Build Status](https://travis-ci.org/belovachap/primecoin-debian.svg?branch=release-v0.0)](https://travis-ci.org/belovachap/primecoin-debian)
 
 Release branch: release-v0.0
 
+Latest release tag: TBD
+
 | Dependency       | Version |
 | ---------------- | ------- |
-| lib              | TBD     |
+| build-essential  | TBD     |
+| libdb++-dev      | TBD     |
+| libboost-all-dev | TBD     |
+| qt4-dev-tools    | TBD     |
+
+### Building GUI
+
+Instructions on installing deps and building...
+
+### Building Daemon
+
+Instructions on installing deps and building...

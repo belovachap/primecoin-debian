@@ -1,3 +1,6 @@
+// Copyright (c) 2017-2018 Chapman Shoop
+// See COPYING for license.
+
 #include <boost/test/unit_test.hpp>
 
 #include <string>
@@ -15,7 +18,6 @@ BOOST_AUTO_TEST_CASE(netbase_networks)
     BOOST_CHECK(CNetAddr("::1").GetNetwork()                                    == NET_UNROUTABLE);
     BOOST_CHECK(CNetAddr("8.8.8.8").GetNetwork()                                == NET_IPV4);
     BOOST_CHECK(CNetAddr("2001::8888").GetNetwork()                             == NET_IPV6);
-    BOOST_CHECK(CNetAddr("FD87:D87E:EB43:edb1:8e4:3588:e546:35ca").GetNetwork() == NET_TOR);
 }
 
 BOOST_AUTO_TEST_CASE(netbase_properties)

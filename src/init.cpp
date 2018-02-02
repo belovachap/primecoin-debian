@@ -298,7 +298,7 @@ std::string HelpMessage()
         "  -onlynet=<net>         " + _("Only connect to nodes in network <net> (IPv4, IPv6 or Tor)") + "\n" +
         "  -discover              " + _("Discover own IP address (default: 1 when listening and no -externalip)") + "\n" +
         "  -checkpoints           " + _("Only accept block chain matching built-in checkpoints (default: 1)") + "\n" +
-        "  -listen                " + _("Accept connections from outside (default: 1 if no -proxy or -connect)") + "\n" +
+        "  -listen                " + _("Accept connections from outside (default: 1 if no -connect)") + "\n" +
         "  -bind=<addr>           " + _("Bind to given address and always listen on it. Use [host]:port notation for IPv6") + "\n" +
         "  -dnsseed               " + _("Find peers using DNS lookup (default: 1 unless -connect)") + "\n" +
         "  -banscore=<n>          " + _("Threshold for disconnecting misbehaving peers (default: 100)") + "\n" +
@@ -443,18 +443,13 @@ bool AppInit2(boost::thread_group& threadGroup)
 
     if (mapArgs.count("-bind")) {
         // when specifying an explicit binding address, you want to listen on it
-        // even when -connect or -proxy is specified
+        // even when -connect is specified
         SoftSetBoolArg("-listen", true);
     }
 
     if (mapArgs.count("-connect") && mapMultiArgs["-connect"].size() > 0) {
         // when only connecting to trusted nodes, do not seed via DNS, or listen by default
         SoftSetBoolArg("-dnsseed", false);
-        SoftSetBoolArg("-listen", false);
-    }
-
-    if (mapArgs.count("-proxy")) {
-        // to protect privacy, do not listen by default if a proxy server is specified
         SoftSetBoolArg("-listen", false);
     }
 
@@ -637,61 +632,16 @@ bool AppInit2(boost::thread_group& threadGroup)
 
     // ********************************************************* Step 6: network initialization
 
-    int nSocksVersion = GetArg("-socks", 5);
-    if (nSocksVersion != 4 && nSocksVersion != 5)
-        return InitError(strprintf(_("Unknown -socks proxy version requested: %i"), nSocksVersion));
-
-    if (mapArgs.count("-onlynet")) {
-        std::set<enum Network> nets;
-        BOOST_FOREACH(std::string snet, mapMultiArgs["-onlynet"]) {
-            enum Network net = ParseNetwork(snet);
-            if (net == NET_UNROUTABLE)
-                return InitError(strprintf(_("Unknown network specified in -onlynet: '%s'"), snet.c_str()));
-            nets.insert(net);
-        }
-        for (int n = 0; n < NET_MAX; n++) {
-            enum Network net = (enum Network)n;
-            if (!nets.count(net))
-                SetLimited(net);
-        }
-    }
-#if defined(USE_IPV6)
-#if ! USE_IPV6
-    else
-        SetLimited(NET_IPV6);
-#endif
-#endif
-
-    CService addrProxy;
-    bool fProxy = false;
-    if (mapArgs.count("-proxy")) {
-        addrProxy = CService(mapArgs["-proxy"], 9050);
-        if (!addrProxy.IsValid())
-            return InitError(strprintf(_("Invalid -proxy address: '%s'"), mapArgs["-proxy"].c_str()));
-
-        if (!IsLimited(NET_IPV4))
-            SetProxy(NET_IPV4, addrProxy, nSocksVersion);
-        if (nSocksVersion > 4) {
-#ifdef USE_IPV6
-            if (!IsLimited(NET_IPV6))
-                SetProxy(NET_IPV6, addrProxy, nSocksVersion);
-#endif
-            SetNameProxy(addrProxy, nSocksVersion);
-        }
-        fProxy = true;
-    }
-
     // see Step 2: parameter interactions for more information about these
     fNoListen = !GetBoolArg("-listen", true);
     fDiscover = GetBoolArg("-discover", true);
-    fNameLookup = GetBoolArg("-dns", true);
 
     bool fBound = false;
     if (!fNoListen) {
         if (mapArgs.count("-bind")) {
             BOOST_FOREACH(std::string strBind, mapMultiArgs["-bind"]) {
                 CService addrBind;
-                if (!Lookup(strBind.c_str(), addrBind, GetListenPort(), false))
+                if (!Lookup(strBind.c_str(), addrBind, GetListenPort()))
                     return InitError(strprintf(_("Cannot resolve -bind address: '%s'"), strBind.c_str()));
                 fBound |= Bind(addrBind, (BF_EXPLICIT | BF_REPORT_ERROR));
             }
@@ -710,10 +660,10 @@ bool AppInit2(boost::thread_group& threadGroup)
 
     if (mapArgs.count("-externalip")) {
         BOOST_FOREACH(string strAddr, mapMultiArgs["-externalip"]) {
-            CService addrLocal(strAddr, GetListenPort(), fNameLookup);
+            CService addrLocal(strAddr, GetListenPort());
             if (!addrLocal.IsValid())
                 return InitError(strprintf(_("Cannot resolve -externalip address: '%s'"), strAddr.c_str()));
-            AddLocal(CService(strAddr, GetListenPort(), fNameLookup), LOCAL_MANUAL);
+            AddLocal(CService(strAddr, GetListenPort()), LOCAL_MANUAL);
         }
     }
 
