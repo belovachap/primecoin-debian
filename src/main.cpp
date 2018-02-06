@@ -18,22 +18,19 @@
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
 
-using namespace std;
-using namespace boost;
-
 //
 // Global state
 //
 
 CCriticalSection cs_setpwalletRegistered;
-set<CWallet*> setpwalletRegistered;
+std::set<CWallet*> setpwalletRegistered;
 
 CCriticalSection cs_main;
 
 CTxMemPool mempool;
 unsigned int nTransactionsUpdated = 0;
 
-map<uint256, CBlockIndex*> mapBlockIndex;
+std::map<uint256, CBlockIndex*> mapBlockIndex;
 uint256 hashGenesisBlock = hashGenesisBlockOfficial;
 CBlockIndex* pindexGenesisBlock = NULL;
 int nBestHeight = -1;
@@ -41,7 +38,7 @@ uint256 nBestChainWork = 0;
 uint256 nBestInvalidWork = 0;
 uint256 hashBestChain = 0;
 CBlockIndex* pindexBest = NULL;
-set<CBlockIndex*, CBlockIndexWorkComparator> setBlockIndexValid; // may contain all CBlockIndex*'s that have validness >=BLOCK_VALID_TRANSACTIONS, and must contain those who aren't failed
+std::set<CBlockIndex*, CBlockIndexWorkComparator> setBlockIndexValid; // may contain all CBlockIndex*'s that have validness >=BLOCK_VALID_TRANSACTIONS, and must contain those who aren't failed
 int64 nTimeBestReceived = 0;
 int nScriptCheckThreads = 0;
 bool fImporting = false;
@@ -57,16 +54,16 @@ int64 CTransaction::nMinRelayTxFee = MIN_TX_FEE;
 
 CMedianFilter<int> cPeerBlockCounts(8, 0); // Amount of blocks that other nodes claim to have
 
-map<uint256, CBlock*> mapOrphanBlocks;
-multimap<uint256, CBlock*> mapOrphanBlocksByPrev;
+std::map<uint256, CBlock*> mapOrphanBlocks;
+std::multimap<uint256, CBlock*> mapOrphanBlocksByPrev;
 
-map<uint256, CTransaction> mapOrphanTransactions;
-map<uint256, set<uint256> > mapOrphanTransactionsByPrev;
+std::map<uint256, CTransaction> mapOrphanTransactions;
+std::map<uint256, std::set<uint256> > mapOrphanTransactionsByPrev;
 
 // Constant stuff for coinbase transactions we create:
 CScript COINBASE_FLAGS;
 
-const string strMessageMagic = "Primecoin Signed Message:\n";
+const std::string strMessageMagic = "Primecoin Signed Message:\n";
 
 double dPrimesPerSec = 0.0;
 double dChainsPerDay = 0.0;
@@ -336,7 +333,7 @@ unsigned int LimitOrphanTxSize(unsigned int nMaxOrphans)
     {
         // Evict a random orphan:
         uint256 randomhash = GetRandHash();
-        map<uint256, CTransaction>::iterator it = mapOrphanTransactions.lower_bound(randomhash);
+        std::map<uint256, CTransaction>::iterator it = mapOrphanTransactions.lower_bound(randomhash);
         if (it == mapOrphanTransactions.end())
             it = mapOrphanTransactions.begin();
         EraseOrphanTx(it->first);
@@ -369,7 +366,7 @@ bool CTxOut::IsDust() const
     return ((nValue*1000)/(3*((int)GetSerializeSize(SER_DISK,0)+148)) < CTransaction::nMinRelayTxFee);
 }
 
-bool CTransaction::IsStandard(string& strReason) const
+bool CTransaction::IsStandard(std::string& strReason) const
 {
     if (nVersion > CTransaction::CURRENT_VERSION || nVersion < 1) {
         strReason = "version";
@@ -438,7 +435,7 @@ bool CTransaction::AreInputsStandard(CCoinsViewCache& mapInputs) const
     {
         const CTxOut& prev = GetOutputFor(vin[i], mapInputs);
 
-        vector<vector<unsigned char> > vSolutions;
+        std::vector<std::vector<unsigned char> > vSolutions;
         txnouttype whichType;
         // get the scriptPubKey corresponding to this input:
         const CScript& prevScript = prev.scriptPubKey;
@@ -453,7 +450,7 @@ bool CTransaction::AreInputsStandard(CCoinsViewCache& mapInputs) const
         // be quick, because if there are any operations
         // beside "push data" in the scriptSig the
         // IsStandard() call returns false
-        vector<vector<unsigned char> > stack;
+        std::vector<std::vector<unsigned char> > stack;
         if (!EvalScript(stack, vin[i].scriptSig, *this, i, false, 0))
             return false;
 
@@ -462,7 +459,7 @@ bool CTransaction::AreInputsStandard(CCoinsViewCache& mapInputs) const
             if (stack.empty())
                 return false;
             CScript subscript(stack.back().begin(), stack.back().end());
-            vector<vector<unsigned char> > vSolutions2;
+            std::vector<std::vector<unsigned char> > vSolutions2;
             txnouttype whichType2;
             if (!Solver(subscript, whichType2, vSolutions2))
                 return false;
@@ -535,7 +532,7 @@ int CMerkleTx::SetMerkleBranch(const CBlock* pblock)
     }
 
     // Is the tx in a block that's in the main chain
-    map<uint256, CBlockIndex*>::iterator mi = mapBlockIndex.find(hashBlock);
+    std::map<uint256, CBlockIndex*>::iterator mi = mapBlockIndex.find(hashBlock);
     if (mi == mapBlockIndex.end())
         return 0;
     CBlockIndex* pindex = (*mi).second;
@@ -576,7 +573,7 @@ bool CTransaction::CheckTransaction(CValidationState &state) const
     }
 
     // Check for duplicate inputs
-    set<COutPoint> vInOutPoints;
+    std::set<COutPoint> vInOutPoints;
     BOOST_FOREACH(const CTxIn& txin, vin)
     {
         if (vInOutPoints.count(txin.prevout))
@@ -675,7 +672,7 @@ bool CTxMemPool::accept(CValidationState &state, CTransaction &tx, bool fCheckIn
         return error("CTxMemPool::accept() : not accepting nLockTime beyond 2038 yet");
 
     // Rather not work on nonstandard transactions (unless -testnet)
-    string strNonStd;
+    std::string strNonStd;
     if (!fTestNet && !tx.IsStandard(strNonStd))
         return error("CTxMemPool::accept() : nonstandard transaction (%s)",
                      strNonStd.c_str());
@@ -897,7 +894,7 @@ void CTxMemPool::queryHashes(std::vector<uint256>& vtxid)
 
     LOCK(cs);
     vtxid.reserve(mapTx.size());
-    for (map<uint256, CTransaction>::iterator mi = mapTx.begin(); mi != mapTx.end(); ++mi)
+    for (std::map<uint256, CTransaction>::iterator mi = mapTx.begin(); mi != mapTx.end(); ++mi)
         vtxid.push_back((*mi).first);
 }
 
@@ -910,7 +907,7 @@ int CMerkleTx::GetDepthInMainChain(CBlockIndex* &pindexRet) const
         return 0;
 
     // Find the block it claims to be in
-    map<uint256, CBlockIndex*>::iterator mi = mapBlockIndex.find(hashBlock);
+    std::map<uint256, CBlockIndex*>::iterator mi = mapBlockIndex.find(hashBlock);
     if (mi == mapBlockIndex.end())
         return 0;
     CBlockIndex* pindex = (*mi).second;
@@ -934,7 +931,7 @@ int CMerkleTx::GetBlocksToMaturity() const
 {
     if (!IsCoinBase())
         return 0;
-    return max(0, (COINBASE_MATURITY+200) - GetDepthInMainChain());
+    return std::max(0, (COINBASE_MATURITY+200) - GetDepthInMainChain());
 }
 
 
@@ -1235,7 +1232,7 @@ bool ConnectBestBlock(CValidationState &state) {
 
 void CBlockHeader::UpdateTime(const CBlockIndex* pindexPrev)
 {
-    nTime = max(pindexPrev->GetMedianTimePast()+1, GetAdjustedTime());
+    nTime = std::max(pindexPrev->GetMedianTimePast()+1, GetAdjustedTime());
 }
 
 
@@ -1728,12 +1725,12 @@ bool SetBestChain(CValidationState &state, CBlockIndex* pindexNew)
     }
 
     // List of what to disconnect (typically nothing)
-    vector<CBlockIndex*> vDisconnect;
+    std::vector<CBlockIndex*> vDisconnect;
     for (CBlockIndex* pindex = view.GetBestBlock(); pindex != pfork; pindex = pindex->pprev)
         vDisconnect.push_back(pindex);
 
     // List of what to connect (typically only pindexNew)
-    vector<CBlockIndex*> vConnect;
+    std::vector<CBlockIndex*> vConnect;
     for (CBlockIndex* pindex = pindexNew; pindex != pfork; pindex = pindex->pprev)
         vConnect.push_back(pindex);
     reverse(vConnect.begin(), vConnect.end());
@@ -1744,7 +1741,7 @@ bool SetBestChain(CValidationState &state, CBlockIndex* pindexNew)
     }
 
     // Disconnect shorter branch
-    list<CTransaction> vResurrect;
+    std::list<CTransaction> vResurrect;
     BOOST_FOREACH(CBlockIndex* pindex, vDisconnect) {
         CBlock block;
         if (!block.ReadFromDisk(pindex))
@@ -1764,7 +1761,7 @@ bool SetBestChain(CValidationState &state, CBlockIndex* pindexNew)
     }
 
     // Connect longer branch
-    vector<CTransaction> vDelete;
+    std::vector<CTransaction> vDelete;
     BOOST_FOREACH(CBlockIndex *pindex, vConnect) {
         CBlock block;
         if (!block.ReadFromDisk(pindex))
@@ -1905,9 +1902,9 @@ bool CBlock::AddToBlockIndex(CValidationState &state, const CDiskBlockPos &pos)
     // Construct new block index object
     CBlockIndex* pindexNew = new CBlockIndex(*this);
     assert(pindexNew);
-    map<uint256, CBlockIndex*>::iterator mi = mapBlockIndex.insert(make_pair(hash, pindexNew)).first;
+    std::map<uint256, CBlockIndex*>::iterator mi = mapBlockIndex.insert(std::make_pair(hash, pindexNew)).first;
     pindexNew->phashBlock = &((*mi).first);
-    map<uint256, CBlockIndex*>::iterator miPrev = mapBlockIndex.find(hashPrevBlock);
+    std::map<uint256, CBlockIndex*>::iterator miPrev = mapBlockIndex.find(hashPrevBlock);
     if (miPrev != mapBlockIndex.end())
     {
         pindexNew->pprev = (*miPrev).second;
@@ -2058,7 +2055,7 @@ bool CBlock::CheckBlock(CValidationState &state, bool fCheckPOW, bool fCheckMerk
     {
         // Rule is: #unique txids referenced <= 4,500
         // ... to prevent 10,000 BDB lock exhaustion on old clients
-        set<uint256> setTxIn;
+        std::set<uint256> setTxIn;
         for (size_t i = 0; i < vtx.size(); i++)
         {
             setTxIn.insert(vtx[i].GetHash());
@@ -2096,7 +2093,7 @@ bool CBlock::CheckBlock(CValidationState &state, bool fCheckPOW, bool fCheckMerk
 
     // Check for duplicate txids. This is caught by ConnectInputs(),
     // but catching it earlier avoids a potential DoS attack:
-    set<uint256> uniqueTx;
+    std::set<uint256> uniqueTx;
     for (unsigned int i=0; i<vtx.size(); i++) {
         uniqueTx.insert(GetTxHash(i));
     }
@@ -2129,7 +2126,7 @@ bool CBlock::AcceptBlock(CValidationState &state, CDiskBlockPos *dbp)
     CBlockIndex* pindexPrev = NULL;
     int nHeight = 0;
     if (hash != hashGenesisBlock) {
-        map<uint256, CBlockIndex*>::iterator mi = mapBlockIndex.find(hashPrevBlock);
+        std::map<uint256, CBlockIndex*>::iterator mi = mapBlockIndex.find(hashPrevBlock);
         if (mi == mapBlockIndex.end())
             return state.DoS(10, error("AcceptBlock() : prev block not found"));
         pindexPrev = (*mi).second;
@@ -2298,8 +2295,8 @@ bool ProcessBlock(CValidationState &state, CNode* pfrom, CBlock* pblock, CDiskBl
         // Accept orphans as long as there is a node to request its parents from
         if (pfrom) {
             CBlock* pblock2 = new CBlock(*pblock);
-            mapOrphanBlocks.insert(make_pair(hash, pblock2));
-            mapOrphanBlocksByPrev.insert(make_pair(pblock2->hashPrevBlock, pblock2));
+            mapOrphanBlocks.insert(std::make_pair(hash, pblock2));
+            mapOrphanBlocksByPrev.insert(std::make_pair(pblock2->hashPrevBlock, pblock2));
 
             // Ask this guy to fill in what we're missing
             pfrom->PushGetBlocks(pindexBest, GetOrphanRoot(pblock2));
@@ -2312,12 +2309,12 @@ bool ProcessBlock(CValidationState &state, CNode* pfrom, CBlock* pblock, CDiskBl
         return error("ProcessBlock() : AcceptBlock FAILED");
 
     // Recursively process any orphan blocks that depended on this one
-    vector<uint256> vWorkQueue;
+    std::vector<uint256> vWorkQueue;
     vWorkQueue.push_back(hash);
     for (unsigned int i = 0; i < vWorkQueue.size(); i++)
     {
         uint256 hashPrev = vWorkQueue[i];
-        for (multimap<uint256, CBlock*>::iterator mi = mapOrphanBlocksByPrev.lower_bound(hashPrev);
+        for (std::multimap<uint256, CBlock*>::iterator mi = mapOrphanBlocksByPrev.lower_bound(hashPrev);
              mi != mapOrphanBlocksByPrev.upper_bound(hashPrev);
              ++mi)
         {
@@ -2353,8 +2350,8 @@ CMerkleBlock::CMerkleBlock(const CBlock& block, CBloomFilter& filter)
 {
     header = block.GetBlockHeader();
 
-    vector<bool> vMatch;
-    vector<uint256> vHashes;
+    std::vector<bool> vMatch;
+    std::vector<uint256> vHashes;
 
     vMatch.reserve(block.vtx.size());
     vHashes.reserve(block.vtx.size());
@@ -2365,7 +2362,7 @@ CMerkleBlock::CMerkleBlock(const CBlock& block, CBloomFilter& filter)
         if (filter.IsRelevantAndUpdate(block.vtx[i], hash))
         {
             vMatch.push_back(true);
-            vMatchedTxn.push_back(make_pair(i, hash));
+            vMatchedTxn.push_back(std::make_pair(i, hash));
         }
         else
             vMatch.push_back(false);
@@ -2512,7 +2509,7 @@ bool AbortNode(const std::string &strMessage) {
 
 bool CheckDiskSpace(uint64 nAdditionalBytes)
 {
-    uint64 nFreeBytesAvailable = filesystem::space(GetDataDir()).available;
+    uint64 nFreeBytesAvailable = boost::filesystem::space(GetDataDir()).available;
 
     // Check for nMinDiskSpace bytes (currently 50MB)
     if (nFreeBytesAvailable < nMinDiskSpace + nAdditionalBytes)
@@ -2562,15 +2559,15 @@ CBlockIndex * InsertBlockIndex(uint256 hash)
         return NULL;
 
     // Return existing
-    map<uint256, CBlockIndex*>::iterator mi = mapBlockIndex.find(hash);
+    std::map<uint256, CBlockIndex*>::iterator mi = mapBlockIndex.find(hash);
     if (mi != mapBlockIndex.end())
         return (*mi).second;
 
     // Create new
     CBlockIndex* pindexNew = new CBlockIndex();
     if (!pindexNew)
-        throw runtime_error("LoadBlockIndex() : new CBlockIndex failed");
-    mi = mapBlockIndex.insert(make_pair(hash, pindexNew)).first;
+        throw std::runtime_error("LoadBlockIndex() : new CBlockIndex failed");
+    mi = mapBlockIndex.insert(std::make_pair(hash, pindexNew)).first;
     pindexNew->phashBlock = &((*mi).first);
 
     return pindexNew;
@@ -2584,12 +2581,12 @@ bool static LoadBlockIndexDB()
     boost::this_thread::interruption_point();
 
     // Calculate nChainWork
-    vector<pair<int, CBlockIndex*> > vSortedByHeight;
+    std::vector<std::pair<int, CBlockIndex*> > vSortedByHeight;
     vSortedByHeight.reserve(mapBlockIndex.size());
     BOOST_FOREACH(const PAIRTYPE(uint256, CBlockIndex*)& item, mapBlockIndex)
     {
         CBlockIndex* pindex = item.second;
-        vSortedByHeight.push_back(make_pair(pindex->nHeight, pindex));
+        vSortedByHeight.push_back(std::make_pair(pindex->nHeight, pindex));
     }
     sort(vSortedByHeight.begin(), vSortedByHeight.end());
     BOOST_FOREACH(const PAIRTYPE(int, CBlockIndex*)& item, vSortedByHeight)
@@ -2786,7 +2783,7 @@ bool InitBlockIndex() {
         CTransaction txNew;
         txNew.vin.resize(1);
         txNew.vout.resize(1);
-        txNew.vin[0].scriptSig = CScript() << 0 << CBigNum(999) << vector<unsigned char>((const unsigned char*)pszDedication, (const unsigned char*)pszDedication + strlen(pszDedication));
+        txNew.vin[0].scriptSig = CScript() << 0 << CBigNum(999) << std::vector<unsigned char>((const unsigned char*)pszDedication, (const unsigned char*)pszDedication + strlen(pszDedication));
         txNew.vout[0].nValue = COIN;
         txNew.vout[0].scriptPubKey = CScript();
         CBlock block;
@@ -2851,8 +2848,8 @@ bool InitBlockIndex() {
 void PrintBlockTree()
 {
     // pre-compute tree structure
-    map<CBlockIndex*, vector<CBlockIndex*> > mapNext;
-    for (map<uint256, CBlockIndex*>::iterator mi = mapBlockIndex.begin(); mi != mapBlockIndex.end(); ++mi)
+    std::map<CBlockIndex*, std::vector<CBlockIndex*> > mapNext;
+    for (std::map<uint256, CBlockIndex*>::iterator mi = mapBlockIndex.begin(); mi != mapBlockIndex.end(); ++mi)
     {
         CBlockIndex* pindex = (*mi).second;
         mapNext[pindex->pprev].push_back(pindex);
@@ -2861,8 +2858,8 @@ void PrintBlockTree()
         //    mapNext[pindex->pprev].push_back(pindex);
     }
 
-    vector<pair<int, CBlockIndex*> > vStack;
-    vStack.push_back(make_pair(0, pindexGenesisBlock));
+    std::vector<std::pair<int, CBlockIndex*> > vStack;
+    vStack.push_back(std::make_pair(0, pindexGenesisBlock));
 
     int nPrevCol = 0;
     while (!vStack.empty())
@@ -2902,19 +2899,19 @@ void PrintBlockTree()
         PrintWallets(block);
 
         // put the main time-chain first
-        vector<CBlockIndex*>& vNext = mapNext[pindex];
+        std::vector<CBlockIndex*>& vNext = mapNext[pindex];
         for (unsigned int i = 0; i < vNext.size(); i++)
         {
             if (vNext[i]->pnext)
             {
-                swap(vNext[0], vNext[i]);
+                boost::swap(vNext[0], vNext[i]);
                 break;
             }
         }
 
         // iterate children
         for (unsigned int i = 0; i < vNext.size(); i++)
-            vStack.push_back(make_pair(nCol+i, vNext[i]));
+            vStack.push_back(std::make_pair(nCol+i, vNext[i]));
     }
 }
 
@@ -2990,10 +2987,10 @@ bool LoadExternalBlockFile(FILE* fileIn, CDiskBlockPos *dbp)
     return nLoaded > 0;
 }
 
-string GetWarnings(string strFor)
+std::string GetWarnings(std::string strFor)
 {
-    string strStatusBar;
-    string strRPC;
+    std::string strStatusBar;
+    std::string strRPC;
 
     if (GetBoolArg("-testsafemode"))
         strRPC = "test";
@@ -3073,7 +3070,7 @@ void static ProcessGetData(CNode* pfrom)
 {
     std::deque<CInv>::iterator it = pfrom->vRecvGetData.begin();
 
-    vector<CInv> vNotFound;
+    std::vector<CInv> vNotFound;
 
     while (it != pfrom->vRecvGetData.end()) {
         // Don't bother if send buffer is too full to respond anyway
@@ -3088,7 +3085,7 @@ void static ProcessGetData(CNode* pfrom)
             if (inv.type == MSG_BLOCK || inv.type == MSG_FILTERED_BLOCK)
             {
                 // Send block from disk
-                map<uint256, CBlockIndex*>::iterator mi = mapBlockIndex.find(inv.hash);
+                std::map<uint256, CBlockIndex*>::iterator mi = mapBlockIndex.find(inv.hash);
                 if (mi != mapBlockIndex.end())
                 {
                     CBlock block;
@@ -3123,7 +3120,7 @@ void static ProcessGetData(CNode* pfrom)
                         // Bypass PushInventory, this must send even if redundant,
                         // and we want it right after the last block so they don't
                         // wait for other stuff first.
-                        vector<CInv> vInv;
+                        std::vector<CInv> vInv;
                         vInv.push_back(CInv(MSG_BLOCK, hashBestChain));
                         pfrom->PushMessage("inv", vInv);
                         pfrom->hashContinue = 0;
@@ -3136,7 +3133,7 @@ void static ProcessGetData(CNode* pfrom)
                 bool pushed = false;
                 {
                     LOCK(cs_mapRelay);
-                    map<CInv, CDataStream>::iterator mi = mapRelay.find(inv);
+                    std::map<CInv, CDataStream>::iterator mi = mapRelay.find(inv);
                     if (mi != mapRelay.end()) {
                         pfrom->PushMessage(inv.GetCommand(), (*mi).second);
                         pushed = true;
@@ -3180,7 +3177,7 @@ void static ProcessGetData(CNode* pfrom)
     }
 }
 
-bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv)
+bool static ProcessMessage(CNode* pfrom, std::string strCommand, CDataStream& vRecv)
 {
     RandAddSeedPerfmon();
     if (fDebug)
@@ -3257,7 +3254,7 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv)
 
         // Change version
         pfrom->PushMessage("verack");
-        pfrom->ssSend.SetVersion(min(pfrom->nVersion, PROTOCOL_VERSION));
+        pfrom->ssSend.SetVersion(std::min(pfrom->nVersion, PROTOCOL_VERSION));
 
         if (!pfrom->fInbound)
         {
@@ -3313,13 +3310,13 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv)
 
     else if (strCommand == "verack")
     {
-        pfrom->SetRecvVersion(min(pfrom->nVersion, PROTOCOL_VERSION));
+        pfrom->SetRecvVersion(std::min(pfrom->nVersion, PROTOCOL_VERSION));
     }
 
 
     else if (strCommand == "addr")
     {
-        vector<CAddress> vAddr;
+        std::vector<CAddress> vAddr;
         vRecv >> vAddr;
 
         // Don't want addr from older versions unless seeding
@@ -3332,7 +3329,7 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv)
         }
 
         // Store the new addresses
-        vector<CAddress> vAddrOk;
+        std::vector<CAddress> vAddrOk;
         int64 nNow = GetAdjustedTime();
         int64 nSince = nNow - 10 * 60;
         BOOST_FOREACH(CAddress& addr, vAddr)
@@ -3356,7 +3353,7 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv)
                     uint64 hashAddr = addr.GetHash();
                     uint256 hashRand = hashSalt ^ (hashAddr<<32) ^ ((GetTime()+hashAddr)/(24*60*60));
                     hashRand = Hash(BEGIN(hashRand), END(hashRand));
-                    multimap<uint256, CNode*> mapMix;
+                    std::multimap<uint256, CNode*> mapMix;
                     BOOST_FOREACH(CNode* pnode, vNodes)
                     {
                         if (pnode->nVersion < CADDR_TIME_VERSION)
@@ -3365,10 +3362,10 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv)
                         memcpy(&nPointer, &pnode, sizeof(nPointer));
                         uint256 hashKey = hashRand ^ nPointer;
                         hashKey = Hash(BEGIN(hashKey), END(hashKey));
-                        mapMix.insert(make_pair(hashKey, pnode));
+                        mapMix.insert(std::make_pair(hashKey, pnode));
                     }
                     int nRelayNodes = fReachable ? 2 : 1; // limited relaying of addresses outside our network(s)
-                    for (multimap<uint256, CNode*>::iterator mi = mapMix.begin(); mi != mapMix.end() && nRelayNodes-- > 0; ++mi)
+                    for (std::multimap<uint256, CNode*>::iterator mi = mapMix.begin(); mi != mapMix.end() && nRelayNodes-- > 0; ++mi)
                         ((*mi).second)->PushAddress(addr);
                 }
             }
@@ -3386,7 +3383,7 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv)
 
     else if (strCommand == "inv")
     {
-        vector<CInv> vInv;
+        std::vector<CInv> vInv;
         vRecv >> vInv;
         if (vInv.size() > MAX_INV_SZ)
         {
@@ -3435,7 +3432,7 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv)
 
     else if (strCommand == "getdata")
     {
-        vector<CInv> vInv;
+        std::vector<CInv> vInv;
         vRecv >> vInv;
         if (vInv.size() > MAX_INV_SZ)
         {
@@ -3498,7 +3495,7 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv)
         if (locator.IsNull())
         {
             // If locator is null, return the hashStop block
-            map<uint256, CBlockIndex*>::iterator mi = mapBlockIndex.find(hashStop);
+            std::map<uint256, CBlockIndex*>::iterator mi = mapBlockIndex.find(hashStop);
             if (mi == mapBlockIndex.end())
                 return true;
             pindex = (*mi).second;
@@ -3512,7 +3509,7 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv)
         }
 
         // we must use CBlocks, as CBlockHeaders won't include the 0x00 nTx count at the end
-        vector<CBlock> vHeaders;
+        std::vector<CBlock> vHeaders;
         int nLimit = 2000;
         printf("getheaders %d to %s\n", (pindex ? pindex->nHeight : -1), hashStop.ToString().c_str());
         for (; pindex; pindex = pindex->pnext)
@@ -3527,8 +3524,8 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv)
 
     else if (strCommand == "tx")
     {
-        vector<uint256> vWorkQueue;
-        vector<uint256> vEraseQueue;
+        std::vector<uint256> vWorkQueue;
+        std::vector<uint256> vEraseQueue;
         CDataStream vMsg(vRecv);
         CTransaction tx;
         vRecv >> tx;
@@ -3554,7 +3551,7 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv)
             for (unsigned int i = 0; i < vWorkQueue.size(); i++)
             {
                 uint256 hashPrev = vWorkQueue[i];
-                for (set<uint256>::iterator mi = mapOrphanTransactionsByPrev[hashPrev].begin();
+                for (std::set<uint256>::iterator mi = mapOrphanTransactionsByPrev[hashPrev].begin();
                      mi != mapOrphanTransactionsByPrev[hashPrev].end();
                      ++mi)
                 {
@@ -3630,7 +3627,7 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv)
     else if (strCommand == "getaddr")
     {
         pfrom->vAddrToSend.clear();
-        vector<CAddress> vAddr = addrman.GetAddr();
+        std::vector<CAddress> vAddr = addrman.GetAddr();
         BOOST_FOREACH(const CAddress &addr, vAddr)
             pfrom->PushAddress(addr);
     }
@@ -3641,7 +3638,7 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv)
         std::vector<uint256> vtxid;
         LOCK2(mempool.cs, pfrom->cs_filter);
         mempool.queryHashes(vtxid);
-        vector<CInv> vInv;
+        std::vector<CInv> vInv;
         BOOST_FOREACH(uint256& hash, vtxid) {
             CInv inv(MSG_TX, hash);
             if ((pfrom->pfilter && pfrom->pfilter->IsRelevantAndUpdate(mempool.lookup(hash), hash)) ||
@@ -3713,7 +3710,7 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv)
 
     else if (strCommand == "filteradd")
     {
-        vector<unsigned char> vData;
+        std::vector<unsigned char> vData;
         vRecv >> vData;
 
         // Nodes must NEVER send a data item > 520 bytes (the max size for a script data object,
@@ -3812,7 +3809,7 @@ bool ProcessMessages(CNode* pfrom)
             printf("\n\nPROCESSMESSAGE: ERRORS IN HEADER %s\n\n\n", hdr.GetCommand().c_str());
             continue;
         }
-        string strCommand = hdr.GetCommand();
+        std::string strCommand = hdr.GetCommand();
 
         // Message size
         unsigned int nMessageSize = hdr.nMessageSize;
@@ -3940,7 +3937,7 @@ bool SendMessages(CNode* pto, bool fSendTrickle)
         //
         if (fSendTrickle)
         {
-            vector<CAddress> vAddr;
+            std::vector<CAddress> vAddr;
             vAddr.reserve(pto->vAddrToSend.size());
             BOOST_FOREACH(const CAddress& addr, pto->vAddrToSend)
             {
@@ -3965,8 +3962,8 @@ bool SendMessages(CNode* pto, bool fSendTrickle)
         //
         // Message: inventory
         //
-        vector<CInv> vInv;
-        vector<CInv> vInvWait;
+        std::vector<CInv> vInv;
+        std::vector<CInv> vInvWait;
         {
             LOCK(pto->cs_inventory);
             vInv.reserve(pto->vInventoryToSend.size());
@@ -4023,7 +4020,7 @@ bool SendMessages(CNode* pto, bool fSendTrickle)
         //
         // Message: getdata
         //
-        vector<CInv> vGetData;
+        std::vector<CInv> vGetData;
         int64 nNow = GetTime() * 1000000;
         while (!pto->mapAskFor.empty() && (*pto->mapAskFor.begin()).first <= nNow)
         {

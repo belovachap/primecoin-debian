@@ -1,7 +1,7 @@
-#include <boost/test/unit_test.hpp>
+// Copyright (c) 2018 Chapman Shoop
+// See COPYING for license.
 
-#include <string>
-#include <vector>
+#include <boost/test/unit_test.hpp>
 
 #include "main.h"
 
@@ -16,8 +16,6 @@
 
 // amounts 50 .. 21000000
 #define NUM_MULTIPLES_50BTC 420000
-
-using namespace std;
 
 BOOST_AUTO_TEST_SUITE(compress_tests)
 

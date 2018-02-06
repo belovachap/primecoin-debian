@@ -13,8 +13,6 @@
 #include <boost/algorithm/string/case_conv.hpp> // for to_lower()
 #include <boost/algorithm/string/predicate.hpp> // for startswith() and endswith()
 
-using namespace std;
-
 // Settings
 int nConnectTimeout = 5000;
 
@@ -232,9 +230,9 @@ bool ConnectSocket(const CService &addrDest, SOCKET& hSocketRet, int nTimeout)
 
 bool ConnectSocketByName(CService &addr, SOCKET& hSocketRet, const char *pszDest, int portDefault, int nTimeout)
 {
-    string strDest;
+    std::string strDest;
     int port = portDefault;
-    SplitHostPort(string(pszDest), port, strDest);
+    SplitHostPort(std::string(pszDest), port, strDest);
 
     CService addrResolved(CNetAddr(strDest), port);
     if (!addrResolved.IsValid()) {

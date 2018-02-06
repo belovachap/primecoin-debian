@@ -1,7 +1,7 @@
 // Copyright (c) 2010 Satoshi Nakamoto
 // Copyright (c) 2009-2012 The Bitcoin developers
-// Distributed under the MIT/X11 software license, see the accompanying
-// file COPYING or http://www.opensource.org/licenses/mit-license.php.
+// Copyright (c) 2018 Chapman Shoop
+// See COPYING for license.
 
 #include <boost/assign/list_of.hpp>
 
@@ -13,19 +13,14 @@
 #include "net.h"
 #include "wallet.h"
 
-using namespace std;
-using namespace boost;
-using namespace boost::assign;
-using namespace json_spirit;
-
 //
 // Utilities: convert hex-encoded Values
 // (throws error if not hex).
 //
-uint256 ParseHashV(const Value& v, string strName)
+uint256 ParseHashV(const json_spirit::Value& v, std::string strName)
 {
-    string strHex;
-    if (v.type() == str_type)
+    std::string strHex;
+    if (v.type() == json_spirit::str_type)
         strHex = v.get_str();
     if (!IsHex(strHex)) // Note: IsHex("") is false
         throw JSONRPCError(RPC_INVALID_PARAMETER, strName+" must be hexadecimal string (not '"+strHex+"')");
@@ -33,109 +28,109 @@ uint256 ParseHashV(const Value& v, string strName)
     result.SetHex(strHex);
     return result;
 }
-uint256 ParseHashO(const Object& o, string strKey)
+uint256 ParseHashO(const json_spirit::Object& o, std::string strKey)
 {
     return ParseHashV(find_value(o, strKey), strKey);
 }
-vector<unsigned char> ParseHexV(const Value& v, string strName)
+std::vector<unsigned char> ParseHexV(const json_spirit::Value& v, std::string strName)
 {
-    string strHex;
-    if (v.type() == str_type)
+    std::string strHex;
+    if (v.type() == json_spirit::str_type)
         strHex = v.get_str();
     if (!IsHex(strHex))
         throw JSONRPCError(RPC_INVALID_PARAMETER, strName+" must be hexadecimal string (not '"+strHex+"')");
     return ParseHex(strHex);
 }
-vector<unsigned char> ParseHexO(const Object& o, string strKey)
+std::vector<unsigned char> ParseHexO(const json_spirit::Object& o, std::string strKey)
 {
     return ParseHexV(find_value(o, strKey), strKey);
 }
 
-void ScriptPubKeyToJSON(const CScript& scriptPubKey, Object& out)
+void ScriptPubKeyToJSON(const CScript& scriptPubKey, json_spirit::Object& out)
 {
     txnouttype type;
-    vector<CTxDestination> addresses;
+    std::vector<CTxDestination> addresses;
     int nRequired;
 
-    out.push_back(Pair("asm", scriptPubKey.ToString()));
-    out.push_back(Pair("hex", HexStr(scriptPubKey.begin(), scriptPubKey.end())));
+    out.push_back(json_spirit::Pair("asm", scriptPubKey.ToString()));
+    out.push_back(json_spirit::Pair("hex", HexStr(scriptPubKey.begin(), scriptPubKey.end())));
 
     if (!ExtractDestinations(scriptPubKey, type, addresses, nRequired))
     {
-        out.push_back(Pair("type", GetTxnOutputType(TX_NONSTANDARD)));
+        out.push_back(json_spirit::Pair("type", GetTxnOutputType(TX_NONSTANDARD)));
         return;
     }
 
-    out.push_back(Pair("reqSigs", nRequired));
-    out.push_back(Pair("type", GetTxnOutputType(type)));
+    out.push_back(json_spirit::Pair("reqSigs", nRequired));
+    out.push_back(json_spirit::Pair("type", GetTxnOutputType(type)));
 
-    Array a;
+    json_spirit::Array a;
     BOOST_FOREACH(const CTxDestination& addr, addresses)
         a.push_back(CBitcoinAddress(addr).ToString());
-    out.push_back(Pair("addresses", a));
+    out.push_back(json_spirit::Pair("addresses", a));
 }
 
-void TxToJSON(const CTransaction& tx, const uint256 hashBlock, Object& entry)
+void TxToJSON(const CTransaction& tx, const uint256 hashBlock, json_spirit::Object& entry)
 {
-    entry.push_back(Pair("txid", tx.GetHash().GetHex()));
-    entry.push_back(Pair("version", tx.nVersion));
-    entry.push_back(Pair("locktime", (boost::int64_t)tx.nLockTime));
-    Array vin;
+    entry.push_back(json_spirit::Pair("txid", tx.GetHash().GetHex()));
+    entry.push_back(json_spirit::Pair("version", tx.nVersion));
+    entry.push_back(json_spirit::Pair("locktime", (boost::int64_t)tx.nLockTime));
+    json_spirit::Array vin;
     BOOST_FOREACH(const CTxIn& txin, tx.vin)
     {
-        Object in;
+        json_spirit::Object in;
         if (tx.IsCoinBase())
-            in.push_back(Pair("coinbase", HexStr(txin.scriptSig.begin(), txin.scriptSig.end())));
+            in.push_back(json_spirit::Pair("coinbase", HexStr(txin.scriptSig.begin(), txin.scriptSig.end())));
         else
         {
-            in.push_back(Pair("txid", txin.prevout.hash.GetHex()));
-            in.push_back(Pair("vout", (boost::int64_t)txin.prevout.n));
-            Object o;
-            o.push_back(Pair("asm", txin.scriptSig.ToString()));
-            o.push_back(Pair("hex", HexStr(txin.scriptSig.begin(), txin.scriptSig.end())));
-            in.push_back(Pair("scriptSig", o));
+            in.push_back(json_spirit::Pair("txid", txin.prevout.hash.GetHex()));
+            in.push_back(json_spirit::Pair("vout", (boost::int64_t)txin.prevout.n));
+            json_spirit::Object o;
+            o.push_back(json_spirit::Pair("asm", txin.scriptSig.ToString()));
+            o.push_back(json_spirit::Pair("hex", HexStr(txin.scriptSig.begin(), txin.scriptSig.end())));
+            in.push_back(json_spirit::Pair("scriptSig", o));
         }
-        in.push_back(Pair("sequence", (boost::int64_t)txin.nSequence));
+        in.push_back(json_spirit::Pair("sequence", (boost::int64_t)txin.nSequence));
         vin.push_back(in);
     }
-    entry.push_back(Pair("vin", vin));
-    Array vout;
+    entry.push_back(json_spirit::Pair("vin", vin));
+    json_spirit::Array vout;
     for (unsigned int i = 0; i < tx.vout.size(); i++)
     {
         const CTxOut& txout = tx.vout[i];
-        Object out;
-        out.push_back(Pair("value", ValueFromAmount(txout.nValue)));
-        out.push_back(Pair("n", (boost::int64_t)i));
-        Object o;
+        json_spirit::Object out;
+        out.push_back(json_spirit::Pair("value", ValueFromAmount(txout.nValue)));
+        out.push_back(json_spirit::Pair("n", (boost::int64_t)i));
+        json_spirit::Object o;
         ScriptPubKeyToJSON(txout.scriptPubKey, o);
-        out.push_back(Pair("scriptPubKey", o));
+        out.push_back(json_spirit::Pair("scriptPubKey", o));
         vout.push_back(out);
     }
-    entry.push_back(Pair("vout", vout));
+    entry.push_back(json_spirit::Pair("vout", vout));
 
     if (hashBlock != 0)
     {
-        entry.push_back(Pair("blockhash", hashBlock.GetHex()));
-        map<uint256, CBlockIndex*>::iterator mi = mapBlockIndex.find(hashBlock);
+        entry.push_back(json_spirit::Pair("blockhash", hashBlock.GetHex()));
+        std::map<uint256, CBlockIndex*>::iterator mi = mapBlockIndex.find(hashBlock);
         if (mi != mapBlockIndex.end() && (*mi).second)
         {
             CBlockIndex* pindex = (*mi).second;
             if (pindex->IsInMainChain())
             {
-                entry.push_back(Pair("confirmations", 1 + nBestHeight - pindex->nHeight));
-                entry.push_back(Pair("time", (boost::int64_t)pindex->nTime));
-                entry.push_back(Pair("blocktime", (boost::int64_t)pindex->nTime));
+                entry.push_back(json_spirit::Pair("confirmations", 1 + nBestHeight - pindex->nHeight));
+                entry.push_back(json_spirit::Pair("time", (boost::int64_t)pindex->nTime));
+                entry.push_back(json_spirit::Pair("blocktime", (boost::int64_t)pindex->nTime));
             }
             else
-                entry.push_back(Pair("confirmations", 0));
+                entry.push_back(json_spirit::Pair("confirmations", 0));
         }
     }
 }
 
-Value getrawtransaction(const Array& params, bool fHelp)
+json_spirit::Value getrawtransaction(const json_spirit::Array& params, bool fHelp)
 {
     if (fHelp || params.size() < 1 || params.size() > 2)
-        throw runtime_error(
+        throw std::runtime_error(
             "getrawtransaction <txid> [verbose=0]\n"
             "If verbose=0, returns a string that is\n"
             "serialized, hex-encoded data for <txid>.\n"
@@ -155,21 +150,21 @@ Value getrawtransaction(const Array& params, bool fHelp)
 
     CDataStream ssTx(SER_NETWORK, PROTOCOL_VERSION);
     ssTx << tx;
-    string strHex = HexStr(ssTx.begin(), ssTx.end());
+    std::string strHex = HexStr(ssTx.begin(), ssTx.end());
 
     if (!fVerbose)
         return strHex;
 
-    Object result;
-    result.push_back(Pair("hex", strHex));
+    json_spirit::Object result;
+    result.push_back(json_spirit::Pair("hex", strHex));
     TxToJSON(tx, hashBlock, result);
     return result;
 }
 
-Value listunspent(const Array& params, bool fHelp)
+json_spirit::Value listunspent(const json_spirit::Array& params, bool fHelp)
 {
     if (fHelp || params.size() > 3)
-        throw runtime_error(
+        throw std::runtime_error(
             "listunspent [minconf=1] [maxconf=9999999]  [\"address\",...]\n"
             "Returns array of unspent transaction outputs\n"
             "with between minconf and maxconf (inclusive) confirmations.\n"
@@ -177,7 +172,7 @@ Value listunspent(const Array& params, bool fHelp)
             "Results are an array of Objects, each of which has:\n"
             "{txid, vout, scriptPubKey, amount, confirmations}");
 
-    RPCTypeCheck(params, list_of(int_type)(int_type)(array_type));
+    RPCTypeCheck(params, boost::assign::list_of(json_spirit::int_type)(json_spirit::int_type)(json_spirit::array_type));
 
     int nMinDepth = 1;
     if (params.size() > 0)
@@ -187,23 +182,23 @@ Value listunspent(const Array& params, bool fHelp)
     if (params.size() > 1)
         nMaxDepth = params[1].get_int();
 
-    set<CBitcoinAddress> setAddress;
+    std::set<CBitcoinAddress> setAddress;
     if (params.size() > 2)
     {
-        Array inputs = params[2].get_array();
-        BOOST_FOREACH(Value& input, inputs)
+        json_spirit::Array inputs = params[2].get_array();
+        BOOST_FOREACH(json_spirit::Value& input, inputs)
         {
             CBitcoinAddress address(input.get_str());
             if (!address.IsValid())
-                throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, string("Invalid Bitcoin address: ")+input.get_str());
+                throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, std::string("Invalid Bitcoin address: ")+input.get_str());
             if (setAddress.count(address))
-                throw JSONRPCError(RPC_INVALID_PARAMETER, string("Invalid parameter, duplicated address: ")+input.get_str());
+                throw JSONRPCError(RPC_INVALID_PARAMETER, std::string("Invalid parameter, duplicated address: ")+input.get_str());
            setAddress.insert(address);
         }
     }
 
-    Array results;
-    vector<COutput> vecOutputs;
+    json_spirit::Array results;
+    std::vector<COutput> vecOutputs;
     pwalletMain->AvailableCoins(vecOutputs, false);
     BOOST_FOREACH(const COutput& out, vecOutputs)
     {
@@ -222,17 +217,17 @@ Value listunspent(const Array& params, bool fHelp)
 
         int64 nValue = out.tx->vout[out.i].nValue;
         const CScript& pk = out.tx->vout[out.i].scriptPubKey;
-        Object entry;
-        entry.push_back(Pair("txid", out.tx->GetHash().GetHex()));
-        entry.push_back(Pair("vout", out.i));
+        json_spirit::Object entry;
+        entry.push_back(json_spirit::Pair("txid", out.tx->GetHash().GetHex()));
+        entry.push_back(json_spirit::Pair("vout", out.i));
         CTxDestination address;
         if (ExtractDestination(out.tx->vout[out.i].scriptPubKey, address))
         {
-            entry.push_back(Pair("address", CBitcoinAddress(address).ToString()));
+            entry.push_back(json_spirit::Pair("address", CBitcoinAddress(address).ToString()));
             if (pwalletMain->mapAddressBook.count(address))
-                entry.push_back(Pair("account", pwalletMain->mapAddressBook[address]));
+                entry.push_back(json_spirit::Pair("account", pwalletMain->mapAddressBook[address]));
         }
-        entry.push_back(Pair("scriptPubKey", HexStr(pk.begin(), pk.end())));
+        entry.push_back(json_spirit::Pair("scriptPubKey", HexStr(pk.begin(), pk.end())));
         if (pk.IsPayToScriptHash())
         {
             CTxDestination address;
@@ -241,21 +236,21 @@ Value listunspent(const Array& params, bool fHelp)
                 const CScriptID& hash = boost::get<const CScriptID&>(address);
                 CScript redeemScript;
                 if (pwalletMain->GetCScript(hash, redeemScript))
-                    entry.push_back(Pair("redeemScript", HexStr(redeemScript.begin(), redeemScript.end())));
+                    entry.push_back(json_spirit::Pair("redeemScript", HexStr(redeemScript.begin(), redeemScript.end())));
             }
         }
-        entry.push_back(Pair("amount",ValueFromAmount(nValue)));
-        entry.push_back(Pair("confirmations",out.nDepth));
+        entry.push_back(json_spirit::Pair("amount",ValueFromAmount(nValue)));
+        entry.push_back(json_spirit::Pair("confirmations",out.nDepth));
         results.push_back(entry);
     }
 
     return results;
 }
 
-Value createrawtransaction(const Array& params, bool fHelp)
+json_spirit::Value createrawtransaction(const json_spirit::Array& params, bool fHelp)
 {
     if (fHelp || params.size() != 2)
-        throw runtime_error(
+        throw std::runtime_error(
             "createrawtransaction [{\"txid\":txid,\"vout\":n},...] {address:amount,...}\n"
             "Create a transaction spending given inputs\n"
             "(array of objects containing transaction id and output number),\n"
@@ -264,21 +259,21 @@ Value createrawtransaction(const Array& params, bool fHelp)
             "Note that the transaction's inputs are not signed, and\n"
             "it is not stored in the wallet or transmitted to the network.");
 
-    RPCTypeCheck(params, list_of(array_type)(obj_type));
+    RPCTypeCheck(params, boost::assign::list_of(json_spirit::array_type)(json_spirit::obj_type));
 
-    Array inputs = params[0].get_array();
-    Object sendTo = params[1].get_obj();
+    json_spirit::Array inputs = params[0].get_array();
+    json_spirit::Object sendTo = params[1].get_obj();
 
     CTransaction rawTx;
 
-    BOOST_FOREACH(const Value& input, inputs)
+    BOOST_FOREACH(const json_spirit::Value& input, inputs)
     {
-        const Object& o = input.get_obj();
+        const json_spirit::Object& o = input.get_obj();
 
         uint256 txid = ParseHashO(o, "txid");
 
-        const Value& vout_v = find_value(o, "vout");
-        if (vout_v.type() != int_type)
+        const json_spirit::Value& vout_v = find_value(o, "vout");
+        if (vout_v.type() != json_spirit::int_type)
             throw JSONRPCError(RPC_INVALID_PARAMETER, "Invalid parameter, missing vout key");
         int nOutput = vout_v.get_int();
         if (nOutput < 0)
@@ -288,15 +283,15 @@ Value createrawtransaction(const Array& params, bool fHelp)
         rawTx.vin.push_back(in);
     }
 
-    set<CBitcoinAddress> setAddress;
-    BOOST_FOREACH(const Pair& s, sendTo)
+    std::set<CBitcoinAddress> setAddress;
+    BOOST_FOREACH(const json_spirit::Pair& s, sendTo)
     {
         CBitcoinAddress address(s.name_);
         if (!address.IsValid())
-            throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, string("Invalid Bitcoin address: ")+s.name_);
+            throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, std::string("Invalid Bitcoin address: ")+s.name_);
 
         if (setAddress.count(address))
-            throw JSONRPCError(RPC_INVALID_PARAMETER, string("Invalid parameter, duplicated address: ")+s.name_);
+            throw JSONRPCError(RPC_INVALID_PARAMETER, std::string("Invalid parameter, duplicated address: ")+s.name_);
         setAddress.insert(address);
 
         CScript scriptPubKey;
@@ -312,14 +307,14 @@ Value createrawtransaction(const Array& params, bool fHelp)
     return HexStr(ss.begin(), ss.end());
 }
 
-Value decoderawtransaction(const Array& params, bool fHelp)
+json_spirit::Value decoderawtransaction(const json_spirit::Array& params, bool fHelp)
 {
     if (fHelp || params.size() != 1)
-        throw runtime_error(
+        throw std::runtime_error(
             "decoderawtransaction <hex string>\n"
             "Return a JSON object representing the serialized, hex-encoded transaction.");
 
-    vector<unsigned char> txData(ParseHexV(params[0], "argument"));
+    std::vector<unsigned char> txData(ParseHexV(params[0], "argument"));
     CDataStream ssData(txData, SER_NETWORK, PROTOCOL_VERSION);
     CTransaction tx;
     try {
@@ -329,16 +324,16 @@ Value decoderawtransaction(const Array& params, bool fHelp)
         throw JSONRPCError(RPC_DESERIALIZATION_ERROR, "TX decode failed");
     }
 
-    Object result;
+    json_spirit::Object result;
     TxToJSON(tx, 0, result);
 
     return result;
 }
 
-Value signrawtransaction(const Array& params, bool fHelp)
+json_spirit::Value signrawtransaction(const json_spirit::Array& params, bool fHelp)
 {
     if (fHelp || params.size() < 1 || params.size() > 4)
-        throw runtime_error(
+        throw std::runtime_error(
             "signrawtransaction <hex string> [{\"txid\":txid,\"vout\":n,\"scriptPubKey\":hex,\"redeemScript\":hex},...] [<privatekey1>,...] [sighashtype=\"ALL\"]\n"
             "Sign inputs for raw transaction (serialized, hex-encoded).\n"
             "Second optional argument (may be null) is an array of previous transaction outputs that\n"
@@ -352,11 +347,11 @@ Value signrawtransaction(const Array& params, bool fHelp)
             "  complete : 1 if transaction has a complete set of signature (0 if not)"
             + HelpRequiringPassphrase());
 
-    RPCTypeCheck(params, list_of(str_type)(array_type)(array_type)(str_type), true);
+    RPCTypeCheck(params, boost::assign::list_of(json_spirit::str_type)(json_spirit::array_type)(json_spirit::array_type)(json_spirit::str_type), true);
 
-    vector<unsigned char> txData(ParseHexV(params[0], "argument 1"));
+    std::vector<unsigned char> txData(ParseHexV(params[0], "argument 1"));
     CDataStream ssData(txData, SER_NETWORK, PROTOCOL_VERSION);
-    vector<CTransaction> txVariants;
+    std::vector<CTransaction> txVariants;
     while (!ssData.empty())
     {
         try {
@@ -397,11 +392,11 @@ Value signrawtransaction(const Array& params, bool fHelp)
 
     bool fGivenKeys = false;
     CBasicKeyStore tempKeystore;
-    if (params.size() > 2 && params[2].type() != null_type)
+    if (params.size() > 2 && params[2].type() != json_spirit::null_type)
     {
         fGivenKeys = true;
-        Array keys = params[2].get_array();
-        BOOST_FOREACH(Value k, keys)
+        json_spirit::Array keys = params[2].get_array();
+        BOOST_FOREACH(json_spirit::Value k, keys)
         {
             CBitcoinSecret vchSecret;
             bool fGood = vchSecret.SetString(k.get_str());
@@ -418,17 +413,17 @@ Value signrawtransaction(const Array& params, bool fHelp)
         EnsureWalletIsUnlocked();
 
     // Add previous txouts given in the RPC call:
-    if (params.size() > 1 && params[1].type() != null_type)
+    if (params.size() > 1 && params[1].type() != json_spirit::null_type)
     {
-        Array prevTxs = params[1].get_array();
-        BOOST_FOREACH(Value& p, prevTxs)
+        json_spirit::Array prevTxs = params[1].get_array();
+        BOOST_FOREACH(json_spirit::Value& p, prevTxs)
         {
-            if (p.type() != obj_type)
+            if (p.type() != json_spirit::obj_type)
                 throw JSONRPCError(RPC_DESERIALIZATION_ERROR, "expected object with {\"txid'\",\"vout\",\"scriptPubKey\"}");
 
-            Object prevOut = p.get_obj();
+            json_spirit::Object prevOut = p.get_obj();
 
-            RPCTypeCheck(prevOut, map_list_of("txid", str_type)("vout", int_type)("scriptPubKey", str_type));
+            RPCTypeCheck(prevOut, boost::assign::map_list_of("txid", json_spirit::str_type)("vout", json_spirit::int_type)("scriptPubKey", json_spirit::str_type));
 
             uint256 txid = ParseHashO(prevOut, "txid");
 
@@ -436,13 +431,13 @@ Value signrawtransaction(const Array& params, bool fHelp)
             if (nOut < 0)
                 throw JSONRPCError(RPC_DESERIALIZATION_ERROR, "vout must be positive");
 
-            vector<unsigned char> pkData(ParseHexO(prevOut, "scriptPubKey"));
+            std::vector<unsigned char> pkData(ParseHexO(prevOut, "scriptPubKey"));
             CScript scriptPubKey(pkData.begin(), pkData.end());
 
             CCoins coins;
             if (view.GetCoins(txid, coins)) {
                 if (coins.IsAvailable(nOut) && coins.vout[nOut].scriptPubKey != scriptPubKey) {
-                    string err("Previous output scriptPubKey mismatch:\n");
+                    std::string err("Previous output scriptPubKey mismatch:\n");
                     err = err + coins.vout[nOut].scriptPubKey.ToString() + "\nvs:\n"+
                         scriptPubKey.ToString();
                     throw JSONRPCError(RPC_DESERIALIZATION_ERROR, err);
@@ -459,11 +454,11 @@ Value signrawtransaction(const Array& params, bool fHelp)
             // given), add redeemScript to the tempKeystore so it can be signed:
             if (fGivenKeys && scriptPubKey.IsPayToScriptHash())
             {
-                RPCTypeCheck(prevOut, map_list_of("txid", str_type)("vout", int_type)("scriptPubKey", str_type)("redeemScript",str_type));
-                Value v = find_value(prevOut, "redeemScript");
-                if (!(v == Value::null))
+                RPCTypeCheck(prevOut, boost::assign::map_list_of("txid", json_spirit::str_type)("vout", json_spirit::int_type)("scriptPubKey", json_spirit::str_type)("redeemScript", json_spirit::str_type));
+                json_spirit::Value v = find_value(prevOut, "redeemScript");
+                if (!(v == json_spirit::Value::null))
                 {
-                    vector<unsigned char> rsData(ParseHexV(v, "redeemScript"));
+                    std::vector<unsigned char> rsData(ParseHexV(v, "redeemScript"));
                     CScript redeemScript(rsData.begin(), rsData.end());
                     tempKeystore.AddCScript(redeemScript);
                 }
@@ -474,18 +469,18 @@ Value signrawtransaction(const Array& params, bool fHelp)
     const CKeyStore& keystore = (fGivenKeys ? tempKeystore : *pwalletMain);
 
     int nHashType = SIGHASH_ALL;
-    if (params.size() > 3 && params[3].type() != null_type)
+    if (params.size() > 3 && params[3].type() != json_spirit::null_type)
     {
-        static map<string, int> mapSigHashValues =
+        static std::map<std::string, int> mapSigHashValues =
             boost::assign::map_list_of
-            (string("ALL"), int(SIGHASH_ALL))
-            (string("ALL|ANYONECANPAY"), int(SIGHASH_ALL|SIGHASH_ANYONECANPAY))
-            (string("NONE"), int(SIGHASH_NONE))
-            (string("NONE|ANYONECANPAY"), int(SIGHASH_NONE|SIGHASH_ANYONECANPAY))
-            (string("SINGLE"), int(SIGHASH_SINGLE))
-            (string("SINGLE|ANYONECANPAY"), int(SIGHASH_SINGLE|SIGHASH_ANYONECANPAY))
+            (std::string("ALL"), int(SIGHASH_ALL))
+            (std::string("ALL|ANYONECANPAY"), int(SIGHASH_ALL|SIGHASH_ANYONECANPAY))
+            (std::string("NONE"), int(SIGHASH_NONE))
+            (std::string("NONE|ANYONECANPAY"), int(SIGHASH_NONE|SIGHASH_ANYONECANPAY))
+            (std::string("SINGLE"), int(SIGHASH_SINGLE))
+            (std::string("SINGLE|ANYONECANPAY"), int(SIGHASH_SINGLE|SIGHASH_ANYONECANPAY))
             ;
-        string strHashType = params[3].get_str();
+        std::string strHashType = params[3].get_str();
         if (mapSigHashValues.count(strHashType))
             nHashType = mapSigHashValues[strHashType];
         else
@@ -520,24 +515,24 @@ Value signrawtransaction(const Array& params, bool fHelp)
             fComplete = false;
     }
 
-    Object result;
+    json_spirit::Object result;
     CDataStream ssTx(SER_NETWORK, PROTOCOL_VERSION);
     ssTx << mergedTx;
-    result.push_back(Pair("hex", HexStr(ssTx.begin(), ssTx.end())));
-    result.push_back(Pair("complete", fComplete));
+    result.push_back(json_spirit::Pair("hex", HexStr(ssTx.begin(), ssTx.end())));
+    result.push_back(json_spirit::Pair("complete", fComplete));
 
     return result;
 }
 
-Value sendrawtransaction(const Array& params, bool fHelp)
+json_spirit::Value sendrawtransaction(const json_spirit::Array& params, bool fHelp)
 {
     if (fHelp || params.size() < 1 || params.size() > 1)
-        throw runtime_error(
+        throw std::runtime_error(
             "sendrawtransaction <hex string>\n"
             "Submits raw transaction (serialized, hex-encoded) to local node and network.");
 
     // parse hex string from parameter
-    vector<unsigned char> txData(ParseHexV(params[0], "parameter"));
+    std::vector<unsigned char> txData(ParseHexV(params[0], "parameter"));
     CDataStream ssData(txData, SER_NETWORK, PROTOCOL_VERSION);
     CTransaction tx;
 

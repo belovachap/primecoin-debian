@@ -1,3 +1,6 @@
+// Copyright (c) 2018 Chapman Shoop
+// See COPYING for license.
+
 #include <vector>
 #include <boost/test/unit_test.hpp>
 #include <boost/foreach.hpp>
@@ -6,7 +9,6 @@
 #include "wallet.h"
 #include "util.h"
 
-using namespace std;
 
 BOOST_AUTO_TEST_SUITE(util_tests)
 

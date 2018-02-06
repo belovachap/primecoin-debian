@@ -1,7 +1,7 @@
 // Copyright (c) 2009-2012 The Bitcoin developers
 // Copyright (c) 2013 The Primecoin developers
-// Distributed under the MIT/X11 software license, see the accompanying
-// file COPYING or http://www.opensource.org/licenses/mit-license.php.
+// Copyright (c) 2018 Chapman Shoop
+// See COPYING for license.
 
 #include <QApplication>
 
@@ -20,8 +20,6 @@
 #include <QLocalSocket>
 #include <QStringList>
 #include <QUrl>
-
-using namespace boost;
 
 const int BITCOIN_IPC_CONNECT_TIMEOUT = 1000; // milliseconds
 const QString BITCOIN_IPC_PREFIX("primecoin:");
