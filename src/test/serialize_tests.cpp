@@ -1,11 +1,10 @@
-#include <boost/test/unit_test.hpp>
+// Copyright (c) 2018 Chapman Shoop
+// See COPYING for license.
 
-#include <string>
-#include <vector>
+#include <boost/test/unit_test.hpp>
 
 #include "serialize.h"
 
-using namespace std;
 
 BOOST_AUTO_TEST_SUITE(serialize_tests)
 

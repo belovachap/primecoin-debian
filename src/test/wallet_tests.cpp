@@ -1,7 +1,11 @@
+// Copyright (c) 2018 Chapman Shoop
+// See COPYING for license.
+
 #include <boost/test/unit_test.hpp>
 
 #include "main.h"
 #include "wallet.h"
+
 
 // how many times to run all the tests to have a chance to catch errors that only show up with particular random shuffles
 #define RUN_TESTS 100
@@ -10,14 +14,12 @@
 // we repeat those tests this many times and only complain if all iterations of the test fail
 #define RANDOM_REPEATS 5
 
-using namespace std;
-
-typedef set<pair<const CWalletTx*,unsigned int> > CoinSet;
+typedef std::set<std::pair<const CWalletTx*,unsigned int> > CoinSet;
 
 BOOST_AUTO_TEST_SUITE(wallet_tests)
 
 static CWallet wallet;
-static vector<COutput> vCoins;
+static std::vector<COutput> vCoins;
 
 static void add_coin(int64 nValue, int nAge = 6*24, bool fIsFromMe = false, int nInput=0)
 {
@@ -48,7 +50,7 @@ static void empty_wallet(void)
 
 static bool equal_sets(CoinSet a, CoinSet b)
 {
-    pair<CoinSet::iterator, CoinSet::iterator> ret = mismatch(a.begin(), a.end(), b.begin());
+    std::pair<CoinSet::iterator, CoinSet::iterator> ret = mismatch(a.begin(), a.end(), b.begin());
     return ret.first == a.end() && ret.second == b.end();
 }
 

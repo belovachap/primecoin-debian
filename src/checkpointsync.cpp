@@ -1,7 +1,7 @@
 // Copyright (c) 2012-2013 PPCoin developers
 // Copyright (c) 2013 Primecoin developers
-// Distributed under conditional MIT/X11 software license,
-// see the accompanying file COPYING
+// Copyright (c) 2018 Chapman Shoop
+// See COPYING for license.
 //
 // The synchronized checkpoint system is first developed by Sunny King for
 // ppcoin network in 2012, giving cryptocurrency developers a tool to gain
@@ -71,10 +71,6 @@
 #include "main.h"
 #include "txdb.h"
 #include "uint256.h"
-
-using namespace json_spirit;
-using namespace std;
-
 
 // ppcoin: sync-checkpoint master key
 const std::string CSyncCheckpoint::strMainPubKey = "04c0c44f7e3bc58c734e65bb0e97860b2f5e53d12a5e1ea30ec6d73df821349f83ff0a061221dfcab3f1235d5b2fff85587a72f8f74f4c56d9e17087a1e8c28b04";
@@ -462,77 +458,77 @@ bool CSyncCheckpoint::ProcessSyncCheckpoint(CNode* pfrom)
 
 // RPC commands related to sync checkpoints
 // get information of sync-checkpoint (first introduced in ppcoin)
-Value getcheckpoint(const Array& params, bool fHelp)
+json_spirit::Value getcheckpoint(const json_spirit::Array& params, bool fHelp)
 {
     if (fHelp || params.size() != 0)
-        throw runtime_error(
+        throw std::runtime_error(
             "getcheckpoint\n"
             "Show info of synchronized checkpoint.\n");
 
-    Object result;
+    json_spirit::Object result;
     CBlockIndex* pindexCheckpoint;
 
-    result.push_back(Pair("synccheckpoint", hashSyncCheckpoint.ToString().c_str()));
+    result.push_back(json_spirit::Pair("synccheckpoint", hashSyncCheckpoint.ToString().c_str()));
     if (mapBlockIndex.count(hashSyncCheckpoint))
     {
         pindexCheckpoint = mapBlockIndex[hashSyncCheckpoint];
-        result.push_back(Pair("height", pindexCheckpoint->nHeight));
-        result.push_back(Pair("timestamp", (boost::int64_t) pindexCheckpoint->GetBlockTime()));
+        result.push_back(json_spirit::Pair("height", pindexCheckpoint->nHeight));
+        result.push_back(json_spirit::Pair("timestamp", (boost::int64_t) pindexCheckpoint->GetBlockTime()));
     }
-    result.push_back(Pair("subscribemode", IsSyncCheckpointEnforced()? "enforce" : "advisory"));
+    result.push_back(json_spirit::Pair("subscribemode", IsSyncCheckpointEnforced()? "enforce" : "advisory"));
     if (mapArgs.count("-checkpointkey"))
-        result.push_back(Pair("checkpointmaster", true));
+        result.push_back(json_spirit::Pair("checkpointmaster", true));
 
     return result;
 }
 
-Value sendcheckpoint(const Array& params, bool fHelp)
+json_spirit::Value sendcheckpoint(const json_spirit::Array& params, bool fHelp)
 {
     if (fHelp || params.size() != 1)
-        throw runtime_error(
+        throw std::runtime_error(
             "sendcheckpoint <blockhash>\n"
             "Send a synchronized checkpoint.\n");
 
     if (!mapArgs.count("-checkpointkey") || CSyncCheckpoint::strMasterPrivKey.empty())
-        throw runtime_error("Not a checkpointmaster node, first set checkpointkey in configuration and restart client. ");
+        throw std::runtime_error("Not a checkpointmaster node, first set checkpointkey in configuration and restart client. ");
 
     std::string strHash = params[0].get_str();
     uint256 hash(strHash);
 
     if (!SendSyncCheckpoint(hash))
-        throw runtime_error("Failed to send checkpoint, check log. ");
+        throw std::runtime_error("Failed to send checkpoint, check log. ");
 
-    Object result;
+    json_spirit::Object result;
     CBlockIndex* pindexCheckpoint;
 
-    result.push_back(Pair("synccheckpoint", hashSyncCheckpoint.ToString().c_str()));
+    result.push_back(json_spirit::Pair("synccheckpoint", hashSyncCheckpoint.ToString().c_str()));
     if (mapBlockIndex.count(hashSyncCheckpoint))
     {
         pindexCheckpoint = mapBlockIndex[hashSyncCheckpoint];
-        result.push_back(Pair("height", pindexCheckpoint->nHeight));
-        result.push_back(Pair("timestamp", (boost::int64_t) pindexCheckpoint->GetBlockTime()));
+        result.push_back(json_spirit::Pair("height", pindexCheckpoint->nHeight));
+        result.push_back(json_spirit::Pair("timestamp", (boost::int64_t) pindexCheckpoint->GetBlockTime()));
     }
-    result.push_back(Pair("subscribemode", IsSyncCheckpointEnforced()? "enforce" : "advisory"));
+    result.push_back(json_spirit::Pair("subscribemode", IsSyncCheckpointEnforced()? "enforce" : "advisory"));
     if (mapArgs.count("-checkpointkey"))
-        result.push_back(Pair("checkpointmaster", true));
+        result.push_back(json_spirit::Pair("checkpointmaster", true));
 
     return result;
 }
 
-Value enforcecheckpoint(const Array& params, bool fHelp)
+json_spirit::Value enforcecheckpoint(const json_spirit::Array& params, bool fHelp)
 {
     if (fHelp || params.size() != 1)
-        throw runtime_error(
+        throw std::runtime_error(
             "enforcecheckpoint <enforce>\n"
             "<enforce> is true or false to enable or disable enforcement of broadcasted checkpoints by developer.");
 
     bool fEnforceCheckpoint = params[0].get_bool();
     if (mapArgs.count("-checkpointkey") && !fEnforceCheckpoint)
-        throw runtime_error(
+        throw std::runtime_error(
             "checkpoint master node must enforce synchronized checkpoints.");
     if (fEnforceCheckpoint)
         strCheckpointWarning = "";
     mapArgs["-checkpointenforce"] = (fEnforceCheckpoint ? "1" : "0");
-    return Value::null;
+    return json_spirit::Value::null;
 }
 

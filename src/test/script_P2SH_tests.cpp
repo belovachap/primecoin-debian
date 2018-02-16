@@ -1,3 +1,6 @@
+// Copyright (c) 2018 Chapman Shoop
+// See COPYING for license.
+
 #include <boost/assert.hpp>
 #include <boost/assign/list_of.hpp>
 #include <boost/assign/list_inserter.hpp>
@@ -9,7 +12,6 @@
 #include "../script.h"
 #include "../wallet.h"
 
-using namespace std;
 
 // Test routines internal to script.cpp:
 extern uint256 SignatureHash(CScript scriptCode, const CTransaction& txTo, unsigned int nIn, int nHashType);
@@ -248,7 +250,7 @@ BOOST_AUTO_TEST_CASE(AreInputsStandard)
     CCoinsViewCache coins(coinsDummy);
     CBasicKeyStore keystore;
     CKey key[3];
-    vector<CKey> keys;
+    std::vector<CKey> keys;
     for (int i = 0; i < 3; i++)
     {
         key[i].MakeNewKey(true);
