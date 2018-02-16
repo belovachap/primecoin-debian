@@ -98,10 +98,8 @@ extern bool fDebugNet;
 extern bool fPrintToConsole;
 extern bool fPrintToDebugger;
 extern bool fDaemon;
-extern bool fServer;
 extern bool fCommandLine;
 extern std::string strMiscWarning;
-extern bool fTestNet;
 extern bool fNoListen;
 extern bool fLogTimestamps;
 extern volatile bool fReopenDebugLog;
@@ -179,18 +177,8 @@ int64 GetTime();
 void SetMockTime(int64 nMockTimeIn);
 int64 GetAdjustedTime();
 int64 GetTimeOffset();
-std::string FormatFullVersion();
-std::string FormatSubVersion(const std::string& name, int nClientVersion, const std::vector<std::string>& comments);
 void AddTimeData(const CNetAddr& ip, int64 nTime);
 void runCommand(std::string strCommand);
-
-
-
-
-
-
-
-
 
 inline std::string i64tostr(int64 n)
 {

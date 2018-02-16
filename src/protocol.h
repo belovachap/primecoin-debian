@@ -1,25 +1,21 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2012 The Bitcoin developers
 // Copyright (c) 2013 Primecoin developers
-// Distributed under the MIT/X11 software license, see the accompanying
-// file COPYING or http://www.opensource.org/licenses/mit-license.php.
+// Copyright (c) 2018 Chapman Shoop
+// See COPYING for license.
 
-#ifndef __cplusplus
-# error This header can only be compiled as C++.
-#endif
+#ifndef __PROTOCOL_H__
+#define __PROTOCOL_H__
 
-#ifndef __INCLUDED_PROTOCOL_H__
-#define __INCLUDED_PROTOCOL_H__
-
-#include "serialize.h"
-#include "netbase.h"
 #include <string>
+
+#include "netbase.h"
+#include "serialize.h"
 #include "uint256.h"
 
+
 #define PRIMECOIN_PORT   9911
-#define RPC_PORT         9912
 #define TESTNET_PORT     9913
-#define TESTNET_RPC_PORT 9914
 
 extern bool fTestNet;
 
@@ -27,7 +23,6 @@ static inline unsigned short GetDefaultPort(const bool testnet = fTestNet)
 {
     return testnet ? TESTNET_PORT : PRIMECOIN_PORT;
 }
-
 
 extern unsigned char pchMessageStart[4];
 
@@ -151,4 +146,4 @@ enum
     MSG_FILTERED_BLOCK,
 };
 
-#endif // __INCLUDED_PROTOCOL_H__
+#endif // __PROTOCOL_H__

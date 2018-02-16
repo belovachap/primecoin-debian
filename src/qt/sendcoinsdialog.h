@@ -1,7 +1,11 @@
-#ifndef SENDCOINSDIALOG_H
-#define SENDCOINSDIALOG_H
+// Copyright (c) 2018 Chapman Shoop
+// See COPYING for license.
+
+#ifndef __SENDCOINSDIALOG_H__
+#define __SENDCOINSDIALOG_H__
 
 #include <QDialog>
+
 
 namespace Ui {
     class SendCoinsDialog;
@@ -14,7 +18,7 @@ QT_BEGIN_NAMESPACE
 class QUrl;
 QT_END_NAMESPACE
 
-/** Dialog for sending bitcoins */
+/** Dialog for sending primecoins */
 class SendCoinsDialog : public QDialog
 {
     Q_OBJECT
@@ -49,7 +53,6 @@ private:
 private slots:
     void on_sendButton_clicked();
     void removeEntry(SendCoinsEntry* entry);
-    void updateDisplayUnit();
 };
 
-#endif // SENDCOINSDIALOG_H
+#endif // __SENDCOINSDIALOG_H__

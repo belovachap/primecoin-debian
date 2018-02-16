@@ -1,15 +1,15 @@
-/*
- * Qt4 bitcoin GUI.
- *
- * W.J. van der Laan 2011-2012
- * The Bitcoin Developers 2011-2013
- */
-#ifndef WALLETFRAME_H
-#define WALLETFRAME_H
+// Copyright (c) 2011-2012 W.J. van der Laan
+// Copyright (c) 2011-2013 The Bitcoin Developers
+// Copyright (c) 2018 Chapman Shoop
+// See COPYING for license.
+
+#ifndef __WALLETFRAME_H__
+#define __WALLETFRAME_H__
 
 #include <QFrame>
 
-class BitcoinGUI;
+
+class PrimecoinGUI;
 class ClientModel;
 class WalletModel;
 class WalletStack;
@@ -18,7 +18,7 @@ class WalletFrame : public QFrame
 {
     Q_OBJECT
 public:
-    explicit WalletFrame(BitcoinGUI *_gui);
+    explicit WalletFrame(PrimecoinGUI *_gui);
     ~WalletFrame();
 
     void setClientModel(ClientModel *clientModel);
@@ -33,7 +33,7 @@ public:
     void showOutOfSyncWarning(bool fShow);
 
 private:
-    BitcoinGUI *gui;
+    PrimecoinGUI *gui;
     ClientModel *clientModel;
     WalletStack *walletStack;
 
@@ -48,11 +48,6 @@ public slots:
     void gotoReceiveCoinsPage();
     /** Switch to send coins page */
     void gotoSendCoinsPage(QString addr = "");
-
-    /** Show Sign/Verify Message dialog and switch to sign message tab */
-    void gotoSignMessageTab(QString addr = "");
-    /** Show Sign/Verify Message dialog and switch to verify message tab */
-    void gotoVerifyMessageTab(QString addr = "");
 
     /** Encrypt the wallet */
     void encryptWallet(bool status);
@@ -70,4 +65,4 @@ public slots:
     void setEncryptionStatus();
 };
 
-#endif // WALLETFRAME_H
+#endif // __WALLETFRAME_H__

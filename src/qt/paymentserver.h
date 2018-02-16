@@ -1,9 +1,12 @@
-#ifndef PAYMENTSERVER_H
-#define PAYMENTSERVER_H
+// Copyright (c) 2018 Chapman Shoop
+// See COPYING for license.
+
+#ifndef __PAYMENTSERVER_H__
+#define __PAYMENTSERVER_H__
 
 //
 // This class handles payment requests from clicking on
-// bitcoin: URIs
+// primecoin: URIs
 //
 // This is somewhat tricky, because we have to deal with
 // the situation where the user clicks on a link during
@@ -27,9 +30,10 @@
 // method that finds URIs passed in the command line
 // and, if a server is running in another process,
 // sends them to the server.
-//
+
 #include <QObject>
 #include <QString>
+
 
 class QApplication;
 class QLocalServer;
@@ -64,4 +68,4 @@ private slots:
     void handleURIConnection();
 };
 
-#endif // PAYMENTSERVER_H
+#endif // __PAYMENTSERVER_H__

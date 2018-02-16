@@ -1,22 +1,24 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2012 The Bitcoin developers
-// Distributed under the MIT/X11 software license, see the accompanying
-// file COPYING or http://www.opensource.org/licenses/mit-license.php.
-#ifndef BITCOIN_WALLET_H
-#define BITCOIN_WALLET_H
+// Copyright (c) 2018 Chapman Shoop
+// See COPYING for license.
+
+#ifndef __WALLET_H__
+#define __WALLET_H__
 
 #include <string>
 #include <vector>
 
 #include <stdlib.h>
 
-#include "main.h"
 #include "key.h"
 #include "keystore.h"
+#include "main.h"
 #include "script.h"
 #include "ui_interface.h"
 #include "util.h"
 #include "walletdb.h"
+
 
 class CAccountingEntry;
 class CWalletTx;
@@ -859,4 +861,4 @@ private:
 
 bool GetWalletFile(CWallet* pwallet, std::string &strWalletFileOut);
 
-#endif
+#endif // __WALLET_H__

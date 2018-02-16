@@ -1,17 +1,20 @@
-#include "overviewpage.h"
-#include "ui_overviewpage.h"
-
-#include "clientmodel.h"
-#include "walletmodel.h"
-#include "bitcoinunits.h"
-#include "optionsmodel.h"
-#include "transactiontablemodel.h"
-#include "transactionfilterproxy.h"
-#include "guiutil.h"
-#include "guiconstants.h"
+// Copyright (c) 2018 Chapman Shoop
+// See COPYING for license.
 
 #include <QAbstractItemDelegate>
 #include <QPainter>
+
+#include "clientmodel.h"
+#include "guiconstants.h"
+#include "guiutil.h"
+#include "primecoinunits.h"
+#include "transactionfilterproxy.h"
+#include "transactiontablemodel.h"
+#include "walletmodel.h"
+
+#include "overviewpage.h"
+#include "ui_overviewpage.h"
+
 
 #define DECORATION_SIZE 64
 #define NUM_ITEMS 3
@@ -20,7 +23,7 @@ class TxViewDelegate : public QAbstractItemDelegate
 {
     Q_OBJECT
 public:
-    TxViewDelegate(): QAbstractItemDelegate(), unit(BitcoinUnits::BTC)
+    TxViewDelegate(): QAbstractItemDelegate(), unit(PrimecoinUnits::XPM)
     {
 
     }
@@ -68,7 +71,7 @@ public:
             foreground = option.palette.color(QPalette::Text);
         }
         painter->setPen(foreground);
-        QString amountText = BitcoinUnits::formatWithUnit(unit, amount, true);
+        QString amountText = PrimecoinUnits::formatWithUnit(unit, amount, true);
         if(!confirmed)
         {
             amountText = QString("[") + amountText + QString("]");
@@ -133,19 +136,18 @@ OverviewPage::~OverviewPage()
 
 void OverviewPage::setBalance(qint64 balance, qint64 unconfirmedBalance, qint64 immatureBalance)
 {
-    int unit = walletModel->getOptionsModel()->getDisplayUnit();
-    currentBalance = balance;
-    currentUnconfirmedBalance = unconfirmedBalance;
-    currentImmatureBalance = immatureBalance;
-    ui->labelBalance->setText(BitcoinUnits::formatWithUnit(unit, balance));
-    ui->labelUnconfirmed->setText(BitcoinUnits::formatWithUnit(unit, unconfirmedBalance));
-    ui->labelImmature->setText(BitcoinUnits::formatWithUnit(unit, immatureBalance));
+    this->currentBalance = balance;
+    this->currentUnconfirmedBalance = unconfirmedBalance;
+    this->currentImmatureBalance = immatureBalance;
+    this->ui->labelBalance->setText(PrimecoinUnits::formatWithUnit(PrimecoinUnits::XPM, balance));
+    this->ui->labelUnconfirmed->setText(PrimecoinUnits::formatWithUnit(PrimecoinUnits::XPM, unconfirmedBalance));
+    this->ui->labelImmature->setText(PrimecoinUnits::formatWithUnit(PrimecoinUnits::XPM, immatureBalance));
 
     // only show immature (newly mined) balance if it's non-zero, so as not to complicate things
     // for the non-mining users
     bool showImmature = immatureBalance != 0;
-    ui->labelImmature->setVisible(showImmature);
-    ui->labelImmatureText->setVisible(showImmature);
+    this->ui->labelImmature->setVisible(showImmature);
+    this->ui->labelImmatureText->setVisible(showImmature);
 }
 
 void OverviewPage::setClientModel(ClientModel *model)
@@ -156,42 +158,21 @@ void OverviewPage::setClientModel(ClientModel *model)
 void OverviewPage::setWalletModel(WalletModel *model)
 {
     this->walletModel = model;
-    if(model && model->getOptionsModel())
-    {
-        // Set up transaction list
-        filter = new TransactionFilterProxy();
-        filter->setSourceModel(model->getTransactionTableModel());
-        filter->setLimit(NUM_ITEMS);
-        filter->setDynamicSortFilter(true);
-        filter->setSortRole(Qt::EditRole);
-        filter->sort(TransactionTableModel::Status, Qt::DescendingOrder);
+    
+    // Set up transaction list
+    filter = new TransactionFilterProxy();
+    filter->setSourceModel(model->getTransactionTableModel());
+    filter->setLimit(NUM_ITEMS);
+    filter->setDynamicSortFilter(true);
+    filter->setSortRole(Qt::EditRole);
+    filter->sort(TransactionTableModel::Status, Qt::DescendingOrder);
 
-        ui->listTransactions->setModel(filter);
-        ui->listTransactions->setModelColumn(TransactionTableModel::ToAddress);
+    ui->listTransactions->setModel(filter);
+    ui->listTransactions->setModelColumn(TransactionTableModel::ToAddress);
 
-        // Keep up to date with wallet
-        setBalance(model->getBalance(), model->getUnconfirmedBalance(), model->getImmatureBalance());
-        connect(model, SIGNAL(balanceChanged(qint64, qint64, qint64)), this, SLOT(setBalance(qint64, qint64, qint64)));
-
-        connect(model->getOptionsModel(), SIGNAL(displayUnitChanged(int)), this, SLOT(updateDisplayUnit()));
-    }
-
-    // update the display unit, to not use the default ("BTC")
-    updateDisplayUnit();
-}
-
-void OverviewPage::updateDisplayUnit()
-{
-    if(walletModel && walletModel->getOptionsModel())
-    {
-        if(currentBalance != -1)
-            setBalance(currentBalance, currentUnconfirmedBalance, currentImmatureBalance);
-
-        // Update txdelegate->unit with the current unit
-        txdelegate->unit = walletModel->getOptionsModel()->getDisplayUnit();
-
-        ui->listTransactions->update();
-    }
+    // Keep up to date with wallet
+    setBalance(model->getBalance(), model->getUnconfirmedBalance(), model->getImmatureBalance());
+    connect(model, SIGNAL(balanceChanged(qint64, qint64, qint64)), this, SLOT(setBalance(qint64, qint64, qint64)));
 }
 
 void OverviewPage::showOutOfSyncWarning(bool fShow)

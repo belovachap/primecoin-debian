@@ -9,5 +9,5 @@ before_install:
   - docker build -t primecoin-test .
 
 script:
-  - docker run primecoin-test bin/sh -c "qmake BITCOIN_QT_TEST=1 && make && ./bitcoin-qt_test"
+  - docker run primecoin-test bin/sh -c "qmake PRIMECOIN_QT_TEST=1 && make && ./primecoin-qt_test"
   - docker run primecoin-test bin/sh -c "cd src && make test"

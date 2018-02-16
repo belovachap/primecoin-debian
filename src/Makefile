@@ -101,7 +101,6 @@ xLDFLAGS=$(LDHARDENING) $(LDFLAGS)
 OBJS= \
     leveldb/libleveldb.a \
     obj/version.o \
-    obj/checkpoints.o \
     obj/netbase.o \
     obj/addrman.o \
     obj/crypter.o \
@@ -112,12 +111,6 @@ OBJS= \
     obj/main.o \
     obj/net.o \
     obj/protocol.o \
-    obj/bitcoinrpc.o \
-    obj/rpcdump.o \
-    obj/rpcnet.o \
-    obj/rpcwallet.o \
-    obj/rpcblockchain.o \
-    obj/rpcrawtransaction.o \
     obj/script.o \
     obj/sync.o \
     obj/util.o \
@@ -128,8 +121,7 @@ OBJS= \
     obj/noui.o \
     obj/leveldb.o \
     obj/txdb.o \
-    obj/prime.o \
-    obj/checkpointsync.o
+    obj/prime.o
 
 all: primecoind
 
@@ -150,10 +142,6 @@ leveldb/libleveldb.a:
 -include obj/*.P
 -include obj-test/*.P
 
-obj/build.h: FORCE
-	/bin/sh ../share/genbuild.sh obj/build.h
-version.cpp: obj/build.h
-DEFS += -DHAVE_BUILD_INFO
 
 obj/%.o: %.cpp
 	$(CXX) -c $(xCXXFLAGS) -MMD -MF $(@:%.o=%.d) -o $@ $<
@@ -183,7 +171,6 @@ clean:
 	-rm -f obj-test/*.o
 	-rm -f obj/*.P
 	-rm -f obj-test/*.P
-	-rm -f obj/build.h
 	-cd leveldb && $(MAKE) clean || true
 
 FORCE:

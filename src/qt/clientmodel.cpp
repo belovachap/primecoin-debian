@@ -1,24 +1,28 @@
-#include "clientmodel.h"
-
-#include "guiconstants.h"
-#include "optionsmodel.h"
-#include "addresstablemodel.h"
-#include "transactiontablemodel.h"
-
-#include "main.h"
-#include "checkpoints.h"
-#include "ui_interface.h"
+// Copyright (c) 2018 Chapman Shoop
+// See COPYING for license.
 
 #include <QDateTime>
 #include <QTimer>
 
+#include "addresstablemodel.h"
+#include "guiconstants.h"
+#include "main.h"
+#include "transactiontablemodel.h"
+#include "ui_interface.h"
+
+#include "clientmodel.h"
+
+
 static const int64 nClientStartupTime = GetTime();
 
-ClientModel::ClientModel(OptionsModel *optionsModel, QObject *parent) :
-    QObject(parent), optionsModel(optionsModel),
-    cachedNumBlocks(0), cachedNumBlocksOfPeers(0),
-    cachedReindexing(0), cachedImporting(0),
-    numBlocksAtStartup(-1), pollTimer(0)
+ClientModel::ClientModel(QObject *parent) :
+    QObject(parent),
+    cachedNumBlocks(0),
+    cachedNumBlocksOfPeers(0),
+    cachedReindexing(0),
+    cachedImporting(0),
+    numBlocksAtStartup(-1),
+    pollTimer(0)
 {
     pollTimer = new QTimer(this);
     pollTimer->setInterval(MODEL_UPDATE_DELAY);
@@ -51,17 +55,15 @@ int ClientModel::getNumBlocksAtStartup()
 
 QDateTime ClientModel::getLastBlockDate() const
 {
-    if (pindexBest)
+    if (pindexBest) {
         return QDateTime::fromTime_t(pindexBest->GetBlockTime());
-    else if(!isTestNet())
-        return QDateTime::fromTime_t(1231006505); // Genesis block's time
-    else
-        return QDateTime::fromTime_t(1296688602); // Genesis block's time (testnet)
+    }
+    return QDateTime::fromTime_t(1231006505); // Genesis block's time
 }
 
 double ClientModel::getVerificationProgress() const
 {
-    return Checkpoints::GuessVerificationProgress(pindexBest);
+    return 0.0;
 }
 
 void ClientModel::updateTimer()
@@ -88,11 +90,6 @@ void ClientModel::updateTimer()
 void ClientModel::updateNumConnections(int numConnections)
 {
     emit numConnectionsChanged(numConnections);
-}
-
-bool ClientModel::isTestNet() const
-{
-    return fTestNet;
 }
 
 bool ClientModel::inInitialBlockDownload() const
@@ -122,24 +119,9 @@ QString ClientModel::getStatusBarWarnings() const
     return QString::fromStdString(GetWarnings("statusbar"));
 }
 
-OptionsModel *ClientModel::getOptionsModel()
-{
-    return optionsModel;
-}
-
 QString ClientModel::formatFullVersion() const
 {
-    return QString::fromStdString(FormatFullVersion());
-}
-
-QString ClientModel::formatBuildDate() const
-{
-    return QString::fromStdString(CLIENT_DATE);
-}
-
-bool ClientModel::isReleaseVersion() const
-{
-    return CLIENT_VERSION_IS_RELEASE;
+    return QString::fromStdString(FormatVersion(PRIMECOIN_VERSION));
 }
 
 QString ClientModel::clientName() const

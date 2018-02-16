@@ -8,12 +8,13 @@
 #ifndef __MAIN_H__
 #define __MAIN_H__
 
+#include <list>
+
 #include "bignum.h"
-#include "sync.h"
 #include "net.h"
 #include "script.h"
+#include "sync.h"
 
-#include <list>
 
 class CWallet;
 class CBlock;
@@ -68,11 +69,6 @@ static const uint256 hashGenesisBlockOfficial("0x963d17ba4dc753138078a2f56afb3af
 static const uint256 hashGenesisBlockTestNet("0x221156cf301bc3585e72de34fe1efdb6fbd703bc27cfc468faa1cdd889d0efa0");
 
 extern CScript COINBASE_FLAGS;
-
-
-
-
-
 
 extern CCriticalSection cs_main;
 extern std::map<uint256, CBlockIndex*> mapBlockIndex;
@@ -147,8 +143,6 @@ bool LoadBlockIndex();
 void UnloadBlockIndex();
 /** Verify consistency of the block and coin databases */
 bool VerifyDB();
-/** Print the loaded block tree */
-void PrintBlockTree();
 /** Find a block by height in the currently-connected chain */
 CBlockIndex* FindBlockByHeight(int nHeight);
 /** Process protocol messages received from a given node */
@@ -157,12 +151,6 @@ bool ProcessMessages(CNode* pfrom);
 bool SendMessages(CNode* pto, bool fSendTrickle);
 /** Run an instance of the script checking thread */
 void ThreadScriptCheck();
-/** Run the miner threads */
-void GenerateBitcoins(bool fGenerate, CWallet* pwallet);
-/** Generate a new block, without valid proof-of-work */
-CBlockTemplate* CreateNewBlock(CReserveKey& reservekey);
-/** Modify the extranonce in a block */
-void IncrementExtraNonce(CBlock* pblock, CBlockIndex* pindexPrev, unsigned int& nExtraNonce);
 /** Do mining precalculation */
 void FormatHashBuffers(CBlock* pblock, char* pmidstate, char* pdata, char* phash1);
 /** Check mined block */
@@ -593,7 +581,7 @@ public:
      */
     unsigned int GetP2SHSigOpCount(CCoinsViewCache& mapInputs) const;
 
-    /** Amount of bitcoins spent by this transaction.
+    /** Amount of primecoins spent by this transaction.
         @return sum of all outputs (note: does not include fees)
      */
     int64 GetValueOut() const
@@ -608,7 +596,7 @@ public:
         return nValueOut;
     }
 
-    /** Amount of bitcoins coming in to this transaction
+    /** Amount of primecoins coming in to this transaction
         Note that lightweight clients may not know anything besides the hash of previous transactions,
         so may not be able to calculate this.
 
@@ -668,9 +656,12 @@ public:
     // Check whether all inputs of this transaction are valid (no double spends, scripts & sigs, amounts)
     // This does not modify the UTXO set. If pvChecks is not NULL, script checks are pushed onto it
     // instead of being performed inline.
-    bool CheckInputs(CValidationState &state, CCoinsViewCache &view, bool fScriptChecks = true,
-                     unsigned int flags = SCRIPT_VERIFY_P2SH | SCRIPT_VERIFY_STRICTENC,
-                     std::vector<CScriptCheck> *pvChecks = NULL) const;
+    bool CheckInputs(
+        CValidationState &state,
+        CCoinsViewCache &view,
+        unsigned int flags = SCRIPT_VERIFY_P2SH | SCRIPT_VERIFY_STRICTENC,
+        std::vector<CScriptCheck> *pvChecks = NULL
+    ) const;
 
     // Apply the effects of this transaction on the UTXO set represented by view
     void UpdateCoins(CValidationState &state, CCoinsViewCache &view, CTxUndo &txundo, int nHeight, const uint256 &txhash) const;

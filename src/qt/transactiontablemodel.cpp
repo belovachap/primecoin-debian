@@ -1,22 +1,24 @@
+// Copyright (c) 2018 Chapman Shoop
+// See COPYING for license.
+
+#include <QColor>
+#include <QDateTime>
+#include <QIcon>
+#include <QList>
+#include <QTimer>
+
+#include "addresstablemodel.h"
+#include "guiconstants.h"
+#include "guiutil.h"
+#include "primecoinunits.h"
+#include "transactiondesc.h"
+#include "transactionrecord.h"
+#include "ui_interface.h"
+#include "wallet.h"
+#include "walletmodel.h"
+
 #include "transactiontablemodel.h"
 
-#include "guiutil.h"
-#include "transactionrecord.h"
-#include "guiconstants.h"
-#include "transactiondesc.h"
-#include "walletmodel.h"
-#include "optionsmodel.h"
-#include "addresstablemodel.h"
-#include "bitcoinunits.h"
-
-#include "wallet.h"
-#include "ui_interface.h"
-
-#include <QList>
-#include <QColor>
-#include <QTimer>
-#include <QIcon>
-#include <QDateTime>
 
 // Amount column is right-aligned it contains numbers
 static int column_alignments[] = {
@@ -229,8 +231,6 @@ TransactionTableModel::TransactionTableModel(CWallet* wallet, WalletModel *paren
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(updateConfirmations()));
     timer->start(MODEL_UPDATE_DELAY);
-
-    connect(walletModel->getOptionsModel(), SIGNAL(displayUnitChanged(int)), this, SLOT(updateDisplayUnit()));
 }
 
 TransactionTableModel::~TransactionTableModel()
@@ -338,7 +338,7 @@ QString TransactionTableModel::lookupAddress(const std::string &address, bool to
     {
         description += label + QString(" ");
     }
-    if(label.isEmpty() || walletModel->getOptionsModel()->getDisplayAddresses() || tooltip)
+    if(label.isEmpty() || tooltip)
     {
         description += QString("(") + QString::fromStdString(address) + QString(")");
     }
@@ -424,7 +424,7 @@ QVariant TransactionTableModel::addressColor(const TransactionRecord *wtx) const
 
 QString TransactionTableModel::formatTxAmount(const TransactionRecord *wtx, bool showUnconfirmed) const
 {
-    QString str = BitcoinUnits::format(walletModel->getOptionsModel()->getDisplayUnit(), wtx->credit + wtx->debit);
+    QString str = PrimecoinUnits::format(PrimecoinUnits::XPM, wtx->credit + wtx->debit);
     if(showUnconfirmed)
     {
         if(!wtx->status.confirmed || wtx->status.maturity != TransactionStatus::Mature)
@@ -623,10 +623,4 @@ QModelIndex TransactionTableModel::index(int row, int column, const QModelIndex 
     {
         return QModelIndex();
     }
-}
-
-void TransactionTableModel::updateDisplayUnit()
-{
-    // emit dataChanged to update Amount column with the current unit
-    emit dataChanged(index(0, Amount), index(priv->size()-1, Amount));
 }

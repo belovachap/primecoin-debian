@@ -1,17 +1,19 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2012 The Bitcoin developers
-// Distributed under the MIT/X11 software license, see the accompanying
-// file COPYING or http://www.opensource.org/licenses/mit-license.php.
-#ifndef BITCOIN_DB_H
-#define BITCOIN_DB_H
+// Copyright (c) 2018 Chapman Shoop
+// See COPYING for license.
 
-#include "main.h"
+#ifndef __DB_H__
+#define __DB_H__
 
 #include <map>
 #include <string>
 #include <vector>
 
 #include <db_cxx.h>
+
+#include "main.h"
+
 
 class CAddress;
 class CAddrMan;
@@ -324,4 +326,4 @@ public:
     bool Read(CAddrMan& addr);
 };
 
-#endif // BITCOIN_DB_H
+#endif // __DB_H__

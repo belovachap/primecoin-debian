@@ -1,19 +1,17 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2012 The Bitcoin Developers
-// Distributed under the MIT/X11 software license, see the accompanying
-// file COPYING or http://www.opensource.org/licenses/mit-license.php.
+// Copyright (c) 2018 Chapman Shoop
+// See COPYING for license.
 
+#ifndef __BASE58_H__
+#define __BASE58_H__
 
-//
 // Why base-58 instead of standard base-64 encoding?
 // - Don't want 0OIl characters that look the same in some fonts and
 //      could be used to create visually identical looking account numbers.
 // - A string with non-alphanumeric characters is not as easily accepted as an account number.
 // - E-mail usually won't line-break if there's no punctuation to break at.
 // - Double-clicking selects the whole number as one word if it's all alphanumeric.
-//
-#ifndef BITCOIN_BASE58_H
-#define BITCOIN_BASE58_H
 
 #include <string>
 #include <vector>
@@ -23,6 +21,8 @@
 #include "script.h"
 #include "allocators.h"
 
+
+extern bool fTestNet;
 static const char* pszBase58 = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
 
 // Encode a byte sequence as a base58-encoded string
@@ -249,25 +249,25 @@ public:
     bool operator> (const CBase58Data& b58) const { return CompareTo(b58) >  0; }
 };
 
-/** base58-encoded Bitcoin addresses.
+/** base58-encoded Primecoin addresses.
  * Public-key-hash-addresses have version 0 (or 111 testnet).
  * The data vector contains RIPEMD160(SHA256(pubkey)), where pubkey is the serialized public key.
  * Script-hash-addresses have version 5 (or 196 testnet).
  * The data vector contains RIPEMD160(SHA256(cscript)), where cscript is the serialized redemption script.
  */
-class CBitcoinAddress;
-class CBitcoinAddressVisitor : public boost::static_visitor<bool>
+class PrimecoinAddress;
+class PrimecoinAddressVisitor : public boost::static_visitor<bool>
 {
 private:
-    CBitcoinAddress *addr;
+    PrimecoinAddress *addr;
 public:
-    CBitcoinAddressVisitor(CBitcoinAddress *addrIn) : addr(addrIn) { }
+    PrimecoinAddressVisitor(PrimecoinAddress *addrIn) : addr(addrIn) { }
     bool operator()(const CKeyID &id) const;
     bool operator()(const CScriptID &id) const;
     bool operator()(const CNoDestination &no) const;
 };
 
-class CBitcoinAddress : public CBase58Data
+class PrimecoinAddress : public CBase58Data
 {
 public:
     enum
@@ -290,7 +290,7 @@ public:
 
     bool Set(const CTxDestination &dest)
     {
-        return boost::apply_visitor(CBitcoinAddressVisitor(this), dest);
+        return boost::apply_visitor(PrimecoinAddressVisitor(this), dest);
     }
 
     bool IsValid() const
@@ -323,21 +323,21 @@ public:
         return fExpectTestNet == fTestNet && vchData.size() == nExpectedSize;
     }
 
-    CBitcoinAddress()
+    PrimecoinAddress()
     {
     }
 
-    CBitcoinAddress(const CTxDestination &dest)
+    PrimecoinAddress(const CTxDestination &dest)
     {
         Set(dest);
     }
 
-    CBitcoinAddress(const std::string& strAddress)
+    PrimecoinAddress(const std::string& strAddress)
     {
         SetString(strAddress);
     }
 
-    CBitcoinAddress(const char* pszAddress)
+    PrimecoinAddress(const char* pszAddress)
     {
         SetString(pszAddress);
     }
@@ -346,14 +346,12 @@ public:
         if (!IsValid())
             return CNoDestination();
         switch (nVersion) {
-        case PUBKEY_ADDRESS:
-        case PUBKEY_ADDRESS_TEST: {
+        case PUBKEY_ADDRESS: {
             uint160 id;
             memcpy(&id, &vchData[0], 20);
             return CKeyID(id);
         }
-        case SCRIPT_ADDRESS:
-        case SCRIPT_ADDRESS_TEST: {
+        case SCRIPT_ADDRESS: {
             uint160 id;
             memcpy(&id, &vchData[0], 20);
             return CScriptID(id);
@@ -366,8 +364,7 @@ public:
         if (!IsValid())
             return false;
         switch (nVersion) {
-        case PUBKEY_ADDRESS:
-        case PUBKEY_ADDRESS_TEST: {
+        case PUBKEY_ADDRESS: {
             uint160 id;
             memcpy(&id, &vchData[0], 20);
             keyID = CKeyID(id);
@@ -381,8 +378,7 @@ public:
         if (!IsValid())
             return false;
         switch (nVersion) {
-        case SCRIPT_ADDRESS:
-        case SCRIPT_ADDRESS_TEST: {
+        case SCRIPT_ADDRESS: {
             return true;
         }
         default: return false;
@@ -390,18 +386,18 @@ public:
     }
 };
 
-bool inline CBitcoinAddressVisitor::operator()(const CKeyID &id) const         { return addr->Set(id); }
-bool inline CBitcoinAddressVisitor::operator()(const CScriptID &id) const      { return addr->Set(id); }
-bool inline CBitcoinAddressVisitor::operator()(const CNoDestination &id) const { return false; }
+bool inline PrimecoinAddressVisitor::operator()(const CKeyID &id) const         { return addr->Set(id); }
+bool inline PrimecoinAddressVisitor::operator()(const CScriptID &id) const      { return addr->Set(id); }
+bool inline PrimecoinAddressVisitor::operator()(const CNoDestination &id) const { return false; }
 
 /** A base58-encoded secret key */
-class CBitcoinSecret : public CBase58Data
+class PrimecoinSecret : public CBase58Data
 {
 public:
     void SetSecret(const CSecret& vchSecret, bool fCompressed)
     {
         assert(vchSecret.size() == 32);
-        SetData(128 + (fTestNet ? CBitcoinAddress::PUBKEY_ADDRESS_TEST : CBitcoinAddress::PUBKEY_ADDRESS), &vchSecret[0], vchSecret.size());
+        SetData(128 + (fTestNet ? PrimecoinAddress::PUBKEY_ADDRESS_TEST : PrimecoinAddress::PUBKEY_ADDRESS), &vchSecret[0], vchSecret.size());
         if (fCompressed)
             vchData.push_back(1);
     }
@@ -420,10 +416,10 @@ public:
         bool fExpectTestNet = false;
         switch(nVersion)
         {
-            case (128 + CBitcoinAddress::PUBKEY_ADDRESS):
+            case (128 + PrimecoinAddress::PUBKEY_ADDRESS):
                 break;
 
-            case (128 + CBitcoinAddress::PUBKEY_ADDRESS_TEST):
+            case (128 + PrimecoinAddress::PUBKEY_ADDRESS_TEST):
                 fExpectTestNet = true;
                 break;
 
@@ -443,14 +439,14 @@ public:
         return SetString(strSecret.c_str());
     }
 
-    CBitcoinSecret(const CSecret& vchSecret, bool fCompressed)
+    PrimecoinSecret(const CSecret& vchSecret, bool fCompressed)
     {
         SetSecret(vchSecret, fCompressed);
     }
 
-    CBitcoinSecret()
+    PrimecoinSecret()
     {
     }
 };
 
-#endif // BITCOIN_BASE58_H
+#endif // __BASE58_H__

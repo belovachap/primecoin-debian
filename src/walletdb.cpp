@@ -196,7 +196,7 @@ ReadKeyValue(CWallet* pwallet, CDataStream& ssKey, CDataStream& ssValue,
         {
             std::string strAddress;
             ssKey >> strAddress;
-            ssValue >> pwallet->mapAddressBook[CBitcoinAddress(strAddress).Get()];
+            ssValue >> pwallet->mapAddressBook[PrimecoinAddress(strAddress).Get()];
         }
         else if (strType == "tx")
         {
