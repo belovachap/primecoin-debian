@@ -1,18 +1,18 @@
-# Primecoin for Debian
+# Primecoin for Debian 7 ("Wheezy") amd64-gnome 
 
-A fork of the reference primecoin client that focuses on support for Debian :wink:
+Primecoin? https://en.wikipedia.org/wiki/Primecoin
 
-https://en.wikipedia.org/wiki/Debian
+Debian? https://en.wikipedia.org/wiki/Debian
 
-## Debian 7 ("wheezy")
+7 ("Wheezy")? https://wiki.debian.org/DebianWheezy
 
-https://www.debian.org/releases/wheezy/
+amd64? https://en.wikipedia.org/wiki/X86-64
 
-https://wiki.debian.org/DebianWheezy
+gnome? https://en.wikipedia.org/wiki/GNOME
 
-[![Build Status](https://travis-ci.org/belovachap/primecoin-debian.svg?branch=release-v0.0)](https://travis-ci.org/belovachap/primecoin-debian)
+[![Build Status](https://travis-ci.org/belovachap/primecoin-debian.svg?branch=release-v1.0)](https://travis-ci.org/belovachap/primecoin-debian)
 
-Release branch: release-v0.0
+Release branch: release-v1.0
 
 Latest release tag: TBD
 
