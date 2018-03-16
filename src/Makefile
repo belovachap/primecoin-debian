@@ -103,7 +103,8 @@ OBJS= \
     obj/version.o \
     obj/checkpoints.o \
     obj/netbase.o \
-    obj/addrman.o \
+    obj/network_peer.o \
+    obj/network_peer_manager.o \
     obj/crypter.o \
     obj/key.o \
     obj/db.o \

@@ -7,7 +7,7 @@
 #include "db.h"
 #include "net.h"
 #include "init.h"
-#include "addrman.h"
+#include "network_peer_manager.h"
 #include "ui_interface.h"
 #include "script.h"
 
