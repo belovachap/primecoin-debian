@@ -1,6 +1,7 @@
 // Copyright (c) 2018 RG Huckins
-// Distributed under the MIT/X11 software license, see the accompanying
-// file COPYING or http://www.opensource.org/licenses/mit-license.php.
+// Copyright (c) 2018 Chapman Shoop
+// See COPYING for license.
+
 #ifndef __NETWORK_PEER_H__
 #define __NETWORK_PEER_H__
 
@@ -60,7 +61,7 @@
 
 
 /** Extended statistics about a CAddress */
-class CAddrInfo : public CAddress
+class NetworkPeer : public CAddress
 {
 private:
     // where knowledge about this address first came from
@@ -84,7 +85,7 @@ private:
     // position in vRandom
     int nRandomPos;
 
-    friend class CAddrMan;
+    friend class NetworkPeerManager;
 
 public:
 
@@ -106,12 +107,12 @@ public:
         nRandomPos = -1;
     }
 
-    CAddrInfo(const CAddress &addrIn, const CNetAddr &addrSource) : CAddress(addrIn), source(addrSource)
+    NetworkPeer(const CAddress &addrIn, const CNetAddr &addrSource) : CAddress(addrIn), source(addrSource)
     {
         Init();
     }
 
-    CAddrInfo() : CAddress(), source()
+    NetworkPeer() : CAddress(), source()
     {
         Init();
     }

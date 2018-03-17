@@ -1,9 +1,10 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2012 The Bitcoin developers
-// Distributed under the MIT/X11 software license, see the accompanying
-// file COPYING or http://www.opensource.org/licenses/mit-license.php.
-#ifndef BITCOIN_DB_H
-#define BITCOIN_DB_H
+// Copyright (c) 2018      Chapman Shoop
+// See COPYING for license.
+
+#ifndef __DB_H__
+#define __DB_H__
 
 #include "main.h"
 
@@ -13,14 +14,7 @@
 
 #include <db_cxx.h>
 
-class CAddress;
-class CAddrMan;
-class CBlockLocator;
-class CDiskBlockIndex;
-class CMasterKey;
-class COutPoint;
 class CWallet;
-class CWalletTx;
 
 extern unsigned int nWalletDBUpdated;
 
@@ -306,22 +300,4 @@ public:
     bool static Rewrite(const std::string& strFile, const char* pszSkip = NULL);
 };
 
-
-
-
-
-
-
-
-/** Access to the (IP) address database (peers.dat) */
-class CAddrDB
-{
-private:
-    boost::filesystem::path pathAddr;
-public:
-    CAddrDB();
-    bool Write(const CAddrMan& addr);
-    bool Read(CAddrMan& addr);
-};
-
-#endif // BITCOIN_DB_H
+#endif // __DB_H__

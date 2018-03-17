@@ -71,7 +71,7 @@ CAddress GetLocalAddress(const CNetAddr *paddrPeer = NULL);
 extern bool fDiscover;
 extern uint64 nLocalServices;
 extern uint64 nLocalHostNonce;
-extern CAddrMan addrman;
+extern NetworkPeerManager network_peer_manager;
 extern int nMaxConnections;
 
 extern std::vector<CNode*> vNodes;

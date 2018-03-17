@@ -17,6 +17,7 @@
 #include "checkpointsync.h"
 #include "init.h"
 #include "net.h"
+#include "network_peer_database.h"
 #include "txdb.h"
 #include "ui_interface.h"
 #include "util.h"
@@ -911,13 +912,13 @@ bool AppInit2(boost::thread_group& threadGroup)
     nStart = GetTimeMillis();
 
     {
-        CAddrDB adb;
-        if (!adb.Read(addrman))
+        NetworkPeerDatabase db;
+        if (!db.Read(network_peer_manager))
             printf("Invalid or missing peers.dat; recreating\n");
     }
 
     printf("Loaded %i addresses from peers.dat  %"PRI64d"ms\n",
-           addrman.size(), GetTimeMillis() - nStart);
+           network_peer_manager.size(), GetTimeMillis() - nStart);
 
     // ********************************************************* Step 11: start node
 

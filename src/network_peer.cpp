@@ -1,3 +1,4 @@
+// Copyright (c) 2018 RG Huckins
 // Copyright (c) 2018 Chapman Shoop
 // See COPYING for license.
 
@@ -5,7 +6,7 @@
 #include "hash.h"
 
 
-int CAddrInfo::GetTriedBucket(const std::vector<unsigned char> &nKey) const
+int NetworkPeer::GetTriedBucket(const std::vector<unsigned char> &nKey) const
 {
     CDataStream ss1(SER_GETHASH, 0);
     std::vector<unsigned char> vchKey = GetKey();
@@ -19,7 +20,7 @@ int CAddrInfo::GetTriedBucket(const std::vector<unsigned char> &nKey) const
     return hash2 % ADDRMAN_TRIED_BUCKET_COUNT;
 }
 
-int CAddrInfo::GetNewBucket(const std::vector<unsigned char> &nKey, const CNetAddr& src) const
+int NetworkPeer::GetNewBucket(const std::vector<unsigned char> &nKey, const CNetAddr& src) const
 {
     CDataStream ss1(SER_GETHASH, 0);
     std::vector<unsigned char> vchGroupKey = GetGroup();
@@ -33,7 +34,7 @@ int CAddrInfo::GetNewBucket(const std::vector<unsigned char> &nKey, const CNetAd
     return hash2 % ADDRMAN_NEW_BUCKET_COUNT;
 }
 
-bool CAddrInfo::IsTerrible(int64 nNow) const
+bool NetworkPeer::IsTerrible(int64 nNow) const
 {
     if (nLastTry && nLastTry >= nNow-60) // never remove things tried the last minute
         return false;
@@ -53,7 +54,7 @@ bool CAddrInfo::IsTerrible(int64 nNow) const
     return false;
 }
 
-double CAddrInfo::GetChance(int64 nNow) const
+double NetworkPeer::GetChance(int64 nNow) const
 {
     double fChance = 1.0;
 

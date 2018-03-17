@@ -1,26 +1,29 @@
+// Copyright (c) 2018 RG Huckins
 // Copyright (c) 2018 Chapman Shoop
 // See COPYING for license.
 
 #include "network_peer.h"
+
 #include "network_peer_manager.h"
 
-CAddrInfo* CAddrMan::Find(const CNetAddr& addr, int *pnId)
+
+NetworkPeer* NetworkPeerManager::Find(const CNetAddr& addr, int *pnId)
 {
     std::map<CNetAddr, int>::iterator it = mapAddr.find(addr);
     if (it == mapAddr.end())
         return NULL;
     if (pnId)
         *pnId = (*it).second;
-    std::map<int, CAddrInfo>::iterator it2 = mapInfo.find((*it).second);
+    std::map<int, NetworkPeer>::iterator it2 = mapInfo.find((*it).second);
     if (it2 != mapInfo.end())
         return &(*it2).second;
     return NULL;
 }
 
-CAddrInfo* CAddrMan::Create(const CAddress &addr, const CNetAddr &addrSource, int *pnId)
+NetworkPeer* NetworkPeerManager::Create(const CAddress &addr, const CNetAddr &addrSource, int *pnId)
 {
     int nId = nIdCount++;
-    mapInfo[nId] = CAddrInfo(addr, addrSource);
+    mapInfo[nId] = NetworkPeer(addr, addrSource);
     mapAddr[addr] = nId;
     mapInfo[nId].nRandomPos = vRandom.size();
     vRandom.push_back(nId);
@@ -29,7 +32,7 @@ CAddrInfo* CAddrMan::Create(const CAddress &addr, const CNetAddr &addrSource, in
     return &mapInfo[nId];
 }
 
-void CAddrMan::SwapRandom(unsigned int nRndPos1, unsigned int nRndPos2)
+void NetworkPeerManager::SwapRandom(unsigned int nRndPos1, unsigned int nRndPos2)
 {
     if (nRndPos1 == nRndPos2)
         return;
@@ -49,7 +52,7 @@ void CAddrMan::SwapRandom(unsigned int nRndPos1, unsigned int nRndPos2)
     vRandom[nRndPos2] = nId1;
 }
 
-int CAddrMan::SelectTried(int nKBucket)
+int NetworkPeerManager::SelectTried(int nKBucket)
 {
     std::vector<int> &vTried = vvTried[nKBucket];
 
@@ -73,7 +76,7 @@ int CAddrMan::SelectTried(int nKBucket)
     return nOldestPos;
 }
 
-int CAddrMan::ShrinkNew(int nUBucket)
+int NetworkPeerManager::ShrinkNew(int nUBucket)
 {
     assert(nUBucket >= 0 && (unsigned int)nUBucket < vvNew.size());
     std::set<int> &vNew = vvNew[nUBucket];
@@ -82,7 +85,7 @@ int CAddrMan::ShrinkNew(int nUBucket)
     for (std::set<int>::iterator it = vNew.begin(); it != vNew.end(); it++)
     {
         assert(mapInfo.count(*it));
-        CAddrInfo &info = mapInfo[*it];
+        NetworkPeer &info = mapInfo[*it];
         if (info.IsTerrible())
         {
             if (--info.nRefCount == 0)
@@ -113,7 +116,7 @@ int CAddrMan::ShrinkNew(int nUBucket)
         nI++;
     }
     assert(mapInfo.count(nOldest) == 1);
-    CAddrInfo &info = mapInfo[nOldest];
+    NetworkPeer &info = mapInfo[nOldest];
     if (--info.nRefCount == 0)
     {
         SwapRandom(info.nRandomPos, vRandom.size()-1);
@@ -127,7 +130,7 @@ int CAddrMan::ShrinkNew(int nUBucket)
     return 1;
 }
 
-void CAddrMan::MakeTried(CAddrInfo& info, int nId, int nOrigin)
+void NetworkPeerManager::MakeTried(NetworkPeer& info, int nId, int nOrigin)
 {
     assert(vvNew[nOrigin].count(nId) == 1);
 
@@ -163,7 +166,7 @@ void CAddrMan::MakeTried(CAddrInfo& info, int nId, int nOrigin)
     std::set<int> &vNew = vvNew[nUBucket];
 
     // remove the to-be-replaced tried entry from the tried set
-    CAddrInfo& infoOld = mapInfo[vTried[nPos]];
+    NetworkPeer& infoOld = mapInfo[vTried[nPos]];
     infoOld.fInTried = false;
     infoOld.nRefCount = 1;
     // do not update nTried, as we are going to move something else there immediately
@@ -185,18 +188,18 @@ void CAddrMan::MakeTried(CAddrInfo& info, int nId, int nOrigin)
     return;
 }
 
-void CAddrMan::Good_(const CService &addr, int64 nTime)
+void NetworkPeerManager::Good_(const CService &addr, int64 nTime)
 {
 //    printf("Good: addr=%s\n", addr.ToString().c_str());
 
     int nId;
-    CAddrInfo *pinfo = Find(addr, &nId);
+    NetworkPeer *pinfo = Find(addr, &nId);
 
     // if not found, bail out
     if (!pinfo)
         return;
 
-    CAddrInfo &info = *pinfo;
+    NetworkPeer &info = *pinfo;
 
     // check whether we are talking about the exact same CService (including same port)
     if (info != addr)
@@ -236,14 +239,14 @@ void CAddrMan::Good_(const CService &addr, int64 nTime)
     MakeTried(info, nId, nUBucket);
 }
 
-bool CAddrMan::Add_(const CAddress &addr, const CNetAddr& source, int64 nTimePenalty)
+bool NetworkPeerManager::Add_(const CAddress &addr, const CNetAddr& source, int64 nTimePenalty)
 {
     if (!addr.IsRoutable())
         return false;
 
     bool fNew = false;
     int nId;
-    CAddrInfo *pinfo = Find(addr, &nId);
+    NetworkPeer *pinfo = Find(addr, &nId);
 
     if (pinfo)
     {
@@ -294,15 +297,15 @@ bool CAddrMan::Add_(const CAddress &addr, const CNetAddr& source, int64 nTimePen
     return fNew;
 }
 
-void CAddrMan::Attempt_(const CService &addr, int64 nTime)
+void NetworkPeerManager::Attempt_(const CService &addr, int64 nTime)
 {
-    CAddrInfo *pinfo = Find(addr);
+    NetworkPeer *pinfo = Find(addr);
 
     // if not found, bail out
     if (!pinfo)
         return;
 
-    CAddrInfo &info = *pinfo;
+    NetworkPeer &info = *pinfo;
 
     // check whether we are talking about the exact same CService (including same port)
     if (info != addr)
@@ -313,7 +316,7 @@ void CAddrMan::Attempt_(const CService &addr, int64 nTime)
     info.nAttempts++;
 }
 
-CAddress CAddrMan::Select_(int nUnkBias)
+CAddress NetworkPeerManager::Select_(int nUnkBias)
 {
     if (size() == 0)
         return CAddress();
@@ -331,7 +334,7 @@ CAddress CAddrMan::Select_(int nUnkBias)
             if (vTried.size() == 0) continue;
             int nPos = GetRandInt(vTried.size());
             assert(mapInfo.count(vTried[nPos]) == 1);
-            CAddrInfo &info = mapInfo[vTried[nPos]];
+            NetworkPeer &info = mapInfo[vTried[nPos]];
             if (GetRandInt(1<<30) < fChanceFactor*info.GetChance()*(1<<30))
                 return info;
             fChanceFactor *= 1.2;
@@ -349,7 +352,7 @@ CAddress CAddrMan::Select_(int nUnkBias)
             while (nPos--)
                 it++;
             assert(mapInfo.count(*it) == 1);
-            CAddrInfo &info = mapInfo[*it];
+            NetworkPeer &info = mapInfo[*it];
             if (GetRandInt(1<<30) < fChanceFactor*info.GetChance()*(1<<30))
                 return info;
             fChanceFactor *= 1.2;
@@ -358,17 +361,17 @@ CAddress CAddrMan::Select_(int nUnkBias)
 }
 
 #ifdef DEBUG_ADDRMAN
-int CAddrMan::Check_()
+int NetworkPeerManager::Check_()
 {
     std::set<int> setTried;
     std::map<int, int> mapNew;
 
     if (vRandom.size() != nTried + nNew) return -7;
 
-    for (std::map<int, CAddrInfo>::iterator it = mapInfo.begin(); it != mapInfo.end(); it++)
+    for (std::map<int, NetworkPeer>::iterator it = mapInfo.begin(); it != mapInfo.end(); it++)
     {
         int n = (*it).first;
-        CAddrInfo &info = (*it).second;
+        NetworkPeer &info = (*it).second;
         if (info.fInTried)
         {
 
@@ -417,7 +420,7 @@ int CAddrMan::Check_()
 }
 #endif
 
-void CAddrMan::GetAddr_(std::vector<CAddress> &vAddr)
+void NetworkPeerManager::GetAddr_(std::vector<CAddress> &vAddr)
 {
     int nNodes = ADDRMAN_GETADDR_MAX_PCT*vRandom.size()/100;
     if (nNodes > ADDRMAN_GETADDR_MAX)
@@ -433,15 +436,15 @@ void CAddrMan::GetAddr_(std::vector<CAddress> &vAddr)
     }
 }
 
-void CAddrMan::Connected_(const CService &addr, int64 nTime)
+void NetworkPeerManager::Connected_(const CService &addr, int64 nTime)
 {
-    CAddrInfo *pinfo = Find(addr);
+    NetworkPeer *pinfo = Find(addr);
 
     // if not found, bail out
     if (!pinfo)
         return;
 
-    CAddrInfo &info = *pinfo;
+    NetworkPeer &info = *pinfo;
 
     // check whether we are talking about the exact same CService (including same port)
     if (info != addr)
