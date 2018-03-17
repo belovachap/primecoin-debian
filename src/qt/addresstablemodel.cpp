@@ -3,11 +3,13 @@
 
 #include <QFont>
 
-#include "addresstablemodel.h"
 #include "base58.h"
 #include "guiutil.h"
+#include "primecoin_address.h"
 #include "wallet.h"
 #include "walletmodel.h"
+
+#include "addresstablemodel.h"
 
 
 const QString AddressTableModel::Send = "S";

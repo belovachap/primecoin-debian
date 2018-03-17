@@ -2,6 +2,7 @@
 // See COPYING for license.
 
 #include "base58.h"
+#include "primecoin_address.h"
 #include "wallet.h"
 
 #include "transactionrecord.h"

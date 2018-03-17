@@ -3,12 +3,15 @@
 // Copyright (c) 2018 Chapman Shoop
 // See COPYING for license.
 
-#include "wallet.h"
-#include "walletdb.h"
-#include "crypter.h"
-#include "ui_interface.h"
-#include "base58.h"
 #include <boost/algorithm/string/replace.hpp>
+
+#include "base58.h"
+#include "crypter.h"
+#include "primecoin_address.h"
+#include "ui_interface.h"
+#include "walletdb.h"
+
+#include "wallet.h"
 
 
 //////////////////////////////////////////////////////////////////////////////

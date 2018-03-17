@@ -7,6 +7,7 @@
 #include "db.h"
 #include "guiutil.h"
 #include "main.h"
+#include "primecoin_address.h"
 #include "primecoinunits.h"
 #include "ui_interface.h"
 #include "wallet.h"

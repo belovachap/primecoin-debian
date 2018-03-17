@@ -7,6 +7,7 @@
 #include "addresstablemodel.h"
 #include "base58.h"
 #include "guiconstants.h"
+#include "primecoin_address.h"
 #include "transactiontablemodel.h"
 #include "ui_interface.h"
 #include "wallet.h"

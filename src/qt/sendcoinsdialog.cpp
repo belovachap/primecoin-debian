@@ -9,6 +9,7 @@
 #include "askpassphrasedialog.h"
 #include "base58.h"
 #include "guiutil.h"
+#include "primecoin_address.h"
 #include "primecoinunits.h"
 #include "sendcoinsentry.h"
 #include "walletmodel.h"

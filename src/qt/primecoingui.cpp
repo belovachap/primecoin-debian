@@ -4,8 +4,6 @@
 // Copyright (c) 2018 Chapman Shoop
 // See COPYING for license.
 
-#include <iostream>
-
 #include <QApplication>
 #include <QDateTime>
 #include <QDesktopWidget>
