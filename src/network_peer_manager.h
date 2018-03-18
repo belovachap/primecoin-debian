@@ -41,14 +41,53 @@
 //        tried ones) is evicted from it, back to the "new" buckets.
 //    * Bucket selection is based on cryptographic hashing, using a randomly-generated 256-bit key, which should not
 //      be observable by adversaries.
-//    * Several indexes are kept for high performance. Defining DEBUG_ADDRMAN will introduce frequent (and expensive)
-//      consistency checks for the entire data structure.
+//    * Several indexes are kept for high performance.
 
+namespace NPMConstants {
+    // total number of buckets for tried addresses
+    const int TRIED_BUCKET_COUNT = 64;
 
-/** Stochastical (IP) address manager */
-class NetworkPeerManager
-{
-private:
+    // maximum allowed number of entries in buckets for tried addresses
+    const unsigned int TRIED_BUCKET_SIZE = 64;
+
+    // total number of buckets for new addresses
+    const int NEW_BUCKET_COUNT = 256;
+
+    // maximum allowed number of entries in buckets for new addresses
+    const unsigned int NEW_BUCKET_SIZE = 64;
+
+    // over how many buckets entries with tried addresses from a single group (/16 for IPv4) are spread
+    const int TRIED_BUCKETS_PER_GROUP = 4;
+
+    // over how many buckets entries with new addresses originating from a single group are spread
+    const int NEW_BUCKETS_PER_SOURCE_GROUP = 32;
+
+    // in how many buckets for entries with new addresses a single address may occur
+    const int NEW_BUCKETS_PER_ADDRESS = 4;
+
+    // how many entries in a bucket with tried addresses are inspected, when selecting one to replace
+    const unsigned int TRIED_ENTRIES_INSPECT_ON_EVICT = 4;
+
+    // how old addresses can maximally be
+    const int HORIZON_DAYS = 30;
+
+    // after how many failed attempts we give up on a new node
+    const int RETRIES = 3;
+
+    // how many successive failures are allowed ...
+    const int MAX_FAILURES = 10;
+
+    // ... in at least this many days
+    const int MIN_FAIL_DAYS = 7;
+
+    // the maximum percentage of nodes to return in a getaddr call
+    const int GETADDR_MAX_PCT = 23;
+
+    // the maximum number of nodes to return in a getaddr call
+    const int GETADDR_MAX = 2500;
+};
+
+class NetworkPeerManager {
     // critical section to protect the inner data structures
     mutable CCriticalSection cs;
 
@@ -79,8 +118,6 @@ private:
     // list of "new" buckets
     std::vector<std::set<int> > vvNew;
 
-protected:
-
     // Find an entry.
     NetworkPeer* Find(const CNetAddr& addr, int *pnId = NULL);
 
@@ -101,7 +138,7 @@ protected:
 
     // Move an entry from the "new" table(s) to the "tried" table
     // @pre vvUnkown[nOrigin].count(nId) != 0
-    void MakeTried(NetworkPeer& info, int nId, int nOrigin);
+    void MakeTried(NetworkPeer& network_peer, int nId, int nOrigin);
 
     // Mark an entry "good", possibly moving it from "new" to "tried".
     void Good_(const CService &addr, int64 nTime);
@@ -116,11 +153,6 @@ protected:
     // nUnkBias determines how much to favor new addresses over tried ones (min=0, max=100)
     CAddress Select_(int nUnkBias);
 
-#ifdef DEBUG_ADDRMAN
-    // Perform consistency check. Returns an error code or zero.
-    int Check_();
-#endif
-
     // Select several addresses at once.
     void GetAddr_(std::vector<CAddress> &vAddr);
 
@@ -128,142 +160,7 @@ protected:
     void Connected_(const CService &addr, int64 nTime);
 
 public:
-
-    IMPLEMENT_SERIALIZE
-    (({
-        // serialized format:
-        // * version byte (currently 0)
-        // * nKey
-        // * nNew
-        // * nTried
-        // * number of "new" buckets
-        // * all nNew addrinfos in vvNew
-        // * all nTried addrinfos in vvTried
-        // * for each bucket:
-        //   * number of elements
-        //   * for each element: index
-        //
-        // Notice that vvTried, mapAddr and vVector are never encoded explicitly;
-        // they are instead reconstructed from the other information.
-        //
-        // vvNew is serialized, but only used if ADDRMAN_UNKOWN_BUCKET_COUNT didn't change,
-        // otherwise it is reconstructed as well.
-        //
-        // This format is more complex, but significantly smaller (at most 1.5 MiB), and supports
-        // changes to the ADDRMAN_ parameters without breaking the on-disk structure.
-        {
-            LOCK(cs);
-            unsigned char nVersion = 0;
-            READWRITE(nVersion);
-            READWRITE(nKey);
-            READWRITE(nNew);
-            READWRITE(nTried);
-
-            NetworkPeerManager *am = const_cast<NetworkPeerManager*>(this);
-            if (fWrite)
-            {
-                int nUBuckets = ADDRMAN_NEW_BUCKET_COUNT;
-                READWRITE(nUBuckets);
-                std::map<int, int> mapUnkIds;
-                int nIds = 0;
-                for (std::map<int, NetworkPeer>::iterator it = am->mapInfo.begin(); it != am->mapInfo.end(); it++)
-                {
-                    if (nIds == nNew) break; // this means nNew was wrong, oh ow
-                    mapUnkIds[(*it).first] = nIds;
-                    NetworkPeer &info = (*it).second;
-                    if (info.nRefCount)
-                    {
-                        READWRITE(info);
-                        nIds++;
-                    }
-                }
-                nIds = 0;
-                for (std::map<int, NetworkPeer>::iterator it = am->mapInfo.begin(); it != am->mapInfo.end(); it++)
-                {
-                    if (nIds == nTried) break; // this means nTried was wrong, oh ow
-                    NetworkPeer &info = (*it).second;
-                    if (info.fInTried)
-                    {
-                        READWRITE(info);
-                        nIds++;
-                    }
-                }
-                for (std::vector<std::set<int> >::iterator it = am->vvNew.begin(); it != am->vvNew.end(); it++)
-                {
-                    const std::set<int> &vNew = (*it);
-                    int nSize = vNew.size();
-                    READWRITE(nSize);
-                    for (std::set<int>::iterator it2 = vNew.begin(); it2 != vNew.end(); it2++)
-                    {
-                        int nIndex = mapUnkIds[*it2];
-                        READWRITE(nIndex);
-                    }
-                }
-            } else {
-                int nUBuckets = 0;
-                READWRITE(nUBuckets);
-                am->nIdCount = 0;
-                am->mapInfo.clear();
-                am->mapAddr.clear();
-                am->vRandom.clear();
-                am->vvTried = std::vector<std::vector<int> >(ADDRMAN_TRIED_BUCKET_COUNT, std::vector<int>(0));
-                am->vvNew = std::vector<std::set<int> >(ADDRMAN_NEW_BUCKET_COUNT, std::set<int>());
-                for (int n = 0; n < am->nNew; n++)
-                {
-                    NetworkPeer &info = am->mapInfo[n];
-                    READWRITE(info);
-                    am->mapAddr[info] = n;
-                    info.nRandomPos = vRandom.size();
-                    am->vRandom.push_back(n);
-                    if (nUBuckets != ADDRMAN_NEW_BUCKET_COUNT)
-                    {
-                        am->vvNew[info.GetNewBucket(am->nKey)].insert(n);
-                        info.nRefCount++;
-                    }
-                }
-                am->nIdCount = am->nNew;
-                int nLost = 0;
-                for (int n = 0; n < am->nTried; n++)
-                {
-                    NetworkPeer info;
-                    READWRITE(info);
-                    std::vector<int> &vTried = am->vvTried[info.GetTriedBucket(am->nKey)];
-                    if (vTried.size() < ADDRMAN_TRIED_BUCKET_SIZE)
-                    {
-                        info.nRandomPos = vRandom.size();
-                        info.fInTried = true;
-                        am->vRandom.push_back(am->nIdCount);
-                        am->mapInfo[am->nIdCount] = info;
-                        am->mapAddr[info] = am->nIdCount;
-                        vTried.push_back(am->nIdCount);
-                        am->nIdCount++;
-                    } else {
-                        nLost++;
-                    }
-                }
-                am->nTried -= nLost;
-                for (int b = 0; b < nUBuckets; b++)
-                {
-                    std::set<int> &vNew = am->vvNew[b];
-                    int nSize = 0;
-                    READWRITE(nSize);
-                    for (int n = 0; n < nSize; n++)
-                    {
-                        int nIndex = 0;
-                        READWRITE(nIndex);
-                        NetworkPeer &info = am->mapInfo[nIndex];
-                        if (nUBuckets == ADDRMAN_NEW_BUCKET_COUNT && info.nRefCount < ADDRMAN_NEW_BUCKETS_PER_ADDRESS)
-                        {
-                            info.nRefCount++;
-                            vNew.insert(nIndex);
-                        }
-                    }
-                }
-            }
-        }
-    });)
-
-    NetworkPeerManager() : vRandom(0), vvTried(ADDRMAN_TRIED_BUCKET_COUNT, std::vector<int>(0)), vvNew(ADDRMAN_NEW_BUCKET_COUNT, std::set<int>())
+    NetworkPeerManager() : vRandom(0), vvTried(NPMConstants::TRIED_BUCKET_COUNT, std::vector<int>(0)), vvNew(NPMConstants::NEW_BUCKET_COUNT, std::set<int>())
     {
          nKey.resize(32);
          RAND_bytes(&nKey[0], 32);
@@ -279,28 +176,13 @@ public:
         return vRandom.size();
     }
 
-    // Consistency check
-    void Check()
-    {
-#ifdef DEBUG_ADDRMAN
-        {
-            LOCK(cs);
-            int err;
-            if ((err=Check_()))
-                printf("ADDRMAN CONSISTENCY CHECK FAILED!!! err=%i\n", err);
-        }
-#endif
-    }
-
     // Add a single address.
     bool Add(const CAddress &addr, const CNetAddr& source, int64 nTimePenalty = 0)
     {
         bool fRet = false;
         {
             LOCK(cs);
-            Check();
             fRet |= Add_(addr, source, nTimePenalty);
-            Check();
         }
         if (fRet)
             printf("Added %s from %s: %i tried, %i new\n", addr.ToStringIPPort().c_str(), source.ToString().c_str(), nTried, nNew);
@@ -313,10 +195,8 @@ public:
         int nAdd = 0;
         {
             LOCK(cs);
-            Check();
             for (std::vector<CAddress>::const_iterator it = vAddr.begin(); it != vAddr.end(); it++)
                 nAdd += Add_(*it, source, nTimePenalty) ? 1 : 0;
-            Check();
         }
         if (nAdd)
             printf("Added %i addresses from %s: %i tried, %i new\n", nAdd, source.ToString().c_str(), nTried, nNew);
@@ -328,9 +208,7 @@ public:
     {
         {
             LOCK(cs);
-            Check();
             Good_(addr, nTime);
-            Check();
         }
     }
 
@@ -339,9 +217,7 @@ public:
     {
         {
             LOCK(cs);
-            Check();
             Attempt_(addr, nTime);
-            Check();
         }
     }
 
@@ -352,9 +228,7 @@ public:
         CAddress addrRet;
         {
             LOCK(cs);
-            Check();
             addrRet = Select_(nUnkBias);
-            Check();
         }
         return addrRet;
     }
@@ -362,13 +236,11 @@ public:
     // Return a bunch of addresses, selected at random.
     std::vector<CAddress> GetAddr()
     {
-        Check();
         std::vector<CAddress> vAddr;
         {
             LOCK(cs);
             GetAddr_(vAddr);
         }
-        Check();
         return vAddr;
     }
 
@@ -377,11 +249,158 @@ public:
     {
         {
             LOCK(cs);
-            Check();
             Connected_(addr, nTime);
-            Check();
         }
     }
+
+    // Calculate in which "tried" bucket this network_peer belongs
+    int GetTriedBucket(const NetworkPeer &network_peer, const std::vector<unsigned char> &nKey) const;
+
+    // Calculate in which "new" bucket this network_peer belongs, given a certain source
+    int GetNewBucket(const NetworkPeer &network_peer, const std::vector<unsigned char> &nKey, const CNetAddr& src) const;
+
+    // Calculate in which "new" bucket this network_peer belongs, using its default source
+    int GetNewBucket(const NetworkPeer &network_peer, const std::vector<unsigned char> &nKey) const
+    {
+        return GetNewBucket(network_peer, nKey, network_peer.source);
+    }
+
+    // Determine whether the statistics about this entry are bad enough so that it can just be deleted
+    bool IsTerrible(const NetworkPeer &network_peer, int64 nNow = GetAdjustedTime()) const;
+
+    // Calculate the relative chance this entry should be given when selecting nodes to connect to
+    double GetChance(const NetworkPeer &network_peer, int64 nNow = GetAdjustedTime()) const;
+
+    IMPLEMENT_SERIALIZE
+    (({
+        // serialized format:
+        // * version byte (currently 0)
+        // * nKey
+        // * nNew
+        // * nTried
+        // * number of "new" buckets
+        // * all nNew NetworkPeers in vvNew
+        // * all nTried NetworkPeers in vvTried
+        // * for each bucket:
+        //   * number of elements
+        //   * for each element: index
+        //
+        // Notice that vvTried, mapAddr and vVector are never encoded explicitly;
+        // they are instead reconstructed from the other information.
+        //
+        // This format is more complex, but significantly smaller (at most 1.5 MiB), and supports
+        // changes to the NPMConstants without breaking the on-disk structure.
+        {
+            LOCK(cs);
+            unsigned char nVersion = 0;
+            READWRITE(nVersion);
+            READWRITE(nKey);
+            READWRITE(nNew);
+            READWRITE(nTried);
+
+            NetworkPeerManager *manager = const_cast<NetworkPeerManager*>(this);
+            if (fWrite)
+            {
+                int nUBuckets = NPMConstants::NEW_BUCKET_COUNT;
+                READWRITE(nUBuckets);
+                std::map<int, int> mapUnkIds;
+                int nIds = 0;
+                for (std::map<int, NetworkPeer>::iterator it = manager->mapInfo.begin(); it != manager->mapInfo.end(); it++)
+                {
+                    if (nIds == nNew) break; // this means nNew was wrong, oh ow
+                    mapUnkIds[(*it).first] = nIds;
+                    NetworkPeer &network_peer = (*it).second;
+                    if (network_peer.nRefCount)
+                    {
+                        READWRITE(network_peer);
+                        nIds++;
+                    }
+                }
+                nIds = 0;
+                for (std::map<int, NetworkPeer>::iterator it = manager->mapInfo.begin(); it != manager->mapInfo.end(); it++)
+                {
+                    if (nIds == nTried) break; // this means nTried was wrong, oh ow
+                    NetworkPeer &network_peer = (*it).second;
+                    if (network_peer.fInTried)
+                    {
+                        READWRITE(network_peer);
+                        nIds++;
+                    }
+                }
+                for (std::vector<std::set<int> >::iterator it = manager->vvNew.begin(); it != manager->vvNew.end(); it++)
+                {
+                    const std::set<int> &vNew = (*it);
+                    int nSize = vNew.size();
+                    READWRITE(nSize);
+                    for (std::set<int>::iterator it2 = vNew.begin(); it2 != vNew.end(); it2++)
+                    {
+                        int nIndex = mapUnkIds[*it2];
+                        READWRITE(nIndex);
+                    }
+                }
+            } else {
+                int nUBuckets = 0;
+                READWRITE(nUBuckets);
+                manager->nIdCount = 0;
+                manager->mapInfo.clear();
+                manager->mapAddr.clear();
+                manager->vRandom.clear();
+                manager->vvTried = std::vector<std::vector<int> >(NPMConstants::TRIED_BUCKET_COUNT, std::vector<int>(0));
+                manager->vvNew = std::vector<std::set<int> >(NPMConstants::NEW_BUCKET_COUNT, std::set<int>());
+                for (int n = 0; n < manager->nNew; n++)
+                {
+                    NetworkPeer &network_peer = manager->mapInfo[n];
+                    READWRITE(network_peer);
+                    manager->mapAddr[network_peer] = n;
+                    network_peer.nRandomPos = vRandom.size();
+                    manager->vRandom.push_back(n);
+                    if (nUBuckets != NPMConstants::NEW_BUCKET_COUNT)
+                    {
+                        manager->vvNew[manager->GetNewBucket(network_peer, manager->nKey)].insert(n);
+                        network_peer.nRefCount++;
+                    }
+                }
+                manager->nIdCount = manager->nNew;
+                int nLost = 0;
+                for (int n = 0; n < manager->nTried; n++)
+                {
+                    NetworkPeer network_peer;
+                    READWRITE(network_peer);
+                    std::vector<int> &vTried = manager->vvTried[manager->GetTriedBucket(network_peer, manager->nKey)];
+                    if (vTried.size() < NPMConstants::TRIED_BUCKET_SIZE)
+                    {
+                        network_peer.nRandomPos = vRandom.size();
+                        network_peer.fInTried = true;
+                        manager->vRandom.push_back(manager->nIdCount);
+                        manager->mapInfo[manager->nIdCount] = network_peer;
+                        manager->mapAddr[network_peer] = manager->nIdCount;
+                        vTried.push_back(manager->nIdCount);
+                        manager->nIdCount++;
+                    } else {
+                        nLost++;
+                    }
+                }
+                manager->nTried -= nLost;
+                for (int b = 0; b < nUBuckets; b++)
+                {
+                    std::set<int> &vNew = manager->vvNew[b];
+                    int nSize = 0;
+                    READWRITE(nSize);
+                    for (int n = 0; n < nSize; n++)
+                    {
+                        int nIndex = 0;
+                        READWRITE(nIndex);
+                        NetworkPeer &network_peer = manager->mapInfo[nIndex];
+                        if (nUBuckets == NPMConstants::NEW_BUCKET_COUNT && network_peer.nRefCount < NPMConstants::NEW_BUCKETS_PER_ADDRESS)
+                        {
+                            network_peer.nRefCount++;
+                            vNew.insert(nIndex);
+                        }
+                    }
+                }
+            }
+        }
+    });)
 };
 
 #endif // __NETWORK_PEER_MANAGER_H__
