@@ -92,7 +92,7 @@ class NetworkPeerManager {
     int nIdCount;
 
     // table with information about all nIds
-    std::map<int, NetworkPeer> mapInfo;
+    std::map<int, NetworkPeer> mapNetworkPeer;
 
     // find an nId based on its network address
     std::map<CNetAddr, int> mapAddr;
@@ -257,7 +257,7 @@ public:
                 READWRITE(nUBuckets);
                 std::map<int, int> mapUnkIds;
                 int nIds = 0;
-                for (std::map<int, NetworkPeer>::iterator it = manager->mapInfo.begin(); it != manager->mapInfo.end(); it++)
+                for (std::map<int, NetworkPeer>::iterator it = manager->mapNetworkPeer.begin(); it != manager->mapNetworkPeer.end(); it++)
                 {
                     if (nIds == nNew) break; // this means nNew was wrong, oh ow
                     mapUnkIds[(*it).first] = nIds;
@@ -269,7 +269,7 @@ public:
                     }
                 }
                 nIds = 0;
-                for (std::map<int, NetworkPeer>::iterator it = manager->mapInfo.begin(); it != manager->mapInfo.end(); it++)
+                for (std::map<int, NetworkPeer>::iterator it = manager->mapNetworkPeer.begin(); it != manager->mapNetworkPeer.end(); it++)
                 {
                     if (nIds == nTried) break; // this means nTried was wrong, oh ow
                     NetworkPeer &network_peer = (*it).second;
@@ -294,14 +294,14 @@ public:
                 int nUBuckets = 0;
                 READWRITE(nUBuckets);
                 manager->nIdCount = 0;
-                manager->mapInfo.clear();
+                manager->mapNetworkPeer.clear();
                 manager->mapAddr.clear();
                 manager->vRandom.clear();
                 manager->vvTried = std::vector<std::vector<int> >(NPMConstants::TRIED_BUCKET_COUNT, std::vector<int>(0));
                 manager->vvNew = std::vector<std::set<int> >(NPMConstants::NEW_BUCKET_COUNT, std::set<int>());
                 for (int n = 0; n < manager->nNew; n++)
                 {
-                    NetworkPeer &network_peer = manager->mapInfo[n];
+                    NetworkPeer &network_peer = manager->mapNetworkPeer[n];
                     READWRITE(network_peer);
                     manager->mapAddr[network_peer] = n;
                     network_peer.nRandomPos = vRandom.size();
@@ -324,7 +324,7 @@ public:
                         network_peer.nRandomPos = vRandom.size();
                         network_peer.fInTried = true;
                         manager->vRandom.push_back(manager->nIdCount);
-                        manager->mapInfo[manager->nIdCount] = network_peer;
+                        manager->mapNetworkPeer[manager->nIdCount] = network_peer;
                         manager->mapAddr[network_peer] = manager->nIdCount;
                         vTried.push_back(manager->nIdCount);
                         manager->nIdCount++;
@@ -342,7 +342,7 @@ public:
                     {
                         int nIndex = 0;
                         READWRITE(nIndex);
-                        NetworkPeer &network_peer = manager->mapInfo[nIndex];
+                        NetworkPeer &network_peer = manager->mapNetworkPeer[nIndex];
                         if (nUBuckets == NPMConstants::NEW_BUCKET_COUNT && network_peer.nRefCount < NPMConstants::NEW_BUCKETS_PER_ADDRESS)
                         {
                             network_peer.nRefCount++;

@@ -222,8 +222,8 @@ CAddress NetworkPeerManager::Select_(int nUnkBias)
             std::vector<int> &vTried = vvTried[nKBucket];
             if (vTried.size() == 0) continue;
             int nPos = GetRandInt(vTried.size());
-            assert(mapInfo.count(vTried[nPos]) == 1);
-            NetworkPeer &network_peer = mapInfo[vTried[nPos]];
+            assert(mapNetworkPeer.count(vTried[nPos]) == 1);
+            NetworkPeer &network_peer = mapNetworkPeer[vTried[nPos]];
             if (GetRandInt(1<<30) < fChanceFactor*this->GetChance(network_peer)*(1<<30))
                 return network_peer;
             fChanceFactor *= 1.2;
@@ -240,8 +240,8 @@ CAddress NetworkPeerManager::Select_(int nUnkBias)
             std::set<int>::iterator it = vNew.begin();
             while (nPos--)
                 it++;
-            assert(mapInfo.count(*it) == 1);
-            NetworkPeer &network_peer = mapInfo[*it];
+            assert(mapNetworkPeer.count(*it) == 1);
+            NetworkPeer &network_peer = mapNetworkPeer[*it];
             if (GetRandInt(1<<30) < fChanceFactor*this->GetChance(network_peer)*(1<<30))
                 return network_peer;
             fChanceFactor *= 1.2;
@@ -271,8 +271,8 @@ void NetworkPeerManager::GetAddr_(std::vector<CAddress> &vAddr)
     {
         int nRndPos = GetRandInt(vRandom.size() - n) + n;
         SwapRandom(n, nRndPos);
-        assert(mapInfo.count(vRandom[n]) == 1);
-        vAddr.push_back(mapInfo[vRandom[n]]);
+        assert(mapNetworkPeer.count(vRandom[n]) == 1);
+        vAddr.push_back(mapNetworkPeer[vRandom[n]]);
     }
 }
 
@@ -394,8 +394,8 @@ NetworkPeer* NetworkPeerManager::Find(const CNetAddr& addr, int *pnId)
         return NULL;
     if (pnId)
         *pnId = (*it).second;
-    std::map<int, NetworkPeer>::iterator it2 = mapInfo.find((*it).second);
-    if (it2 != mapInfo.end())
+    std::map<int, NetworkPeer>::iterator it2 = mapNetworkPeer.find((*it).second);
+    if (it2 != mapNetworkPeer.end())
         return &(*it2).second;
     return NULL;
 }
@@ -403,13 +403,13 @@ NetworkPeer* NetworkPeerManager::Find(const CNetAddr& addr, int *pnId)
 NetworkPeer* NetworkPeerManager::Create(const CAddress &addr, const CNetAddr &addrSource, int *pnId)
 {
     int nId = nIdCount++;
-    mapInfo[nId] = NetworkPeer(addr, addrSource);
+    mapNetworkPeer[nId] = NetworkPeer(addr, addrSource);
     mapAddr[addr] = nId;
-    mapInfo[nId].nRandomPos = vRandom.size();
+    mapNetworkPeer[nId].nRandomPos = vRandom.size();
     vRandom.push_back(nId);
     if (pnId)
         *pnId = nId;
-    return &mapInfo[nId];
+    return &mapNetworkPeer[nId];
 }
 
 void NetworkPeerManager::SwapRandom(unsigned int nRndPos1, unsigned int nRndPos2)
@@ -422,11 +422,11 @@ void NetworkPeerManager::SwapRandom(unsigned int nRndPos1, unsigned int nRndPos2
     int nId1 = vRandom[nRndPos1];
     int nId2 = vRandom[nRndPos2];
 
-    assert(mapInfo.count(nId1) == 1);
-    assert(mapInfo.count(nId2) == 1);
+    assert(mapNetworkPeer.count(nId1) == 1);
+    assert(mapNetworkPeer.count(nId2) == 1);
 
-    mapInfo[nId1].nRandomPos = nRndPos2;
-    mapInfo[nId2].nRandomPos = nRndPos1;
+    mapNetworkPeer[nId1].nRandomPos = nRndPos2;
+    mapNetworkPeer[nId2].nRandomPos = nRndPos1;
 
     vRandom[nRndPos1] = nId2;
     vRandom[nRndPos2] = nId1;
@@ -446,8 +446,8 @@ int NetworkPeerManager::SelectTried(int nKBucket)
         int nTemp = vTried[nPos];
         vTried[nPos] = vTried[i];
         vTried[i] = nTemp;
-        assert(nOldest == -1 || mapInfo.count(nTemp) == 1);
-        if (nOldest == -1 || mapInfo[nTemp].nLastSuccess < mapInfo[nOldest].nLastSuccess) {
+        assert(nOldest == -1 || mapNetworkPeer.count(nTemp) == 1);
+        if (nOldest == -1 || mapNetworkPeer[nTemp].nLastSuccess < mapNetworkPeer[nOldest].nLastSuccess) {
            nOldest = nTemp;
            nOldestPos = nPos;
         }
@@ -464,8 +464,8 @@ int NetworkPeerManager::ShrinkNew(int nUBucket)
     // first look for deletable items
     for (std::set<int>::iterator it = vNew.begin(); it != vNew.end(); it++)
     {
-        assert(mapInfo.count(*it));
-        NetworkPeer &network_peer = mapInfo[*it];
+        assert(mapNetworkPeer.count(*it));
+        NetworkPeer &network_peer = mapNetworkPeer[*it];
         if (this->IsTerrible(network_peer))
         {
             if (--network_peer.nRefCount == 0)
@@ -473,7 +473,7 @@ int NetworkPeerManager::ShrinkNew(int nUBucket)
                 SwapRandom(network_peer.nRandomPos, vRandom.size()-1);
                 vRandom.pop_back();
                 mapAddr.erase(network_peer);
-                mapInfo.erase(*it);
+                mapNetworkPeer.erase(*it);
                 nNew--;
             }
             vNew.erase(it);
@@ -489,20 +489,20 @@ int NetworkPeerManager::ShrinkNew(int nUBucket)
     {
         if (nI == n[0] || nI == n[1] || nI == n[2] || nI == n[3])
         {
-            assert(nOldest == -1 || mapInfo.count(*it) == 1);
-            if (nOldest == -1 || mapInfo[*it].nTime < mapInfo[nOldest].nTime)
+            assert(nOldest == -1 || mapNetworkPeer.count(*it) == 1);
+            if (nOldest == -1 || mapNetworkPeer[*it].nTime < mapNetworkPeer[nOldest].nTime)
                 nOldest = *it;
         }
         nI++;
     }
-    assert(mapInfo.count(nOldest) == 1);
-    NetworkPeer &network_peer = mapInfo[nOldest];
+    assert(mapNetworkPeer.count(nOldest) == 1);
+    NetworkPeer &network_peer = mapNetworkPeer[nOldest];
     if (--network_peer.nRefCount == 0)
     {
         SwapRandom(network_peer.nRandomPos, vRandom.size()-1);
         vRandom.pop_back();
         mapAddr.erase(network_peer);
-        mapInfo.erase(nOldest);
+        mapNetworkPeer.erase(nOldest);
         nNew--;
     }
     vNew.erase(nOldest);
@@ -541,12 +541,12 @@ void NetworkPeerManager::MakeTried(NetworkPeer& network_peer, int nId, int nOrig
     int nPos = SelectTried(nKBucket);
 
     // find which new bucket it belongs to
-    assert(mapInfo.count(vTried[nPos]) == 1);
-    int nUBucket = this->GetNewBucket(mapInfo[vTried[nPos]], nKey);
+    assert(mapNetworkPeer.count(vTried[nPos]) == 1);
+    int nUBucket = this->GetNewBucket(mapNetworkPeer[vTried[nPos]], nKey);
     std::set<int> &vNew = vvNew[nUBucket];
 
     // remove the to-be-replaced tried entry from the tried set
-    NetworkPeer& old_network_peer = mapInfo[vTried[nPos]];
+    NetworkPeer& old_network_peer = mapNetworkPeer[vTried[nPos]];
     old_network_peer.fInTried = false;
     old_network_peer.nRefCount = 1;
     // do not update nTried, as we are going to move something else there immediately
