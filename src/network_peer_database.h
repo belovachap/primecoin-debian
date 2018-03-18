@@ -6,7 +6,6 @@
 
 #include <boost/filesystem.hpp>
 
-#include "hash.h"
 #include "network_peer_manager.h"
 
 
@@ -17,6 +16,7 @@ class NetworkPeerDatabase
 
 public:
     NetworkPeerDatabase();
+
     bool Write(const NetworkPeerManager& manager);
     bool Read(NetworkPeerManager& manager);
 };

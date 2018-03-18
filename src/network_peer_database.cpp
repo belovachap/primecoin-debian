@@ -3,6 +3,8 @@
 
 #include "network_peer_database.h"
 
+#include "hash.h"
+
 
 NetworkPeerDatabase::NetworkPeerDatabase() {
     this->file_path = GetDataDir() / "peers.dat";

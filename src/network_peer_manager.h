@@ -5,17 +5,11 @@
 #ifndef __NETWORK_PEER_MANAGER_H__
 #define __NETWORK_PEER_MANAGER_H__
 
-#include "netbase.h"
-#include "network_peer.h"
-#include "protocol.h"
-#include "util.h"
-#include "sync.h"
-
-
-#include <map>
-#include <vector>
-
 #include <openssl/rand.h>
+
+#include "network_peer.h"
+#include "sync.h"
+#include "util.h"
 
 
 // Stochastic address manager
@@ -160,116 +154,74 @@ class NetworkPeerManager {
     void Connected_(const CService &addr, int64 nTime);
 
 public:
-    NetworkPeerManager() : vRandom(0), vvTried(NPMConstants::TRIED_BUCKET_COUNT, std::vector<int>(0)), vvNew(NPMConstants::NEW_BUCKET_COUNT, std::set<int>())
-    {
-         nKey.resize(32);
-         RAND_bytes(&nKey[0], 32);
-
-         nIdCount = 0;
-         nTried = 0;
-         nNew = 0;
-    }
+    NetworkPeerManager();
 
     // Return the number of (unique) addresses in all tables.
-    int size()
-    {
-        return vRandom.size();
-    }
+    int size();
 
     // Add a single address.
-    bool Add(const CAddress &addr, const CNetAddr& source, int64 nTimePenalty = 0)
-    {
-        bool fRet = false;
-        {
-            LOCK(cs);
-            fRet |= Add_(addr, source, nTimePenalty);
-        }
-        if (fRet)
-            printf("Added %s from %s: %i tried, %i new\n", addr.ToStringIPPort().c_str(), source.ToString().c_str(), nTried, nNew);
-        return fRet;
-    }
+    bool Add(
+        const CAddress &addr,
+        const CNetAddr& source,
+        int64 nTimePenalty = 0
+    );
 
     // Add multiple addresses.
-    bool Add(const std::vector<CAddress> &vAddr, const CNetAddr& source, int64 nTimePenalty = 0)
-    {
-        int nAdd = 0;
-        {
-            LOCK(cs);
-            for (std::vector<CAddress>::const_iterator it = vAddr.begin(); it != vAddr.end(); it++)
-                nAdd += Add_(*it, source, nTimePenalty) ? 1 : 0;
-        }
-        if (nAdd)
-            printf("Added %i addresses from %s: %i tried, %i new\n", nAdd, source.ToString().c_str(), nTried, nNew);
-        return nAdd > 0;
-    }
+    bool Add(
+        const std::vector<CAddress> &vAddr,
+        const CNetAddr& source,
+        int64 nTimePenalty = 0
+    );
 
     // Mark an entry as accessible.
-    void Good(const CService &addr, int64 nTime = GetAdjustedTime())
-    {
-        {
-            LOCK(cs);
-            Good_(addr, nTime);
-        }
-    }
+    void Good(const CService &addr, int64 nTime = GetAdjustedTime());
 
     // Mark an entry as connection attempted to.
-    void Attempt(const CService &addr, int64 nTime = GetAdjustedTime())
-    {
-        {
-            LOCK(cs);
-            Attempt_(addr, nTime);
-        }
-    }
+    void Attempt(const CService &addr, int64 nTime = GetAdjustedTime());
 
     // Choose an address to connect to.
-    // nUnkBias determines how much "new" entries are favored over "tried" ones (0-100).
-    CAddress Select(int nUnkBias = 50)
-    {
-        CAddress addrRet;
-        {
-            LOCK(cs);
-            addrRet = Select_(nUnkBias);
-        }
-        return addrRet;
-    }
+    // nUnkBias determines how much "new" entries are favored over "tried" ones
+    // (0-100).
+    CAddress Select(int nUnkBias = 50);
 
     // Return a bunch of addresses, selected at random.
-    std::vector<CAddress> GetAddr()
-    {
-        std::vector<CAddress> vAddr;
-        {
-            LOCK(cs);
-            GetAddr_(vAddr);
-        }
-        return vAddr;
-    }
+    std::vector<CAddress> GetAddr();
 
     // Mark an entry as currently-connected-to.
-    void Connected(const CService &addr, int64 nTime = GetAdjustedTime())
-    {
-        {
-            LOCK(cs);
-            Connected_(addr, nTime);
-        }
-    }
+    void Connected(const CService &addr, int64 nTime = GetAdjustedTime());
 
     // Calculate in which "tried" bucket this network_peer belongs
-    int GetTriedBucket(const NetworkPeer &network_peer, const std::vector<unsigned char> &nKey) const;
+    int GetTriedBucket(
+        const NetworkPeer &network_peer,
+        const std::vector<unsigned char> &nKey
+    ) const;
 
     // Calculate in which "new" bucket this network_peer belongs, given a certain source
-    int GetNewBucket(const NetworkPeer &network_peer, const std::vector<unsigned char> &nKey, const CNetAddr& src) const;
+    int GetNewBucket(
+        const NetworkPeer &network_peer,
+        const std::vector<unsigned char> &nKey,
+        const CNetAddr& src
+    ) const;
 
     // Calculate in which "new" bucket this network_peer belongs, using its default source
-    int GetNewBucket(const NetworkPeer &network_peer, const std::vector<unsigned char> &nKey) const
-    {
-        return GetNewBucket(network_peer, nKey, network_peer.source);
-    }
+    int GetNewBucket(
+        const NetworkPeer &network_peer,
+        const std::vector<unsigned char> &nKey
+    ) const;
 
-    // Determine whether the statistics about this entry are bad enough so that it can just be deleted
-    bool IsTerrible(const NetworkPeer &network_peer, int64 nNow = GetAdjustedTime()) const;
+    // Determine whether the statistics about this entry are bad enough so that
+    // it can just be deleted
+    bool IsTerrible(
+        const NetworkPeer &network_peer,
+        int64 nNow = GetAdjustedTime()
+    ) const;
 
-    // Calculate the relative chance this entry should be given when selecting nodes to connect to
-    double GetChance(const NetworkPeer &network_peer, int64 nNow = GetAdjustedTime()) const;
+    // Calculate the relative chance this entry should be given when selecting
+    // nodes to connect to
+    double GetChance(
+        const NetworkPeer &network_peer,
+        int64 nNow = GetAdjustedTime()
+    ) const;
 
     IMPLEMENT_SERIALIZE
     (({

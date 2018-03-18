@@ -5,15 +5,7 @@
 #ifndef __NETWORK_PEER_H__
 #define __NETWORK_PEER_H__
 
-#include "netbase.h"
 #include "protocol.h"
-#include "util.h"
-#include "sync.h"
-
-#include <map>
-#include <vector>
-
-#include <openssl/rand.h>
 
 
 class NetworkPeer : public CAddress
@@ -38,13 +30,13 @@ class NetworkPeer : public CAddress
     // in tried set? (memory only)
     bool fInTried;
 
-    // position in vRandom
+    // position in vRandom (memory only)
     int nRandomPos;
 
 public:
 
     NetworkPeer();
-    NetworkPeer(const CAddress &addrIn, const CNetAddr &addrSource);
+    NetworkPeer(const CAddress &address, const CNetAddr &source);
 
     IMPLEMENT_SERIALIZE(
         CAddress* pthis = (CAddress*)(this);
