@@ -48,7 +48,6 @@ HEADERS += src/qt/primecoingui.h \
     src/qt/addressbookpage.h \
     src/qt/editaddressdialog.h \
     src/qt/primecoinaddressvalidator.h \
-    src/addrman.h \
     src/base58.h \
     src/bignum.h \
     src/compat.h \
@@ -59,6 +58,9 @@ HEADERS += src/qt/primecoingui.h \
     src/serialize.h \
     src/main.h \
     src/net.h \
+    src/network_peer.h \
+    src/network_peer_database.h \
+    src/network_peer_manager.h \
     src/key.h \
     src/db.h \
     src/walletdb.h \
@@ -116,10 +118,12 @@ SOURCES += src/qt/primecoin.cpp \
     src/key.cpp \
     src/script.cpp \
     src/main.cpp \
+    src/network_peer.cpp \
+    src/network_peer_database.cpp \
+    src/network_peer_manager.cpp \
     src/init.cpp \
     src/net.cpp \
     src/bloom.cpp \
-    src/addrman.cpp \
     src/db.cpp \
     src/walletdb.cpp \
     src/qt/clientmodel.cpp \

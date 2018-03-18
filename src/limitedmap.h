@@ -5,6 +5,7 @@
 #ifndef __LIMITEDMAP_H__
 #define __LIMITEDMAP_H__
 
+#include <cassert>
 #include <deque>
 #include <map>
 

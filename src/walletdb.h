@@ -10,9 +10,11 @@
 #include "db.h"
 
 
+
 class CKeyPool;
 class CAccount;
 class CAccountingEntry;
+class CWalletTx;
 
 /** Error statuses for the wallet database */
 enum DBErrors

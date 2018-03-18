@@ -4,13 +4,14 @@
 // Copyright (c) 2017-2018 Chapman Shoop
 // See COPYING for license.
 
-#include "addrman.h"
+#include "net.h"
+
 #include "db.h"
 #include "init.h"
+#include "network_peer_database.h"
+#include "network_peer_manager.h"
 #include "script.h"
 #include "ui_interface.h"
-
-#include "net.h"
 
 
 // Dump addresses to peers.dat every 15 minutes (900s)
@@ -39,7 +40,7 @@ static CNode* pnodeLocalHost = NULL;
 static CNode* pnodeSync = NULL;
 uint64 nLocalHostNonce = 0;
 static std::vector<SOCKET> vhListenSocket;
-CAddrMan addrman;
+NetworkPeerManager network_peer_manager;
 int nMaxConnections = 125;
 
 std::vector<CNode*> vNodes;
@@ -285,7 +286,7 @@ bool IsReachable(const CNetAddr& addr)
 
 void AddressCurrentlyConnected(const CService& addr)
 {
-    addrman.Connected(addr);
+    network_peer_manager.Connected(addr);
 }
 
 CNode* FindNode(const CNetAddr& ip)
@@ -340,7 +341,7 @@ CNode* ConnectNode(CAddress addrConnect, const char *pszDest)
     SOCKET hSocket;
     if (pszDest ? ConnectSocketByName(addrConnect, hSocket, pszDest, GetDefaultPort()) : ConnectSocket(addrConnect, hSocket))
     {
-        addrman.Attempt(addrConnect);
+        network_peer_manager.Attempt(addrConnect);
 
         /// debug print
         printf("connected %s\n", pszDest ? pszDest : addrConnect.ToString().c_str());
@@ -913,7 +914,7 @@ void ThreadSocketHandler()
 
 // DNS seeds
 // Each pair gives a source name and a seed name.
-// The first name is used as information source for addrman.
+// The first name is used as information source for network_peer_manager.
 // The second name should resolve to a list of seed addresses.
 static const char *strMainNetDNSSeed[][2] = {
     {"primecoin.net", "seed.ppcoin.net"},
@@ -951,20 +952,11 @@ void ThreadDNSAddressSeed()
                 found++;
             }
         }
-        addrman.Add(vAdd, CNetAddr(strDNSSeed[seed_idx][0]));
+        network_peer_manager.Add(vAdd, CNetAddr(strDNSSeed[seed_idx][0]));
     }
 
     printf("%d addresses found from DNS seeds\n", found);
 }
-
-
-
-
-
-
-
-
-
 
 // Physical IP seeds: 32-bit IPv4 addresses: e.g. 178.33.22.32 = 0x201621b2
 unsigned int pnSeedMainNet[] =
@@ -983,11 +975,11 @@ void DumpAddresses()
 {
     int64 nStart = GetTimeMillis();
 
-    CAddrDB adb;
-    adb.Write(addrman);
+    NetworkPeerDatabase db;
+    db.Write(network_peer_manager);
 
     printf("Flushed %d addresses to peers.dat  %"PRI64d"ms\n",
-           addrman.size(), GetTimeMillis() - nStart);
+           network_peer_manager.size(), GetTimeMillis() - nStart);
 }
 
 void static ProcessOneShot()
@@ -1041,7 +1033,7 @@ void ThreadOpenConnections()
         boost::this_thread::interruption_point();
 
         // Add seed nodes if IRC isn't working
-        if (addrman.size()==0 && (GetTime() - nStart > 60))
+        if (network_peer_manager.size()==0 && (GetTime() - nStart > 60))
         {
             static const unsigned int *pnSeed = fTestNet? pnSeedTestNet : pnSeedMainNet;
             std::vector<CAddress> vAdd;
@@ -1058,7 +1050,7 @@ void ThreadOpenConnections()
                 addr.nTime = GetTime()-GetRand(nOneWeek)-nOneWeek;
                 vAdd.push_back(addr);
             }
-            addrman.Add(vAdd, CNetAddr("127.0.0.1"));
+            network_peer_manager.Add(vAdd, CNetAddr("127.0.0.1"));
         }
 
         //
@@ -1086,15 +1078,15 @@ void ThreadOpenConnections()
         loop
         {
             // use an nUnkBias between 10 (no outgoing connections) and 90 (8 outgoing connections)
-            CAddress addr = addrman.Select(10 + std::min(nOutbound,8)*10);
+            CAddress addr = network_peer_manager.Select(10 + std::min(nOutbound,8)*10);
 
             // if we selected an invalid address, restart
             if (!addr.IsValid() || setConnected.count(addr.GetGroup()) || IsLocal(addr))
                 break;
 
-            // If we didn't find an appropriate destination after trying 100 addresses fetched from addrman,
+            // If we didn't find an appropriate destination after trying 100 addresses fetched from network_peer_manager,
             // stop this loop, and let the outer loop run again (which sleeps, adds seed nodes, recalculates
-            // already-connected network ranges, ...) before trying new addrman addresses.
+            // already-connected network ranges, ...) before trying new network_peer_manager addresses.
             nTries++;
             if (nTries > 100)
                 break;
