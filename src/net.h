@@ -6,26 +6,19 @@
 #ifndef __NET_H__
 #define __NET_H__
 
-#include <deque>
-#include <boost/array.hpp>
 #include <boost/foreach.hpp>
-#include <openssl/rand.h>
 
-#include <arpa/inet.h>
-
-#include "mruset.h"
-#include "limitedmap.h"
-#include "netbase.h"
-#include "protocol.h"
-#include "network_peer_manager.h"
-#include "hash.h"
 #include "bloom.h"
+#include "hash.h"
+#include "limitedmap.h"
+#include "mruset.h"
+#include "network_peer_manager.h"
+#include "protocol.h"
+
 
 class CNode;
 class CBlockIndex;
 extern int nBestHeight;
-
-
 
 inline unsigned int ReceiveFloodSize() { return 1000*GetArg("-maxreceivebuffer", 5*1000); }
 inline unsigned int SendBufferSize() { return 1000*GetArg("-maxsendbuffer", 1*1000); }

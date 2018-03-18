@@ -5,11 +5,14 @@
 
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
+
 #include <sys/stat.h>
 
-#include "db.h"
 #include "main.h"
 #include "util.h"
+
+#include "db.h"
+
 
 unsigned int nWalletDBUpdated;
 

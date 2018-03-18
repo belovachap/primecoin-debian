@@ -34,10 +34,8 @@ bool fDebugNet = false;
 bool fPrintToConsole = false;
 bool fPrintToDebugger = false;
 bool fDaemon = false;
-bool fServer = false;
 bool fCommandLine = false;
 std::string strMiscWarning;
-bool fTestNet = false;
 bool fNoListen = false;
 bool fLogTimestamps = false;
 CMedianFilter<int64> vTimeOffsets(200,0);
@@ -976,7 +974,7 @@ void ReadConfigFile(std::map<std::string, std::string>& mapSettingsRet,
 {
     boost::filesystem::ifstream streamConfig(GetConfigFile());
     if (!streamConfig.good())
-        return; // No bitcoin.conf file is OK
+        return; // No primecoin.conf file is OK
 
     // clear path cache after loading config file
     fCachedPath[0] = fCachedPath[1] = false;
@@ -986,7 +984,7 @@ void ReadConfigFile(std::map<std::string, std::string>& mapSettingsRet,
 
     for (boost::program_options::detail::config_file_iterator it(streamConfig, setOptions), end; it != end; ++it)
     {
-        // Don't overwrite existing settings so command line settings override bitcoin.conf
+        // Don't overwrite existing settings so command line settings override primecoin.conf
         std::string strKey = std::string("-") + it->string_key;
         if (mapSettingsRet.count(strKey) == 0)
         {
@@ -1167,7 +1165,7 @@ void AddTimeData(const CNetAddr& ip, int64 nTime)
                 if (!fMatch)
                 {
                     fDone = true;
-                    std::string strMessage = _("Warning: Please check that your computer's date and time are correct! If your clock is wrong Primecoin will not work properly.");
+                    std::string strMessage = "Warning: Please check that your computer's date and time are correct! If your clock is wrong Primecoin will not work properly.";
                     strMiscWarning = strMessage;
                     printf("*** %s\n", strMessage.c_str());
                     uiInterface.ThreadSafeMessageBox(strMessage, "", CClientUIInterface::MSG_WARNING);
@@ -1202,33 +1200,6 @@ void seed_insecure_rand(bool fDeterministic)
         } while(tmp == 0 || tmp == 0x464fffffU);
         insecure_rand_Rw = tmp;
     }
-}
-
-std::string FormatVersion(int nVersion)
-{
-    if (nVersion%100 == 0)
-        return strprintf("%d.%d.%d", nVersion/1000000, (nVersion/10000)%100, (nVersion/100)%100);
-    else
-        return strprintf("%d.%d.%d.%d", nVersion/1000000, (nVersion/10000)%100, (nVersion/100)%100, nVersion%100);
-}
-
-std::string FormatFullVersion()
-{
-    return CLIENT_BUILD;
-}
-
-// Format the subversion field according to BIP 14 spec (https://en.bitcoin.it/wiki/BIP_0014)
-std::string FormatSubVersion(const std::string& name, int nClientVersion, const std::vector<std::string>& comments)
-{
-    std::ostringstream ss;
-    ss << "/";
-    ss << name << ":" << FormatVersion(nClientVersion);
-    if (!comments.empty())
-        ss << "(" << boost::algorithm::join(comments, "; ") << ")";
-    ss << "/";
-    ss << "Primecoin:" << FormatVersion(PRIMECOIN_VERSION);
-    ss << "(" << CLIENT_BUILD << ")/";
-    return ss.str();
 }
 
 boost::filesystem::path GetTempPath() {

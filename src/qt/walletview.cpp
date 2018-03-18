@@ -3,28 +3,28 @@
 // Copyright (c) 2018 Chapman Shoop
 // See COPYING for license.
 
-#include "walletview.h"
-#include "bitcoingui.h"
-#include "transactiontablemodel.h"
-#include "addressbookpage.h"
-#include "sendcoinsdialog.h"
-#include "signverifymessagedialog.h"
-#include "clientmodel.h"
-#include "walletmodel.h"
-#include "optionsmodel.h"
-#include "transactionview.h"
-#include "overviewpage.h"
-#include "askpassphrasedialog.h"
-#include "ui_interface.h"
-
-#include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QAction>
 #include <QDesktopServices>
 #include <QFileDialog>
 #include <QPushButton>
 
-WalletView::WalletView(QWidget *parent, BitcoinGUI *_gui):
+#include "addressbookpage.h"
+#include "askpassphrasedialog.h"
+#include "clientmodel.h"
+#include "overviewpage.h"
+#include "primecoingui.h"
+#include "primecoinunits.h"
+#include "sendcoinsdialog.h"
+#include "transactiontablemodel.h"
+#include "transactionview.h"
+#include "ui_interface.h"
+#include "walletmodel.h"
+
+#include "walletview.h"
+
+
+WalletView::WalletView(QWidget *parent, PrimecoinGUI *_gui):
     QStackedWidget(parent),
     gui(_gui),
     clientModel(0),
@@ -35,15 +35,8 @@ WalletView::WalletView(QWidget *parent, BitcoinGUI *_gui):
 
     transactionsPage = new QWidget(this);
     QVBoxLayout *vbox = new QVBoxLayout();
-    QHBoxLayout *hbox_buttons = new QHBoxLayout();
     transactionView = new TransactionView(this);
     vbox->addWidget(transactionView);
-    QPushButton *exportButton = new QPushButton(tr("&Export"), this);
-    exportButton->setToolTip(tr("Export the data in the current tab to a file"));
-    exportButton->setIcon(QIcon(":/icons/export"));
-    hbox_buttons->addStretch();
-    hbox_buttons->addWidget(exportButton);
-    vbox->addLayout(hbox_buttons);
     transactionsPage->setLayout(vbox);
 
     addressBookPage = new AddressBookPage(AddressBookPage::ForEditing, AddressBookPage::SendingTab);
@@ -51,8 +44,6 @@ WalletView::WalletView(QWidget *parent, BitcoinGUI *_gui):
     receiveCoinsPage = new AddressBookPage(AddressBookPage::ForEditing, AddressBookPage::ReceivingTab);
 
     sendCoinsPage = new SendCoinsDialog(gui);
-
-    signVerifyMessageDialog = new SignVerifyMessageDialog(gui);
 
     addWidget(overviewPage);
     addWidget(transactionsPage);
@@ -69,12 +60,6 @@ WalletView::WalletView(QWidget *parent, BitcoinGUI *_gui):
 
     // Clicking on "Send Coins" in the address book sends you to the send coins tab
     connect(addressBookPage, SIGNAL(sendCoins(QString)), this, SLOT(gotoSendCoinsPage(QString)));
-    // Clicking on "Verify Message" in the address book opens the verify message tab in the Sign/Verify Message dialog
-    connect(addressBookPage, SIGNAL(verifyMessage(QString)), this, SLOT(gotoVerifyMessageTab(QString)));
-    // Clicking on "Sign Message" in the receive coins page opens the sign message tab in the Sign/Verify Message dialog
-    connect(receiveCoinsPage, SIGNAL(signMessage(QString)), this, SLOT(gotoSignMessageTab(QString)));
-    // Clicking on "Export" allows to export the transaction list
-    connect(exportButton, SIGNAL(clicked()), transactionView, SLOT(exportClicked()));
 
     gotoOverviewPage();
 }
@@ -83,7 +68,7 @@ WalletView::~WalletView()
 {
 }
 
-void WalletView::setBitcoinGUI(BitcoinGUI *gui)
+void WalletView::setPrimecoinGUI(PrimecoinGUI *gui)
 {
     this->gui = gui;
 }
@@ -94,8 +79,6 @@ void WalletView::setClientModel(ClientModel *clientModel)
     if (clientModel)
     {
         overviewPage->setClientModel(clientModel);
-        addressBookPage->setOptionsModel(clientModel->getOptionsModel());
-        receiveCoinsPage->setOptionsModel(clientModel->getOptionsModel());
     }
 }
 
@@ -113,7 +96,6 @@ void WalletView::setWalletModel(WalletModel *walletModel)
         addressBookPage->setModel(walletModel->getAddressTableModel());
         receiveCoinsPage->setModel(walletModel->getAddressTableModel());
         sendCoinsPage->setModel(walletModel);
-        signVerifyMessageDialog->setModel(walletModel);
 
         setEncryptionStatus();
         connect(walletModel, SIGNAL(encryptionStatusChanged(int)), gui, SLOT(setEncryptionStatus(int)));
@@ -140,7 +122,7 @@ void WalletView::incomingTransaction(const QModelIndex& parent, int start, int /
     QString type = ttm->index(start, TransactionTableModel::Type, parent).data().toString();
     QString address = ttm->index(start, TransactionTableModel::ToAddress, parent).data().toString();
 
-    gui->incomingTransaction(date, walletModel->getOptionsModel()->getDisplayUnit(), amount, type, address);
+    gui->incomingTransaction(date, PrimecoinUnits::XPM, amount, type, address);
 }
 
 void WalletView::gotoOverviewPage()
@@ -174,24 +156,6 @@ void WalletView::gotoSendCoinsPage(QString addr)
 
     if (!addr.isEmpty())
         sendCoinsPage->setAddress(addr);
-}
-
-void WalletView::gotoSignMessageTab(QString addr)
-{
-    // call show() in showTab_SM()
-    signVerifyMessageDialog->showTab_SM(true);
-
-    if (!addr.isEmpty())
-        signVerifyMessageDialog->setAddress_SM(addr);
-}
-
-void WalletView::gotoVerifyMessageTab(QString addr)
-{
-    // call show() in showTab_VM()
-    signVerifyMessageDialog->showTab_VM(true);
-
-    if (!addr.isEmpty())
-        signVerifyMessageDialog->setAddress_VM(addr);
 }
 
 bool WalletView::handleURI(const QString& strURI)

@@ -1,8 +1,9 @@
 // Copyright (c) 2012 The Bitcoin developers
-// Distributed under the MIT/X11 software license, see the accompanying
-// file COPYING or http://www.opensource.org/licenses/mit-license.php.
-#ifndef BITCOIN_BLOOM_H
-#define BITCOIN_BLOOM_H
+// Copyright (c) 2018 Chapman Shoop
+// See COPYING for license.
+
+#ifndef __BLOOM_H__
+#define __BLOOM_H__
 
 #include <vector>
 
@@ -88,4 +89,4 @@ public:
     void UpdateEmptyFull();
 };
 
-#endif /* BITCOIN_BLOOM_H */
+#endif // __BLOOM_H__

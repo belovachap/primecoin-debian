@@ -1,16 +1,19 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2012 The Bitcoin developers
-// Distributed under the MIT/X11 software license, see the accompanying
-// file COPYING or http://www.opensource.org/licenses/mit-license.php.
-#ifndef BITCOIN_HASH_H
-#define BITCOIN_HASH_H
+// Copyright (c) 2018 Chapman Shoop
+// See COPYING for license.
 
-#include "uint256.h"
-#include "serialize.h"
+#ifndef __HASH_H__
+#define __HASH_H__
 
-#include <openssl/sha.h>
-#include <openssl/ripemd.h>
 #include <vector>
+
+#include <openssl/ripemd.h>
+#include <openssl/sha.h>
+
+#include "serialize.h"
+#include "uint256.h"
+
 
 template<typename T1>
 inline uint256 Hash(const T1 pbegin, const T1 pend)
@@ -116,4 +119,4 @@ inline uint160 Hash160(const std::vector<unsigned char>& vch)
 
 unsigned int MurmurHash3(unsigned int nHashSeed, const std::vector<unsigned char>& vDataToHash);
 
-#endif
+#endif // __HASH_H__

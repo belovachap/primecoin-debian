@@ -27,8 +27,8 @@ namespace GUIUtil
     QString dateTimeStr(const QDateTime &datetime);
     QString dateTimeStr(qint64 nTime);
 
-    // Render Bitcoin addresses in monospace font
-    QFont bitcoinAddressFont();
+    // Render Primecoin addresses in monospace font
+    QFont primecoinAddressFont();
 
     // Set up widgets for address and amounts
     void setupAddressWidget(QLineEdit *widget, QWidget *parent);
@@ -96,10 +96,7 @@ namespace GUIUtil
         int size_threshold;
     };
 
-    bool GetStartOnSystemStartup();
-    bool SetStartOnSystemStartup(bool fAutoStart);
-
-    /** Help message for Bitcoin-Qt, shown with --help. */
+    /** Help message for primecoin-qt, shown with --help. */
     class HelpMessageBox : public QMessageBox
     {
         Q_OBJECT
@@ -116,7 +113,6 @@ namespace GUIUtil
     private:
         QString header;
         QString coreOptions;
-        QString uiOptions;
     };
 
 } // namespace GUIUtil

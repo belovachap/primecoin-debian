@@ -1,5 +1,8 @@
-#ifndef TRANSACTIONVIEW_H
-#define TRANSACTIONVIEW_H
+// Copyright (c) 2018 Chapman Shoop
+// See COPYING for license.
+
+#ifndef __TRANSACTIONVIEW_H__
+#define __TRANSACTIONVIEW_H__
 
 #include <QWidget>
 
@@ -17,7 +20,7 @@ class QDateTimeEdit;
 QT_END_NAMESPACE
 
 /** Widget showing the transaction list for a wallet, including a filter row.
-    Using the filter row, the user can view or export a subset of the transactions.
+    Using the filter row, the user can view a subset of the transactions.
   */
 class TransactionView : public QWidget
 {
@@ -76,9 +79,8 @@ public slots:
     void chooseType(int idx);
     void changedPrefix(const QString &prefix);
     void changedAmount(const QString &amount);
-    void exportClicked();
     void focusTransaction(const QModelIndex&);
 
 };
 
-#endif // TRANSACTIONVIEW_H
+#endif // __TRANSACTIONVIEW_H__

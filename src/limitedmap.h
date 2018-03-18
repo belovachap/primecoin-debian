@@ -1,11 +1,14 @@
 // Copyright (c) 2012 The Bitcoin developers
-// Distributed under the MIT/X11 software license, see the accompanying
-// file COPYING or http://www.opensource.org/licenses/mit-license.php.
-#ifndef BITCOIN_LIMITEDMAP_H
-#define BITCOIN_LIMITEDMAP_H
+// Copyright (c) 2018 Chapman Shoop
+// See COPYING for license.
 
-#include <map>
+#ifndef __LIMITEDMAP_H__
+#define __LIMITEDMAP_H__
+
+#include <cassert>
 #include <deque>
+#include <map>
+
 
 /** STL-like map container that only keeps the N elements with the highest value. */
 template <typename K, typename V> class limitedmap
@@ -97,4 +100,4 @@ public:
     }
 };
 
-#endif
+#endif // __LIMITEDMAP_H__

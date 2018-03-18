@@ -1,21 +1,22 @@
 // Copyright (c) 2018 Chapman Shoop
 // See COPYING for license.
 
+#include <QMessageBox>
+#include <QScrollBar>
+#include <QTextDocument>
+
+#include "addressbookpage.h"
+#include "askpassphrasedialog.h"
+#include "base58.h"
+#include "guiutil.h"
+#include "primecoin_address.h"
+#include "primecoinunits.h"
+#include "sendcoinsentry.h"
+#include "walletmodel.h"
+
 #include "sendcoinsdialog.h"
 #include "ui_sendcoinsdialog.h"
 
-#include "walletmodel.h"
-#include "bitcoinunits.h"
-#include "addressbookpage.h"
-#include "optionsmodel.h"
-#include "sendcoinsentry.h"
-#include "guiutil.h"
-#include "askpassphrasedialog.h"
-#include "base58.h"
-
-#include <QMessageBox>
-#include <QTextDocument>
-#include <QScrollBar>
 
 SendCoinsDialog::SendCoinsDialog(QWidget *parent) :
     QDialog(parent),
@@ -44,12 +45,9 @@ void SendCoinsDialog::setModel(WalletModel *model)
             entry->setModel(model);
         }
     }
-    if(model && model->getOptionsModel())
-    {
-        setBalance(model->getBalance(), model->getUnconfirmedBalance(), model->getImmatureBalance());
-        connect(model, SIGNAL(balanceChanged(qint64, qint64, qint64)), this, SLOT(setBalance(qint64, qint64, qint64)));
-        connect(model->getOptionsModel(), SIGNAL(displayUnitChanged(int)), this, SLOT(updateDisplayUnit()));
-    }
+    
+    setBalance(model->getBalance(), model->getUnconfirmedBalance(), model->getImmatureBalance());
+    connect(model, SIGNAL(balanceChanged(qint64, qint64, qint64)), this, SLOT(setBalance(qint64, qint64, qint64)));
 }
 
 SendCoinsDialog::~SendCoinsDialog()
@@ -90,7 +88,7 @@ void SendCoinsDialog::on_sendButton_clicked()
     QStringList formatted;
     foreach(const SendCoinsRecipient &rcp, recipients)
     {
-        formatted.append(tr("<b>%1</b> to %2 (%3)").arg(BitcoinUnits::formatWithUnit(BitcoinUnits::BTC, rcp.amount), Qt::escape(rcp.label), rcp.address));
+        formatted.append(tr("<b>%1</b> to %2 (%3)").arg(PrimecoinUnits::formatWithUnit(PrimecoinUnits::XPM, rcp.amount), Qt::escape(rcp.label), rcp.address));
     }
 
     fNewRecipientAllowed = false;
@@ -135,7 +133,7 @@ void SendCoinsDialog::on_sendButton_clicked()
     case WalletModel::AmountWithFeeExceedsBalance:
         QMessageBox::warning(this, tr("Send Coins"),
             tr("The total exceeds your balance when the %1 transaction fee is included.").
-            arg(BitcoinUnits::formatWithUnit(BitcoinUnits::BTC, sendstatus.fee)),
+            arg(PrimecoinUnits::formatWithUnit(PrimecoinUnits::XPM, sendstatus.fee)),
             QMessageBox::Ok, QMessageBox::Ok);
         break;
     case WalletModel::DuplicateAddress:
@@ -291,7 +289,7 @@ bool SendCoinsDialog::handleURI(const QString &uri)
     // URI has to be valid
     if (GUIUtil::parsePrimecoinURI(uri, &rv))
     {
-        CBitcoinAddress address(rv.address.toStdString());
+        PrimecoinAddress address(rv.address.toStdString());
         if (!address.IsValid())
             return false;
         pasteEntry(rv);
@@ -305,18 +303,6 @@ void SendCoinsDialog::setBalance(qint64 balance, qint64 unconfirmedBalance, qint
 {
     Q_UNUSED(unconfirmedBalance);
     Q_UNUSED(immatureBalance);
-    if(!model || !model->getOptionsModel())
-        return;
 
-    int unit = model->getOptionsModel()->getDisplayUnit();
-    ui->labelBalance->setText(BitcoinUnits::formatWithUnit(unit, balance));
-}
-
-void SendCoinsDialog::updateDisplayUnit()
-{
-    if(model && model->getOptionsModel())
-    {
-        // Update labelBalance with the current balance and the current unit
-        ui->labelBalance->setText(BitcoinUnits::formatWithUnit(model->getOptionsModel()->getDisplayUnit(), model->getBalance()));
-    }
+    ui->labelBalance->setText(PrimecoinUnits::formatWithUnit(PrimecoinUnits::XPM, balance));
 }

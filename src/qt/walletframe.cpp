@@ -1,11 +1,10 @@
-/*
- * Qt4 bitcoin GUI.
- *
- * W.J. van der Laan 2011-2012
- * The Bitcoin Developers 2011-2013
- */
+// Copyright (c) 2011-2012 W.J. van der Laan
+// Copyright (c) 2011-2013 The Bitcoin Developers
+// Copyright (c) 2018 Chapman Shoop
+// See COPYING for license.
+
 #include "walletframe.h"
-#include "bitcoingui.h"
+#include "primecoingui.h"
 #include "walletstack.h"
 
 #include <QVBoxLayout>
@@ -13,7 +12,7 @@
 
 #include <stdio.h>
 
-WalletFrame::WalletFrame(BitcoinGUI *_gui) :
+WalletFrame::WalletFrame(PrimecoinGUI *_gui) :
     QFrame(_gui),
     gui(_gui),
     clientModel(0)
@@ -22,7 +21,7 @@ WalletFrame::WalletFrame(BitcoinGUI *_gui) :
     QHBoxLayout *walletFrameLayout = new QHBoxLayout(this);
     setContentsMargins(0,0,0,0);
     walletStack = new WalletStack(this);
-    walletStack->setBitcoinGUI(gui);
+    walletStack->setPrimecoinGUI(gui);
     walletFrameLayout->setContentsMargins(0,0,0,0);
     walletFrameLayout->addWidget(walletStack);
 }
@@ -93,16 +92,6 @@ void WalletFrame::gotoReceiveCoinsPage()
 void WalletFrame::gotoSendCoinsPage(QString addr)
 {
     walletStack->gotoSendCoinsPage(addr);
-}
-
-void WalletFrame::gotoSignMessageTab(QString addr)
-{
-    walletStack->gotoSignMessageTab(addr);
-}
-
-void WalletFrame::gotoVerifyMessageTab(QString addr)
-{
-    walletStack->gotoSignMessageTab(addr);
 }
 
 void WalletFrame::encryptWallet(bool status)

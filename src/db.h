@@ -6,13 +6,10 @@
 #ifndef __DB_H__
 #define __DB_H__
 
+#include <db_cxx.h>
+
 #include "main.h"
 
-#include <map>
-#include <string>
-#include <vector>
-
-#include <db_cxx.h>
 
 class CWallet;
 

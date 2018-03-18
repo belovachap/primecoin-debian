@@ -3,12 +3,15 @@
 // Copyright (c) 2018 Chapman Shoop
 // See COPYING for license.
 
-#include "wallet.h"
-#include "walletdb.h"
-#include "crypter.h"
-#include "ui_interface.h"
-#include "base58.h"
 #include <boost/algorithm/string/replace.hpp>
+
+#include "base58.h"
+#include "crypter.h"
+#include "primecoin_address.h"
+#include "ui_interface.h"
+#include "walletdb.h"
+
+#include "wallet.h"
 
 
 //////////////////////////////////////////////////////////////////////////////
@@ -1154,14 +1157,14 @@ bool CWallet::CreateTransaction(const std::vector<std::pair<CScript, int64> >& v
     {
         if (nValue < 0)
         {
-            strFailReason = _("Transaction amounts must be positive");
+            strFailReason = "Transaction amounts must be positive";
             return false;
         }
         nValue += s.second;
     }
     if (vecSend.empty() || nValue < 0)
     {
-        strFailReason = _("Transaction amounts must be positive");
+        strFailReason = "Transaction amounts must be positive";
         return false;
     }
 
@@ -1185,7 +1188,7 @@ bool CWallet::CreateTransaction(const std::vector<std::pair<CScript, int64> >& v
                     CTxOut txout(s.second, s.first);
                     if (txout.IsDust())
                     {
-                        strFailReason = _("Transaction amount too small");
+                        strFailReason = "Transaction amount too small";
                         return false;
                     }
                     wtxNew.vout.push_back(txout);
@@ -1196,7 +1199,7 @@ bool CWallet::CreateTransaction(const std::vector<std::pair<CScript, int64> >& v
                 int64 nValueIn = 0;
                 if (!SelectCoins(nTotalValue, setCoins, nValueIn))
                 {
-                    strFailReason = _("Insufficient funds");
+                    strFailReason = "Insufficient funds";
                     return false;
                 }
                 BOOST_FOREACH(PAIRTYPE(const CWalletTx*, unsigned int) pcoin, setCoins)
@@ -1212,7 +1215,7 @@ bool CWallet::CreateTransaction(const std::vector<std::pair<CScript, int64> >& v
                 // The following if statement should be removed once enough miners
                 // have upgraded to the 0.9 GetMinFee() rules. Until then, this avoids
                 // creating free transactions that have change outputs less than
-                // CENT bitcoins.
+                // CENT primecoins.
                 if (nFeeRet < CTransaction::nMinTxFee && nChange > 0 && nChange < CENT)
                 {
                     int64 nMoveToFee = std::min(nChange, CTransaction::nMinTxFee - nFeeRet);
@@ -1242,7 +1245,7 @@ bool CWallet::CreateTransaction(const std::vector<std::pair<CScript, int64> >& v
 
                     // Fill a vout to ourself
                     // TODO: pass in scriptChange instead of reservekey so
-                    // change transaction isn't always pay-to-bitcoin-address
+                    // change transaction isn't always pay-to-primecoin-address
                     CScript scriptChange;
                     scriptChange.SetDestination(vchPubKey.GetID());
 
@@ -1274,7 +1277,7 @@ bool CWallet::CreateTransaction(const std::vector<std::pair<CScript, int64> >& v
                 BOOST_FOREACH(const PAIRTYPE(const CWalletTx*,unsigned int)& coin, setCoins)
                     if (!SignSignature(*this, *coin.first, wtxNew, nIn++))
                     {
-                        strFailReason = _("Signing transaction failed");
+                        strFailReason = "Signing transaction failed";
                         return false;
                     }
 
@@ -1282,7 +1285,7 @@ bool CWallet::CreateTransaction(const std::vector<std::pair<CScript, int64> >& v
                 unsigned int nBytes = ::GetSerializeSize(*(CTransaction*)&wtxNew, SER_NETWORK, PROTOCOL_VERSION);
                 if (nBytes >= MAX_STANDARD_TX_SIZE)
                 {
-                    strFailReason = _("Transaction too large");
+                    strFailReason = "Transaction too large";
                     return false;
                 }
                 dPriority /= nBytes;
@@ -1374,7 +1377,7 @@ std::string CWallet::SendMoney(CScript scriptPubKey, int64 nValue, CWalletTx& wt
 
     if (IsLocked())
     {
-        std::string strError = _("Error: Wallet locked, unable to create transaction!");
+        std::string strError = "Error: Wallet locked, unable to create transaction!";
         printf("SendMoney() : %s", strError.c_str());
         return strError;
     }
@@ -1382,7 +1385,7 @@ std::string CWallet::SendMoney(CScript scriptPubKey, int64 nValue, CWalletTx& wt
     if (!CreateTransaction(scriptPubKey, nValue, wtxNew, reservekey, nFeeRequired, strError))
     {
         if (nValue + nFeeRequired > GetBalance())
-            strError = strprintf(_("Error: This transaction requires a transaction fee of at least %s because of its amount, complexity, or use of recently received funds!"), FormatMoney(nFeeRequired).c_str());
+            strError = strprintf("Error: This transaction requires a transaction fee of at least %s because of its amount, complexity, or use of recently received funds!", FormatMoney(nFeeRequired).c_str());
         printf("SendMoney() : %s\n", strError.c_str());
         return strError;
     }
@@ -1391,7 +1394,7 @@ std::string CWallet::SendMoney(CScript scriptPubKey, int64 nValue, CWalletTx& wt
         return "ABORTED";
 
     if (!CommitTransaction(wtxNew, reservekey))
-        return _("Error: The transaction was rejected! This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.");
+        return "Error: The transaction was rejected! This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.";
 
     return "";
 }
@@ -1402,11 +1405,11 @@ std::string CWallet::SendMoneyToDestination(const CTxDestination& address, int64
 {
     // Check amount
     if (nValue <= 0)
-        return _("Invalid amount");
+        return "Invalid amount";
     if (nValue + nTransactionFee > GetBalance())
-        return _("Insufficient funds");
+        return "Insufficient funds";
 
-    // Parse Bitcoin address
+    // Parse Primecoin address
     CScript scriptPubKey;
     scriptPubKey.SetDestination(address);
 
@@ -1448,7 +1451,7 @@ bool CWallet::SetAddressBookName(const CTxDestination& address, const std::strin
     NotifyAddressBookChanged(this, address, strName, ::IsMine(*this, address), (mi == mapAddressBook.end()) ? CT_NEW : CT_UPDATED);
     if (!fFileBacked)
         return false;
-    return CWalletDB(strWalletFile).WriteName(CBitcoinAddress(address).ToString(), strName);
+    return CWalletDB(strWalletFile).WriteName(PrimecoinAddress(address).ToString(), strName);
 }
 
 bool CWallet::DelAddressBookName(const CTxDestination& address)
@@ -1457,7 +1460,7 @@ bool CWallet::DelAddressBookName(const CTxDestination& address)
     NotifyAddressBookChanged(this, address, "", ::IsMine(*this, address), CT_DELETED);
     if (!fFileBacked)
         return false;
-    return CWalletDB(strWalletFile).EraseName(CBitcoinAddress(address).ToString());
+    return CWalletDB(strWalletFile).EraseName(PrimecoinAddress(address).ToString());
 }
 
 

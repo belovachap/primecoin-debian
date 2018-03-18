@@ -1,11 +1,13 @@
 // Copyright (c) 2012 The Bitcoin developers
-// Distributed under the MIT/X11 software license, see the accompanying
-// file COPYING or http://www.opensource.org/licenses/mit-license.php.
-#ifndef BITCOIN_MRUSET_H
-#define BITCOIN_MRUSET_H
+// Copyright (c) 2018 Chapman Shoop
+// See COPYING for license.
 
-#include <set>
+#ifndef __MRUSET_H__
+#define __MRUSET_H__
+
 #include <deque>
+#include <set>
+
 
 /** STL-like set container that only keeps the most recent N elements. */
 template <typename T> class mruset
@@ -61,4 +63,4 @@ public:
     }
 };
 
-#endif
+#endif // __MRUSET_H__

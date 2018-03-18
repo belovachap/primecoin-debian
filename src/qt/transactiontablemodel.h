@@ -1,8 +1,12 @@
-#ifndef TRANSACTIONTABLEMODEL_H
-#define TRANSACTIONTABLEMODEL_H
+// Copyright (c) 2018 Chapman Shoop
+// See COPYING for license.
+
+#ifndef __TRANSACTIONTABLEMODEL_H__
+#define __TRANSACTIONTABLEMODEL_H__
 
 #include <QAbstractTableModel>
 #include <QStringList>
+
 
 class CWallet;
 class TransactionTablePriv;
@@ -78,9 +82,8 @@ private:
 public slots:
     void updateTransaction(const QString &hash, int status);
     void updateConfirmations();
-    void updateDisplayUnit();
 
     friend class TransactionTablePriv;
 };
 
-#endif // TRANSACTIONTABLEMODEL_H
+#endif // __TRANSACTIONTABLEMODEL_H__

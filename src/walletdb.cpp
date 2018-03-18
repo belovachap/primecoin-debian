@@ -4,19 +4,16 @@
 // Copyright (c) 2018 Chapman Shoop
 // See COPYING for license.
 
-#include "walletdb.h"
-#include "wallet.h"
-#include <boost/version.hpp>
 #include <boost/filesystem.hpp>
+#include <boost/version.hpp>
 
-using namespace boost;
+#include "primecoin_address.h"
+#include "wallet.h"
+
+#include "walletdb.h"
 
 
 static uint64 nAccountingEntryNumber = 0;
-
-//
-// CWalletDB
-//
 
 bool CWalletDB::WriteName(const std::string& strAddress, const std::string& strName)
 {
@@ -196,7 +193,7 @@ ReadKeyValue(CWallet* pwallet, CDataStream& ssKey, CDataStream& ssValue,
         {
             std::string strAddress;
             ssKey >> strAddress;
-            ssValue >> pwallet->mapAddressBook[CBitcoinAddress(strAddress).Get()];
+            ssValue >> pwallet->mapAddressBook[PrimecoinAddress(strAddress).Get()];
         }
         else if (strType == "tx")
         {
@@ -563,20 +560,20 @@ bool BackupWallet(const CWallet& wallet, const std::string& strDest)
                 bitdb.mapFileUseCount.erase(wallet.strWalletFile);
 
                 // Copy wallet.dat
-                filesystem::path pathSrc = GetDataDir() / wallet.strWalletFile;
-                filesystem::path pathDest(strDest);
-                if (filesystem::is_directory(pathDest))
+                boost::filesystem::path pathSrc = GetDataDir() / wallet.strWalletFile;
+                boost::filesystem::path pathDest(strDest);
+                if (boost::filesystem::is_directory(pathDest))
                     pathDest /= wallet.strWalletFile;
 
                 try {
 #if BOOST_VERSION >= 104000
-                    filesystem::copy_file(pathSrc, pathDest, filesystem::copy_option::overwrite_if_exists);
+                    boost::filesystem::copy_file(pathSrc, pathDest, boost::filesystem::copy_option::overwrite_if_exists);
 #else
-                    filesystem::copy_file(pathSrc, pathDest);
+                    boost::filesystem::copy_file(pathSrc, pathDest);
 #endif
                     printf("copied wallet.dat to %s\n", pathDest.string().c_str());
                     return true;
-                } catch(const filesystem::filesystem_error &e) {
+                } catch(const boost::filesystem::filesystem_error &e) {
                     printf("error copying wallet.dat to %s - %s\n", pathDest.string().c_str(), e.what());
                     return false;
                 }

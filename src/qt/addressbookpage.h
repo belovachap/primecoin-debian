@@ -1,13 +1,16 @@
-#ifndef ADDRESSBOOKPAGE_H
-#define ADDRESSBOOKPAGE_H
+// Copyright (c) 2018 Chapman Shoop
+// See COPYING for license.
+
+#ifndef __ADDRESSBOOKPAGE_H__
+#define __ADDRESSBOOKPAGE_H__
 
 #include <QDialog>
+
 
 namespace Ui {
     class AddressBookPage;
 }
 class AddressTableModel;
-class OptionsModel;
 
 QT_BEGIN_NAMESPACE
 class QTableView;
@@ -38,7 +41,6 @@ public:
     ~AddressBookPage();
 
     void setModel(AddressTableModel *model);
-    void setOptionsModel(OptionsModel *optionsModel);
     const QString &getReturnValue() const { return returnValue; }
 
 public slots:
@@ -47,7 +49,6 @@ public slots:
 private:
     Ui::AddressBookPage *ui;
     AddressTableModel *model;
-    OptionsModel *optionsModel;
     Mode mode;
     Tabs tab;
     QString returnValue;
@@ -63,20 +64,12 @@ private slots:
     void on_newAddress_clicked();
     /** Copy address of currently selected address entry to clipboard */
     void on_copyAddress_clicked();
-    /** Open the sign message tab in the Sign/Verify Message dialog with currently selected address */
-    void on_signMessage_clicked();
-    /** Open the verify message tab in the Sign/Verify Message dialog with currently selected address */
-    void on_verifyMessage_clicked();
     /** Open send coins dialog for currently selected address (no button) */
     void onSendCoinsAction();
-    /** Generate a QR Code from the currently selected address */
-    void on_showQRCode_clicked();
     /** Copy label of currently selected address entry to clipboard (no button) */
     void onCopyLabelAction();
     /** Edit currently selected address entry (no button) */
     void onEditAction();
-    /** Export button clicked */
-    void on_exportButton_clicked();
 
     /** Set button states based on selected tab and selection */
     void selectionChanged();
@@ -86,9 +79,7 @@ private slots:
     void selectNewAddress(const QModelIndex &parent, int begin, int /*end*/);
 
 signals:
-    void signMessage(QString addr);
-    void verifyMessage(QString addr);
     void sendCoins(QString addr);
 };
 
-#endif // ADDRESSBOOKPAGE_H
+#endif // __ADDRESSBOOKPAGE_H__

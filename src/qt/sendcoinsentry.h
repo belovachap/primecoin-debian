@@ -1,7 +1,11 @@
-#ifndef SENDCOINSENTRY_H
-#define SENDCOINSENTRY_H
+// Copyright (c) 2018 Chapman Shoop
+// See COPYING for license.
+
+#ifndef __SENDCOINSENTRY_H__
+#define __SENDCOINSENTRY_H__
 
 #include <QFrame>
+
 
 namespace Ui {
     class SendCoinsEntry;
@@ -9,7 +13,7 @@ namespace Ui {
 class WalletModel;
 class SendCoinsRecipient;
 
-/** A single entry in the dialog for sending bitcoins. */
+/** A single entry in the dialog for sending primecoins. */
 class SendCoinsEntry : public QFrame
 {
     Q_OBJECT
@@ -46,11 +50,10 @@ private slots:
     void on_payTo_textChanged(const QString &address);
     void on_addressBookButton_clicked();
     void on_pasteButton_clicked();
-    void updateDisplayUnit();
 
 private:
     Ui::SendCoinsEntry *ui;
     WalletModel *model;
 };
 
-#endif // SENDCOINSENTRY_H
+#endif // __SENDCOINSENTRY_H__

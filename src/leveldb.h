@@ -1,15 +1,17 @@
 // Copyright (c) 2012 The Bitcoin developers
-// Distributed under the MIT/X11 software license, see the accompanying
-// file COPYING or http://www.opensource.org/licenses/mit-license.php.
-#ifndef BITCOIN_LEVELDB_H
-#define BITCOIN_LEVELDB_H
+// Copyright (c) 2018 Chapman Shoop
+// See COPYING for license.
 
-#include "serialize.h"
+#ifndef __LEVELDB_H__
+#define __LEVELDB_H__
+
+#include <boost/filesystem/path.hpp>
 
 #include <leveldb/db.h>
 #include <leveldb/write_batch.h>
 
-#include <boost/filesystem/path.hpp>
+#include "serialize.h"
+
 
 class leveldb_error : public std::runtime_error
 {
@@ -150,4 +152,4 @@ public:
     }
 };
 
-#endif // BITCOIN_LEVELDB_H
+#endif // __LEVELDB_H__

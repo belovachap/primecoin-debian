@@ -1,13 +1,13 @@
 // Copyright (c) 2010 Satoshi Nakamoto
 // Copyright (c) 2009-2012 The Bitcoin developers
-// Distributed under the MIT/X11 software license, see the accompanying
-// file COPYING or http://www.opensource.org/licenses/mit-license.php.
-
-#include "ui_interface.h"
-#include "init.h"
-#include "bitcoinrpc.h"
+// Copyright (c) 2018 Chapman Shoop
+// See COPYING for license.
 
 #include <string>
+
+#include "init.h"
+#include "ui_interface.h"
+
 
 static bool noui_ThreadSafeMessageBox(const std::string& message, const std::string& caption, unsigned int style)
 {
@@ -15,13 +15,13 @@ static bool noui_ThreadSafeMessageBox(const std::string& message, const std::str
     // Check for usage of predefined caption
     switch (style) {
     case CClientUIInterface::MSG_ERROR:
-        strCaption += _("Error");
+        strCaption += "Error";
         break;
     case CClientUIInterface::MSG_WARNING:
-        strCaption += _("Warning");
+        strCaption += "Warning";
         break;
     case CClientUIInterface::MSG_INFORMATION:
-        strCaption += _("Information");
+        strCaption += "Information";
         break;
     default:
         strCaption += caption; // Use supplied caption (can be empty)
@@ -44,7 +44,7 @@ static void noui_InitMessage(const std::string &message)
 
 void noui_connect()
 {
-    // Connect bitcoind signal handlers
+    // Connect primecoind signal handlers
     uiInterface.ThreadSafeMessageBox.connect(noui_ThreadSafeMessageBox);
     uiInterface.ThreadSafeAskFee.connect(noui_ThreadSafeAskFee);
     uiInterface.InitMessage.connect(noui_InitMessage);

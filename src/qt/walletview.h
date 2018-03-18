@@ -1,23 +1,21 @@
-/*
- * Qt4 bitcoin GUI.
- *
- * W.J. van der Laan 2011-2012
- * The Bitcoin Developers 2011-2013
- */
-#ifndef WALLETVIEW_H
-#define WALLETVIEW_H
+// Copyright (c) 2011-2012 W.J. van der Laan
+// Copyright (c) 2011-2013 The Bitcoin Developers
+// Copyright (c) 2018 Chapman Shoop
+// See COPYING for license.
+
+#ifndef __WALLETVIEW_H__
+#define __WALLETVIEW_H__
 
 #include <QStackedWidget>
 
-class BitcoinGUI;
+
+class PrimecoinGUI;
 class ClientModel;
 class WalletModel;
 class TransactionView;
 class OverviewPage;
 class AddressBookPage;
 class SendCoinsDialog;
-class SignVerifyMessageDialog;
-class RPCConsole;
 
 QT_BEGIN_NAMESPACE
 class QLabel;
@@ -35,16 +33,16 @@ class WalletView : public QStackedWidget
     Q_OBJECT
 
 public:
-    explicit WalletView(QWidget *parent, BitcoinGUI *_gui);
+    explicit WalletView(QWidget *parent, PrimecoinGUI *_gui);
     ~WalletView();
 
-    void setBitcoinGUI(BitcoinGUI *gui);
+    void setPrimecoinGUI(PrimecoinGUI *gui);
     /** Set the client model.
         The client model represents the part of the core that communicates with the P2P network, and is wallet-agnostic.
     */
     void setClientModel(ClientModel *clientModel);
     /** Set the wallet model.
-        The wallet model represents a bitcoin wallet, and offers access to the list of transactions, address book and sending
+        The wallet model represents a primecoin wallet, and offers access to the list of transactions, address book and sending
         functionality.
     */
     void setWalletModel(WalletModel *walletModel);
@@ -54,7 +52,7 @@ public:
     void showOutOfSyncWarning(bool fShow);
 
 private:
-    BitcoinGUI *gui;
+    PrimecoinGUI *gui;
     ClientModel *clientModel;
     WalletModel *walletModel;
 
@@ -63,7 +61,6 @@ private:
     AddressBookPage *addressBookPage;
     AddressBookPage *receiveCoinsPage;
     SendCoinsDialog *sendCoinsPage;
-    SignVerifyMessageDialog *signVerifyMessageDialog;
 
     TransactionView *transactionView;
 
@@ -78,11 +75,6 @@ public slots:
     void gotoReceiveCoinsPage();
     /** Switch to send coins page */
     void gotoSendCoinsPage(QString addr = "");
-
-    /** Show Sign/Verify Message dialog and switch to sign message tab */
-    void gotoSignMessageTab(QString addr = "");
-    /** Show Sign/Verify Message dialog and switch to verify message tab */
-    void gotoVerifyMessageTab(QString addr = "");
 
     /** Show incoming transaction notification for new transactions.
 
@@ -105,4 +97,4 @@ signals:
     void showNormalIfMinimized();
 };
 
-#endif // WALLETVIEW_H
+#endif // __WALLETVIEW_H__

@@ -1,7 +1,12 @@
+// Copyright (c) 2018 Chapman Shoop
+// See COPYING for license.
+
+#include "base58.h"
+#include "primecoin_address.h"
+#include "wallet.h"
+
 #include "transactionrecord.h"
 
-#include "wallet.h"
-#include "base58.h"
 
 /* Return positive answer if transaction should be shown in list.
  */
@@ -46,9 +51,9 @@ QList<TransactionRecord> TransactionRecord::decomposeTransaction(const CWallet *
                 sub.credit = txout.nValue;
                 if (ExtractDestination(txout.scriptPubKey, address) && IsMine(*wallet, address))
                 {
-                    // Received by Bitcoin Address
+                    // Received by Primecoin Address
                     sub.type = TransactionRecord::RecvWithAddress;
-                    sub.address = CBitcoinAddress(address).ToString();
+                    sub.address = PrimecoinAddress(address).ToString();
                 }
                 else
                 {
@@ -107,9 +112,9 @@ QList<TransactionRecord> TransactionRecord::decomposeTransaction(const CWallet *
                 CTxDestination address;
                 if (ExtractDestination(txout.scriptPubKey, address))
                 {
-                    // Sent to Bitcoin Address
+                    // Sent to Primecoin Address
                     sub.type = TransactionRecord::SendToAddress;
-                    sub.address = CBitcoinAddress(address).ToString();
+                    sub.address = PrimecoinAddress(address).ToString();
                 }
                 else
                 {

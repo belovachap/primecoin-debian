@@ -1,15 +1,18 @@
 // Copyright (c) 2012 The Bitcoin developers
-// Distributed under the MIT/X11 software license, see the accompanying
-// file COPYING or http://www.opensource.org/licenses/mit-license.php.
-#ifndef CHECKQUEUE_H
-#define CHECKQUEUE_H
+// Copyright (c) 2018 Chapman Shoop
+// See COPYING for license.
 
+#ifndef __CHECKQUEUE_H__
+#define __CHECKQUEUE_H__
+
+#include <boost/foreach.hpp>
 #include <boost/thread/mutex.hpp>
 #include <boost/thread/locks.hpp>
 #include <boost/thread/condition_variable.hpp>
 
-#include <vector>
 #include <algorithm>
+#include <vector>
+
 
 template<typename T> class CCheckQueueControl;
 
@@ -189,4 +192,4 @@ public:
     }
 };
 
-#endif
+#endif // __CHECKQUEUE_H__

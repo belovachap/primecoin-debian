@@ -1,11 +1,14 @@
-#ifndef WALLETMODEL_H
-#define WALLETMODEL_H
+// Copyright (c) 2018 Chapman Shoop
+// See COPYING for license.
+
+#ifndef __WALLETMODEL_H__
+#define __WALLETMODEL_H__
 
 #include <QObject>
 
 #include "allocators.h" /* for SecureString */
 
-class OptionsModel;
+
 class AddressTableModel;
 class TransactionTableModel;
 class CWallet;
@@ -22,13 +25,13 @@ public:
     qint64 amount;
 };
 
-/** Interface to Bitcoin wallet from Qt view code. */
+/** Interface to Primecoin wallet from Qt view code. */
 class WalletModel : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit WalletModel(CWallet *wallet, OptionsModel *optionsModel, QObject *parent = 0);
+    explicit WalletModel(CWallet *wallet, QObject *parent = 0);
     ~WalletModel();
 
     enum StatusCode // Returned by sendCoins
@@ -51,7 +54,6 @@ public:
         Unlocked      // wallet->IsCrypted() && !wallet->IsLocked()
     };
 
-    OptionsModel *getOptionsModel();
     AddressTableModel *getAddressTableModel();
     TransactionTableModel *getTransactionTableModel();
 
@@ -112,10 +114,6 @@ public:
 private:
     CWallet *wallet;
 
-    // Wallet has an options model for wallet-specific options
-    // (transaction fee, for example)
-    OptionsModel *optionsModel;
-
     AddressTableModel *addressTableModel;
     TransactionTableModel *transactionTableModel;
 
@@ -162,4 +160,4 @@ public slots:
     void pollBalanceChanged();
 };
 
-#endif // WALLETMODEL_H
+#endif // __WALLETMODEL_H__

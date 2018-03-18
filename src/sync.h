@@ -1,15 +1,35 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2012 The Bitcoin developers
-// Distributed under the MIT/X11 software license, see the accompanying
-// file COPYING or http://www.opensource.org/licenses/mit-license.php.
-#ifndef BITCOIN_SYNC_H
-#define BITCOIN_SYNC_H
+// Copyright (c) 2018 Chapman Shoop
+// See COPYING for license.
 
+#ifndef __SYNC_H__
+#define __SYNC_H__
+
+#include <boost/thread/condition_variable.hpp>
+#include <boost/thread/locks.hpp>
 #include <boost/thread/mutex.hpp>
 #include <boost/thread/recursive_mutex.hpp>
-#include <boost/thread/locks.hpp>
-#include <boost/thread/condition_variable.hpp>
-#include "threadsafety.h"
+
+
+#define LOCKABLE
+#define SCOPED_LOCKABLE
+#define GUARDED_BY(x)
+#define GUARDED_VAR
+#define PT_GUARDED_BY(x)
+#define PT_GUARDED_VAR
+#define ACQUIRED_AFTER(...)
+#define ACQUIRED_BEFORE(...)
+#define EXCLUSIVE_LOCK_FUNCTION(...)
+#define SHARED_LOCK_FUNCTION(...)
+#define EXCLUSIVE_TRYLOCK_FUNCTION(...)
+#define SHARED_TRYLOCK_FUNCTION(...)
+#define UNLOCK_FUNCTION(...)
+#define LOCK_RETURNED(x)
+#define LOCKS_EXCLUDED(...)
+#define EXCLUSIVE_LOCKS_REQUIRED(...)
+#define SHARED_LOCKS_REQUIRED(...)
+#define NO_THREAD_SAFETY_ANALYSIS
 
 // Template mixin that adds -Wthread-safety locking annotations to a
 // subset of the mutex API.
@@ -209,5 +229,5 @@ public:
         return fHaveGrant;
     }
 };
-#endif
 
+#endif // __SYNC_H__

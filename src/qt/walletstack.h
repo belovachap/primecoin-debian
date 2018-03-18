@@ -1,17 +1,17 @@
-/*
- * Qt4 bitcoin GUI.
- *
- * W.J. van der Laan 2011-2012
- * The Bitcoin Developers 2011-2013
- */
-#ifndef WALLETSTACK_H
-#define WALLETSTACK_H
+// Copyright (c) 2011-2012 W.J. van der Laan
+// Copyright (c) 2011-2013 The Bitcoin Developers
+// Copyright (c) 2018 Chapman Shoop
+// See COPYING for license.
+
+#ifndef __WALLETSTACK_H__
+#define __WALLETSTACK_H__
 
 #include <QStackedWidget>
 #include <QMap>
 #include <boost/shared_ptr.hpp>
 
-class BitcoinGUI;
+
+class PrimecoinGUI;
 class TransactionTableModel;
 class ClientModel;
 class WalletModel;
@@ -20,10 +20,7 @@ class TransactionView;
 class OverviewPage;
 class AddressBookPage;
 class SendCoinsDialog;
-class SignVerifyMessageDialog;
 class Notificator;
-class RPCConsole;
-
 class CWalletManager;
 
 QT_BEGIN_NAMESPACE
@@ -44,7 +41,7 @@ public:
     explicit WalletStack(QWidget *parent = 0);
     ~WalletStack();
 
-    void setBitcoinGUI(BitcoinGUI *gui) { this->gui = gui; }
+    void setPrimecoinGUI(PrimecoinGUI *gui) { this->gui = gui; }
 
     void setClientModel(ClientModel *clientModel) { this->clientModel = clientModel; }
 
@@ -58,7 +55,7 @@ public:
     void showOutOfSyncWarning(bool fShow);
 
 private:
-    BitcoinGUI *gui;
+    PrimecoinGUI *gui;
     ClientModel *clientModel;
     QMap<QString, WalletView*> mapWalletViews;
 
@@ -78,11 +75,6 @@ public slots:
     /** Switch to send coins page */
     void gotoSendCoinsPage(QString addr = "");
 
-    /** Show Sign/Verify Message dialog and switch to sign message tab */
-    void gotoSignMessageTab(QString addr = "");
-    /** Show Sign/Verify Message dialog and switch to verify message tab */
-    void gotoVerifyMessageTab(QString addr = "");
-
     /** Encrypt the wallet */
     void encryptWallet(bool status);
     /** Backup the wallet */
@@ -99,4 +91,4 @@ public slots:
     void setEncryptionStatus();
 };
 
-#endif // WALLETSTACK_H
+#endif // __WALLETSTACK_H__

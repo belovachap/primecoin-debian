@@ -1,31 +1,28 @@
 // Copyright (c) 2018 Chapman Shoop
 // See COPYING for license.
 
+#include <boost/filesystem.hpp>
+
 #include <QApplication>
-
-#include "guiutil.h"
-
-#include "bitcoinaddressvalidator.h"
-#include "walletmodel.h"
-#include "bitcoinunits.h"
-
-#include "util.h"
-#include "init.h"
-
 #include <QDateTime>
 #include <QDoubleValidator>
 #include <QFont>
 #include <QLineEdit>
 #include <QUrl>
-#include <QTextDocument> // For Qt::escape
+#include <QTextDocument>
 #include <QAbstractItemView>
 #include <QClipboard>
 #include <QFileDialog>
 #include <QDesktopServices>
 #include <QThread>
 
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/fstream.hpp>
+#include "guiutil.h"
+#include "init.h"
+#include "primecoinaddressvalidator.h"
+#include "primecoinunits.h"
+#include "util.h"
+#include "walletmodel.h"
+
 
 namespace GUIUtil {
 
@@ -39,7 +36,7 @@ QString dateTimeStr(qint64 nTime)
     return dateTimeStr(QDateTime::fromTime_t((qint32)nTime));
 }
 
-QFont bitcoinAddressFont()
+QFont primecoinAddressFont()
 {
     QFont font("Monospace");
     font.setStyleHint(QFont::TypeWriter);
@@ -48,9 +45,9 @@ QFont bitcoinAddressFont()
 
 void setupAddressWidget(QLineEdit *widget, QWidget *parent)
 {
-    widget->setMaxLength(BitcoinAddressValidator::MaxAddressLength);
-    widget->setValidator(new BitcoinAddressValidator(parent));
-    widget->setFont(bitcoinAddressFont());
+    widget->setMaxLength(PrimecoinAddressValidator::MaxAddressLength);
+    widget->setValidator(new PrimecoinAddressValidator(parent));
+    widget->setFont(primecoinAddressFont());
 }
 
 void setupAmountWidget(QLineEdit *widget, QWidget *parent)
@@ -64,7 +61,7 @@ void setupAmountWidget(QLineEdit *widget, QWidget *parent)
 
 bool parsePrimecoinURI(const QUrl &uri, SendCoinsRecipient *out)
 {
-    // return if URI is not valid or is no bitcoin URI
+    // return if URI is not valid or is no primecoin URI
     if(!uri.isValid() || uri.scheme() != QString("primecoin"))
         return false;
 
@@ -90,7 +87,7 @@ bool parsePrimecoinURI(const QUrl &uri, SendCoinsRecipient *out)
         {
             if(!i->second.isEmpty())
             {
-                if(!BitcoinUnits::parse(BitcoinUnits::BTC, i->second, &rv.amount))
+                if(!PrimecoinUnits::parse(PrimecoinUnits::XPM, i->second, &rv.amount))
                 {
                     return false;
                 }
@@ -259,98 +256,27 @@ bool ToolTipToRichTextFilter::eventFilter(QObject *obj, QEvent *evt)
     return QObject::eventFilter(obj, evt);
 }
 
-// Follow the Desktop Application Autostart Spec:
-//  http://standards.freedesktop.org/autostart-spec/autostart-spec-latest.html
-
-boost::filesystem::path static GetAutostartDir()
-{
-    namespace fs = boost::filesystem;
-
-    char* pszConfigHome = getenv("XDG_CONFIG_HOME");
-    if (pszConfigHome) return fs::path(pszConfigHome) / "autostart";
-    char* pszHome = getenv("HOME");
-    if (pszHome) return fs::path(pszHome) / ".config" / "autostart";
-    return fs::path();
-}
-
-boost::filesystem::path static GetAutostartFilePath()
-{
-    return GetAutostartDir() / "primecoin.desktop";
-}
-
-bool GetStartOnSystemStartup()
-{
-    boost::filesystem::ifstream optionFile(GetAutostartFilePath());
-    if (!optionFile.good())
-        return false;
-    // Scan through file for "Hidden=true":
-    std::string line;
-    while (!optionFile.eof())
-    {
-        getline(optionFile, line);
-        if (line.find("Hidden") != std::string::npos &&
-            line.find("true") != std::string::npos)
-            return false;
-    }
-    optionFile.close();
-
-    return true;
-}
-
-bool SetStartOnSystemStartup(bool fAutoStart)
-{
-    if (!fAutoStart)
-        boost::filesystem::remove(GetAutostartFilePath());
-    else
-    {
-        char pszExePath[MAX_PATH+1];
-        memset(pszExePath, 0, sizeof(pszExePath));
-        if (readlink("/proc/self/exe", pszExePath, sizeof(pszExePath)-1) == -1)
-            return false;
-
-        boost::filesystem::create_directories(GetAutostartDir());
-
-        boost::filesystem::ofstream optionFile(GetAutostartFilePath(), std::ios_base::out|std::ios_base::trunc);
-        if (!optionFile.good())
-            return false;
-        // Write a primecoin.desktop file to the autostart directory:
-        optionFile << "[Desktop Entry]\n";
-        optionFile << "Type=Application\n";
-        optionFile << "Name=Primecoin\n";
-        optionFile << "Exec=" << pszExePath << " -min\n";
-        optionFile << "Terminal=false\n";
-        optionFile << "Hidden=false\n";
-        optionFile.close();
-    }
-    return true;
-}
-
 HelpMessageBox::HelpMessageBox(QWidget *parent) :
     QMessageBox(parent)
 {
     header = tr("Primecoin-Qt") + " " + tr("version") + " " +
-        QString::fromStdString(FormatFullVersion()) + "\n\n" +
+        QString::fromStdString(FormatVersion(PRIMECOIN_VERSION)) + "\n\n" +
         tr("Usage:") + "\n" +
         "  primecoin-qt [" + tr("command-line options") + "]                     " + "\n";
 
     coreOptions = QString::fromStdString(HelpMessage());
 
-    uiOptions = tr("UI options") + ":\n" +
-        "  -lang=<lang>           " + tr("Set language, for example \"de_DE\" (default: system locale)") + "\n" +
-        "  -min                   " + tr("Start minimized") + "\n" +
-        "  -splash                " + tr("Show splash screen on startup (default: 1)") + "\n";
-
     setWindowTitle(tr("Primecoin-Qt"));
     setTextFormat(Qt::PlainText);
     // setMinimumWidth is ignored for QMessageBox so put in non-breaking spaces to make it wider.
     setText(header + QString(QChar(0x2003)).repeated(50));
-    setDetailedText(coreOptions + "\n" + uiOptions);
+    setDetailedText(coreOptions);
 }
 
 void HelpMessageBox::printToConsole()
 {
     // On other operating systems, the expected action is to print the message to the console.
-    QString strUsage = header + "\n" + coreOptions + "\n" + uiOptions;
+    QString strUsage = header + "\n" + coreOptions;
     fprintf(stdout, "%s", strUsage.toStdString().c_str());
 }
 

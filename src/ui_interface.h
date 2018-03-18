@@ -2,13 +2,17 @@
 // Copyright (c) 2012 The Bitcoin developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
-#ifndef BITCOIN_UI_INTERFACE_H
-#define BITCOIN_UI_INTERFACE_H
+
+#ifndef __UI_INTERFACE_H__
+#define __UI_INTERFACE_H__
 
 #include <string>
-#include "util.h" // for int64
+
 #include <boost/signals2/signal.hpp>
 #include <boost/signals2/last_value.hpp>
+
+#include "util.h"
+
 
 class CBasicKeyStore;
 class CWallet;
@@ -79,9 +83,6 @@ public:
     /** Progress message during initialization. */
     boost::signals2::signal<void (const std::string &message)> InitMessage;
 
-    /** Translate a message to the native language of the user. */
-    boost::signals2::signal<std::string (const char* psz)> Translate;
-
     /** Block chain changed. */
     boost::signals2::signal<void ()> NotifyBlocksChanged;
 
@@ -96,15 +97,5 @@ public:
 };
 
 extern CClientUIInterface uiInterface;
-
-/**
- * Translation function: Call Translate signal on UI interface, which returns a boost::optional result.
- * If no translation slot is registered, nothing is returned, and simply return the input.
- */
-inline std::string _(const char* psz)
-{
-    boost::optional<std::string> rv = uiInterface.Translate(psz);
-    return rv ? (*rv) : psz;
-}
 
 #endif

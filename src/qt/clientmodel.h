@@ -1,9 +1,12 @@
-#ifndef CLIENTMODEL_H
-#define CLIENTMODEL_H
+// Copyright (c) 2018 Chapman Shoop
+// See COPYING for license.
+
+#ifndef __CLIENTMODEL_H__
+#define __CLIENTMODEL_H__
 
 #include <QObject>
 
-class OptionsModel;
+
 class AddressTableModel;
 class TransactionTableModel;
 class CWallet;
@@ -20,16 +23,14 @@ enum BlockSource {
     BLOCK_SOURCE_NETWORK
 };
 
-/** Model for Bitcoin network client. */
+/** Model for Primecoin network client. */
 class ClientModel : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit ClientModel(OptionsModel *optionsModel, QObject *parent = 0);
+    explicit ClientModel(QObject *parent = 0);
     ~ClientModel();
-
-    OptionsModel *getOptionsModel();
 
     int getNumConnections() const;
     int getNumBlocks() const;
@@ -38,8 +39,6 @@ public:
     double getVerificationProgress() const;
     QDateTime getLastBlockDate() const;
 
-    //! Return true if client connected to testnet
-    bool isTestNet() const;
     //! Return true if core is doing initial block download
     bool inInitialBlockDownload() const;
     //! Return true if core is importing blocks
@@ -50,14 +49,10 @@ public:
     QString getStatusBarWarnings() const;
 
     QString formatFullVersion() const;
-    QString formatBuildDate() const;
-    bool isReleaseVersion() const;
     QString clientName() const;
     QString formatClientStartupTime() const;
 
 private:
-    OptionsModel *optionsModel;
-
     int cachedNumBlocks;
     int cachedNumBlocksOfPeers;
 	bool cachedReindexing;
@@ -82,4 +77,4 @@ public slots:
     void updateNumConnections(int numConnections);
 };
 
-#endif // CLIENTMODEL_H
+#endif // __CLIENTMODEL_H__

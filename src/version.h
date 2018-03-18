@@ -1,36 +1,38 @@
 // Copyright (c) 2012 The Bitcoin developers
 // Copyright (c) 2013 Primecoin developers
-// Distributed under conditional MIT/X11 software license,
-// see the accompanying file COPYING.
-#ifndef BITCOIN_VERSION_H
-#define BITCOIN_VERSION_H
+// Copyright (c) 2018 Chapman Shoop
+// See COPYING for license.
 
-#include "clientversion.h"
+#ifndef __VERSION_H__
+#define __VERSION_H__
+
 #include <string>
 
-//
-// client versioning
-//
+
+std::string FormatVersion(int);
+std::string FormatSubVersion();
+
+const std::string CLIENT_NAME("Seneca");
+
+const int CLIENT_VERSION_MAJOR = 0;
+const int CLIENT_VERSION_MINOR = 8;
+const int CLIENT_VERSION_REVISION = 6;
+const int CLIENT_VERSION_BUILD = 0;
 
 static const int CLIENT_VERSION =
-                           1000000 * CLIENT_VERSION_MAJOR
-                         +   10000 * CLIENT_VERSION_MINOR
-                         +     100 * CLIENT_VERSION_REVISION
-                         +       1 * CLIENT_VERSION_BUILD;
+    1000000 * CLIENT_VERSION_MAJOR
+    +   10000 * CLIENT_VERSION_MINOR
+    +     100 * CLIENT_VERSION_REVISION
+    +       1 * CLIENT_VERSION_BUILD;
 
-extern const std::string CLIENT_NAME;
-extern const std::string CLIENT_BUILD;
-extern const std::string CLIENT_DATE;
+const int PRIMECOIN_VERSION_MAJOR = 1;
+const int PRIMECOIN_VERSION_MINOR = 0;
+const int PRIMECOIN_VERSION_PATCH = 0;
 
 static const int PRIMECOIN_VERSION =
-                           1000000 * PRIMECOIN_VERSION_MAJOR
-                         +   10000 * PRIMECOIN_VERSION_MINOR
-                         +     100 * PRIMECOIN_VERSION_REVISION
-                         +       1 * PRIMECOIN_VERSION_BUILD;
-
-//
-// network protocol versioning
-//
+    1000000 * PRIMECOIN_VERSION_MAJOR
+    +   10000 * PRIMECOIN_VERSION_MINOR
+    +     100 * PRIMECOIN_VERSION_PATCH;
 
 static const int PROTOCOL_VERSION = 70001;
 
@@ -51,4 +53,4 @@ static const int BIP0031_VERSION = 60000;
 // "mempool" command, enhanced "getdata" behavior starts with this version:
 static const int MEMPOOL_GD_VERSION = 60002;
 
-#endif
+#endif // __VERSION_H__

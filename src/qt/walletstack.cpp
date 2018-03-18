@@ -1,12 +1,11 @@
-/*
- * Qt4 bitcoin GUI.
- *
- * W.J. van der Laan 2011-2012
- * The Bitcoin Developers 2011-2013
- */
+// Copyright (c) 2011-2012 W.J. van der Laan
+// Copyright (c) 2011-2013 The Bitcoin Developers
+// Copyright (c) 2018 Chapman Shoop
+// See COPYING for license.
+
 #include "walletstack.h"
 #include "walletview.h"
-#include "bitcoingui.h"
+#include "primecoingui.h"
 
 #include <QMap>
 #include <QMessageBox>
@@ -30,7 +29,7 @@ bool WalletStack::addWallet(const QString& name, WalletModel *walletModel)
         return false;
 
     WalletView *walletView = new WalletView(this, gui);
-    walletView->setBitcoinGUI(gui);
+    walletView->setPrimecoinGUI(gui);
     walletView->setClientModel(clientModel);
     walletView->setWalletModel(walletModel);
     walletView->showOutOfSyncWarning(bOutOfSync);
@@ -108,18 +107,6 @@ void WalletStack::gotoSendCoinsPage(QString addr)
     QMap<QString, WalletView*>::const_iterator i;
     for (i = mapWalletViews.constBegin(); i != mapWalletViews.constEnd(); ++i)
         i.value()->gotoSendCoinsPage(addr);
-}
-
-void WalletStack::gotoSignMessageTab(QString addr)
-{
-    WalletView *walletView = (WalletView*)currentWidget();
-    if (walletView) walletView->gotoSignMessageTab(addr);
-}
-
-void WalletStack::gotoVerifyMessageTab(QString addr)
-{
-    WalletView *walletView = (WalletView*)currentWidget();
-    if (walletView) walletView->gotoVerifyMessageTab(addr);
 }
 
 void WalletStack::encryptWallet(bool status)

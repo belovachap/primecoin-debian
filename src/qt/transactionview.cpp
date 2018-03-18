@@ -1,33 +1,32 @@
 // Copyright (c) 2018 Chapman Shoop
 // See COPYING for license.
 
-#include "transactionview.h"
-
-#include "transactionfilterproxy.h"
-#include "transactionrecord.h"
-#include "walletmodel.h"
-#include "addresstablemodel.h"
-#include "transactiontablemodel.h"
-#include "bitcoinunits.h"
-#include "csvmodelwriter.h"
-#include "transactiondescdialog.h"
-#include "editaddressdialog.h"
-#include "optionsmodel.h"
-#include "guiutil.h"
-
-#include <QScrollBar>
 #include <QComboBox>
+#include <QDateTimeEdit>
 #include <QDoubleValidator>
 #include <QHBoxLayout>
-#include <QVBoxLayout>
-#include <QLineEdit>
-#include <QTableView>
 #include <QHeaderView>
+#include <QLabel>
+#include <QLineEdit>
+#include <QMenu>
 #include <QMessageBox>
 #include <QPoint>
-#include <QMenu>
-#include <QLabel>
-#include <QDateTimeEdit>
+#include <QScrollBar>
+#include <QTableView>
+#include <QVBoxLayout>
+
+#include "addresstablemodel.h"
+#include "editaddressdialog.h"
+#include "guiutil.h"
+#include "primecoinunits.h"
+#include "transactiondescdialog.h"
+#include "transactionfilterproxy.h"
+#include "transactionrecord.h"
+#include "transactiontablemodel.h"
+#include "walletmodel.h"
+
+#include "transactionview.h"
+
 
 TransactionView::TransactionView(QWidget *parent) :
     QWidget(parent), model(0), transactionProxyModel(0),
@@ -231,42 +230,13 @@ void TransactionView::changedAmount(const QString &amount)
     if(!transactionProxyModel)
         return;
     qint64 amount_parsed = 0;
-    if(BitcoinUnits::parse(model->getOptionsModel()->getDisplayUnit(), amount, &amount_parsed))
+    if(PrimecoinUnits::parse(PrimecoinUnits::XPM, amount, &amount_parsed))
     {
         transactionProxyModel->setMinAmount(amount_parsed);
     }
     else
     {
         transactionProxyModel->setMinAmount(0);
-    }
-}
-
-void TransactionView::exportClicked()
-{
-    // CSV is currently the only supported format
-    QString filename = GUIUtil::getSaveFileName(
-            this,
-            tr("Export Transaction Data"), QString(),
-            tr("Comma separated file (*.csv)"));
-
-    if (filename.isNull()) return;
-
-    CSVModelWriter writer(filename);
-
-    // name, column, role
-    writer.setModel(transactionProxyModel);
-    writer.addColumn(tr("Confirmed"), 0, TransactionTableModel::ConfirmedRole);
-    writer.addColumn(tr("Date"), 0, TransactionTableModel::DateRole);
-    writer.addColumn(tr("Type"), TransactionTableModel::Type, Qt::EditRole);
-    writer.addColumn(tr("Label"), 0, TransactionTableModel::LabelRole);
-    writer.addColumn(tr("Address"), 0, TransactionTableModel::AddressRole);
-    writer.addColumn(tr("Amount"), 0, TransactionTableModel::FormattedAmountRole);
-    writer.addColumn(tr("ID"), 0, TransactionTableModel::TxIDRole);
-
-    if(!writer.write())
-    {
-        QMessageBox::critical(this, tr("Error exporting"), tr("Could not write to file %1.").arg(filename),
-                              QMessageBox::Abort, QMessageBox::Abort);
     }
 }
 
