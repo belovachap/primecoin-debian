@@ -10,23 +10,39 @@ amd64? https://en.wikipedia.org/wiki/X86-64
 
 gnome? https://en.wikipedia.org/wiki/GNOME
 
+## Git :open_file_folder:
+
+| Branch | release-v1.0 |
+| Tag    | v1.0.0       |
+
+## Travis CI :construction_worker:
+
 [![Build Status](https://travis-ci.org/belovachap/primecoin-debian.svg?branch=release-v1.0)](https://travis-ci.org/belovachap/primecoin-debian)
 
-Release branch: release-v1.0
+## Dependencies :link:
 
-Latest release tag: TBD
+| build-essential    | [11.5](https://packages.debian.org/wheezy/build-essential) |
+| libboost-all-dev   | [1.49.0.1](https://packages.debian.org/wheezy/libboost-all-dev) |
+| libdb++-dev        | [5.1.6](https://packages.debian.org/wheezy/libdb++-dev) |
+| libjson-spirit-dev | [4.04-1+b1](https://packages.debian.org/wheezy/libjson-spirit-dev) |
+| qt4-dev-tools      | [4:4.8.2+dfsg-11](https://packages.debian.org/wheezy/qt4-dev-tools) |
 
-| Dependency       | Version |
-| ---------------- | ------- |
-| build-essential  | TBD     |
-| libdb++-dev      | TBD     |
-| libboost-all-dev | TBD     |
-| qt4-dev-tools    | TBD     |
+## Wallet :iphone:
 
-### Building GUI
+```
+apt-get install <dependencies>
+qmake-qt4
+make
+```
 
-Instructions on installing deps and building...
+## Server :computer:
 
-### Building Daemon
+```
+apt-get install <dependencies>
+cd src
+make
+```
 
-Instructions on installing deps and building...
+## Development :wrench:
+
+See `Dockerfile.dev` and `.travis.yml` :)
