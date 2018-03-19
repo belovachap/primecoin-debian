@@ -1,16 +1,27 @@
+# Copyright (c) 2018 RG Huckins
+# Copyright (c) 2018 Chapman Shoop
+# See COPYING for license.
+
+# A Dockerfile for development outside of Debian 7 :)
+#
+# docker build -f Dockerfile.dev -t primecoin-dev .
+# docker run -v /full/path/to/code:/primecoin-debian --rm primecoin-dev
+# < write tests, fix errors >
+# docker run -v /full/path/to/code:/primecoin-debian --rm primecoin-dev
+# < write tests, fix errors >
+# ... repeat ;)
+
 FROM debian:7
 
 RUN apt-get update -y
-RUN apt-get install -y build-essential \
-  libboost-all-dev \
-  libdb++-dev \
-  libjson-spirit-dev \
-  libminiupnpc-dev \
-  qt4-dev-tools
+RUN apt-get install -y \
+    build-essential \
+    libboost-all-dev \
+    libdb++-dev \
+    libjson-spirit-dev \
+    qt4-dev-tools
 
 VOLUME ["/primecoin-debian"]
 WORKDIR /primecoin-debian
 
 CMD cd src && make test
-
-
