@@ -12,9 +12,8 @@ gnome? https://en.wikipedia.org/wiki/GNOME
 
 ## :open_file_folder: Git
 
-|------ | ------------ |
-|Branch | release-v1.0 |
-|Tag    | v1.0.0       |
+- Branch: release-v1.0
+- Tag: v1.0.0
 
 ## :construction_worker: Travis CI
 
