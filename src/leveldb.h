@@ -1,5 +1,3 @@
-// Copyright (c) 2012 The Bitcoin developers
-// Copyright (c) 2018 Chapman Shoop
 // See COPYING for license.
 
 #ifndef __LEVELDB_H__

@@ -15,5 +15,5 @@ before_install:
 script:
   - docker run primecoin bin/sh -c "cd src && make"
   - docker run primecoin bin/sh -c "cd src && make test"
-  - docker run primecoin bin/sh -c "qmake && make"
-  - docker run primecoin bin/sh -c "qmake PRIMECOIN_QT_TEST=1 && make && ./primecoin-qt_test"
+  - docker run primecoin bin/sh -c "qmake-qt4 && make"
+  - docker run primecoin bin/sh -c "qmake-qt4 PRIMECOIN_QT_TEST=1 && make && ./primecoin-qt_test"
