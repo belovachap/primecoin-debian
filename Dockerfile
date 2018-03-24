@@ -8,6 +8,7 @@ RUN apt-get install -y \
     libboost-all-dev \
     libdb++-dev \
     libjson-spirit-dev \
+    libleveldb-dev \
     libssl-dev \
     qt4-dev-tools
 
