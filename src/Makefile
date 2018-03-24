@@ -1,6 +1,3 @@
-# Copyright (c) 2009-2010 Satoshi Nakamoto
-# Copyright (c) 2013 Primecoind developers
-# Copyright (c) 2017-2018 Chapman Shoop
 # See COPYING for license.
 
 # :=1 --> Enable IPv6 support
@@ -36,7 +33,9 @@ LIBS += \
    -l boost_thread$(BOOST_LIB_SUFFIX) \
    -l db_cxx$(BDB_LIB_SUFFIX) \
    -l ssl \
-   -l crypto
+   -l crypto \
+   -l leveldb \
+   -l memenv
 
 TESTLIBS += \
  -Wl,-B$(LMODE) \
@@ -99,7 +98,6 @@ xCXXFLAGS=-O2 -pthread -Wall -Wextra -Wformat -Wformat-security -Wno-unused-para
 xLDFLAGS=$(LDHARDENING) $(LDFLAGS)
 
 OBJS= \
-    leveldb/libleveldb.a \
     obj/version.o \
     obj/netbase.o \
     obj/network_peer.o \
@@ -130,20 +128,9 @@ all: primecoind
 test check: test_primecoin FORCE
 	./test_primecoin
 
-#
-# LevelDB support
-#
-MAKEOVERRIDES =
-LIBS += $(CURDIR)/leveldb/libleveldb.a $(CURDIR)/leveldb/libmemenv.a
-DEFS += $(addprefix -I,$(CURDIR)/leveldb/include)
-DEFS += $(addprefix -I,$(CURDIR)/leveldb/helpers)
-leveldb/libleveldb.a:
-	@echo "Building LevelDB ..." && cd leveldb && $(MAKE) CC=$(CC) CXX=$(CXX) OPT="$(xCXXFLAGS)" libleveldb.a libmemenv.a && cd ..
-
 # auto-generated dependencies:
 -include obj/*.P
 -include obj-test/*.P
-
 
 obj/%.o: %.cpp
 	$(CXX) -c $(xCXXFLAGS) -MMD -MF $(@:%.o=%.d) -o $@ $<
@@ -173,6 +160,5 @@ clean:
 	-rm -f obj-test/*.o
 	-rm -f obj/*.P
 	-rm -f obj-test/*.P
-	-cd leveldb && $(MAKE) clean || true
 
 FORCE:

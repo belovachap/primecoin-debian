@@ -27,6 +27,7 @@ gnome? https://en.wikipedia.org/wiki/GNOME
 | [libboost-all-dev](https://packages.debian.org/jessie/libboost-all-dev)     |
 | [libdb++-dev](https://packages.debian.org/jessie/libdb++-dev)               |
 | [libjson-spirit-dev](https://packages.debian.org/jessie/libjson-spirit-dev) |
+| [libleveldb-dev](https://packages.debian.org/jessie/libleveldb-dev) |
 | [libssl-dev](https://packages.debian.org/jessie/libssl-dev)                 |
 | [qt4-dev-tools](https://packages.debian.org/jessie/qt4-dev-tools)           |
 
