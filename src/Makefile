@@ -24,32 +24,26 @@ else
 	TESTDEFS += -DBOOST_TEST_DYN_LINK
 endif
 
-# for boost 1.37, add -mt to the boost libraries
 LIBS += \
- -Wl,-B$(LMODE) \
-   -l boost_system$(BOOST_LIB_SUFFIX) \
-   -l boost_filesystem$(BOOST_LIB_SUFFIX) \
-   -l boost_program_options$(BOOST_LIB_SUFFIX) \
-   -l boost_thread$(BOOST_LIB_SUFFIX) \
-   -l db_cxx$(BDB_LIB_SUFFIX) \
-   -l ssl \
+   -l boost_system \
+   -l boost_filesystem \
+   -l boost_program_options \
+   -l boost_thread \
    -l crypto \
+   -l db_cxx \
+   -l dl \
    -l leveldb \
-   -l memenv
+   -l memenv \
+   -l pthread \
+   -l ssl \
+   -l z
 
-TESTLIBS += \
- -Wl,-B$(LMODE) \
-   -l boost_unit_test_framework$(BOOST_LIB_SUFFIX)
+TESTLIBS += -l boost_unit_test_framework
 
 ifneq (${USE_IPV6}, -)
 	DEFS += -DUSE_IPV6=$(USE_IPV6)
 endif
 
-LIBS+= \
- -Wl,-B$(LMODE2) \
-   -l z \
-   -l dl \
-   -l pthread
 
 
 # Hardening
@@ -127,10 +121,6 @@ all: primecoind
 
 test check: test_primecoin FORCE
 	./test_primecoin
-
-# auto-generated dependencies:
--include obj/*.P
--include obj-test/*.P
 
 obj/%.o: %.cpp
 	$(CXX) -c $(xCXXFLAGS) -MMD -MF $(@:%.o=%.d) -o $@ $<
