@@ -1,6 +1,3 @@
-// Copyright (c) 2012 The Bitcoin developers
-// Copyright (c) 2013 Primecoin developers
-// Copyright (c) 2018 Chapman Shoop
 // See COPYING for license.
 
 #ifndef __VERSION_H__
@@ -12,7 +9,7 @@
 std::string FormatVersion(int);
 std::string FormatSubVersion();
 
-const std::string CLIENT_NAME("Seneca");
+const std::string CLIENT_NAME("Chrysippus");
 
 const int CLIENT_VERSION_MAJOR = 0;
 const int CLIENT_VERSION_MINOR = 8;
@@ -25,7 +22,7 @@ static const int CLIENT_VERSION =
     +     100 * CLIENT_VERSION_REVISION
     +       1 * CLIENT_VERSION_BUILD;
 
-const int PRIMECOIN_VERSION_MAJOR = 1;
+const int PRIMECOIN_VERSION_MAJOR = 2;
 const int PRIMECOIN_VERSION_MINOR = 0;
 const int PRIMECOIN_VERSION_PATCH = 0;
 

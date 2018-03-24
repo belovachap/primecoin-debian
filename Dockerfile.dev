@@ -1,8 +1,6 @@
-# Copyright (c) 2018 RG Huckins
-# Copyright (c) 2018 Chapman Shoop
 # See COPYING for license.
 
-# A Dockerfile for development outside of Debian 7 :)
+# A Dockerfile for development outside of Debian 8 :)
 #
 # docker build -f Dockerfile.dev -t primecoin-dev .
 # docker run -v /full/path/to/code:/primecoin-debian --rm primecoin-dev
@@ -11,7 +9,7 @@
 # < write tests, fix errors >
 # ... repeat ;)
 
-FROM debian:7
+FROM debian:8
 
 RUN apt-get update -y
 RUN apt-get install -y \
@@ -19,6 +17,7 @@ RUN apt-get install -y \
     libboost-all-dev \
     libdb++-dev \
     libjson-spirit-dev \
+    libssl-dev \
     qt4-dev-tools
 
 VOLUME ["/primecoin-debian"]

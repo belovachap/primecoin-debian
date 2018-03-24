@@ -1,8 +1,6 @@
-# Copyright (c) 2018 RG Huckins
-# Copyright (c) 2018 Chapman Shoop
 # See COPYING for license.
 
-FROM debian:7
+FROM debian:8
 
 RUN apt-get update -y
 RUN apt-get install -y \
@@ -10,6 +8,7 @@ RUN apt-get install -y \
     libboost-all-dev \
     libdb++-dev \
     libjson-spirit-dev \
+    libssl-dev \
     qt4-dev-tools
 
 COPY . .

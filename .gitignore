@@ -1,34 +1,6 @@
-build/
-src/*.exe
-src/primecoin
-src/primecoind
-src/test_primecoin
-.*.swp
-*.*~*
-*.bak
-*.rej
-*.orig
-*.o
-*.patch
-.primecoin
-
-# Compilation and Qt preprocessor part
-*.qm
-Makefile
-primecoin-qt
-Primecoin-Qt.app
-
-# Unit-tests
-Makefile.test
-primecoin-qt_test
-
-# Resources cpp
-qrc_*.cpp
-
-# Qt creator
-*.pro.user
-
-!src/leveldb-*/Makefile
-
-# Doxygen output
-doc/
+/Makefile
+/build/
+/primecoin-qt
+/qrc_primecoin.cpp
+/src/primecoind
+/src/test_primecoin
