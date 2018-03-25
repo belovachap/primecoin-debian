@@ -3,9 +3,13 @@ TARGET = primecoin-qt
 VERSION = 1.0.0
 INCLUDEPATH += src src/qt
 QT += network
-DEFINES += QT_GUI BOOST_THREAD_USE_LIB BOOST_SPIRIT_THREADSAFE
-CONFIG += no_include_pwd
-CONFIG += thread
+DEFINES += \
+    BOOST_NO_CXX11_SCOPED_ENUMS \
+    BOOST_SPIRIT_THREADSAFE \
+    BOOST_THREAD_USE_LIB \
+    QT_GUI
+CONFIG += no_include_pwd thread
+QMAKE_CXXFLAGS += -std=c++11
 
 # Dependency library locations can be customized with:
 #    BOOST_INCLUDE_PATH, BOOST_LIB_PATH, BDB_INCLUDE_PATH,
