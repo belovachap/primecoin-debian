@@ -1,9 +1,6 @@
-// Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2012 The Bitcoin developers
-// Copyright (c) 2011-2013 PPCoin developers
-// Copyright (c) 2013 Primecoin developers
-// Copyright (c) 2017-2018 Chapman Shoop
 // See COPYING for license.
+
+#include "main.h"
 
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/filesystem.hpp>
@@ -15,17 +12,11 @@
 #include "net.h"
 #include "prime.h"
 #include "txdb.h"
-#include "ui_interface.h"
-
-#include "main.h"
 
 
 //
 // Global state
 //
-
-CCriticalSection cs_setpwalletRegistered;
-std::set<CWallet*> setpwalletRegistered;
 
 CCriticalSection cs_main;
 
@@ -74,89 +65,6 @@ int64 nHPSTimerStart = 0;
 
 // Settings
 int64 nTransactionFee = 0;
-
-
-
-//////////////////////////////////////////////////////////////////////////////
-//
-// dispatching functions
-//
-
-// These functions dispatch to one or all registered wallets
-
-
-void RegisterWallet(CWallet* pwalletIn)
-{
-    {
-        LOCK(cs_setpwalletRegistered);
-        setpwalletRegistered.insert(pwalletIn);
-    }
-}
-
-void UnregisterWallet(CWallet* pwalletIn)
-{
-    {
-        LOCK(cs_setpwalletRegistered);
-        setpwalletRegistered.erase(pwalletIn);
-    }
-}
-
-// get the wallet transaction with the given hash (if it exists)
-bool static GetTransaction(const uint256& hashTx, CWalletTx& wtx)
-{
-    BOOST_FOREACH(CWallet* pwallet, setpwalletRegistered)
-        if (pwallet->GetTransaction(hashTx,wtx))
-            return true;
-    return false;
-}
-
-// erases transaction with the given hash from all wallets
-void static EraseFromWallets(uint256 hash)
-{
-    BOOST_FOREACH(CWallet* pwallet, setpwalletRegistered)
-        pwallet->EraseFromWallet(hash);
-}
-
-// make sure all wallets know about the given transaction, in the given block
-void SyncWithWallets(const uint256 &hash, const CTransaction& tx, const CBlock* pblock, bool fUpdate)
-{
-    BOOST_FOREACH(CWallet* pwallet, setpwalletRegistered)
-        pwallet->AddToWalletIfInvolvingMe(hash, tx, pblock, fUpdate);
-}
-
-// notify wallets about a new best chain
-void static SetBestChain(const CBlockLocator& loc)
-{
-    BOOST_FOREACH(CWallet* pwallet, setpwalletRegistered)
-        pwallet->SetBestChain(loc);
-}
-
-// notify wallets about an updated transaction
-void static UpdatedTransaction(const uint256& hashTx)
-{
-    BOOST_FOREACH(CWallet* pwallet, setpwalletRegistered)
-        pwallet->UpdatedTransaction(hashTx);
-}
-
-// notify wallets about an incoming inventory (for request counts)
-void static Inventory(const uint256& hash)
-{
-    BOOST_FOREACH(CWallet* pwallet, setpwalletRegistered)
-        pwallet->Inventory(hash);
-}
-
-// ask wallets to resend their transactions
-void static ResendWalletTransactions()
-{
-    BOOST_FOREACH(CWallet* pwallet, setpwalletRegistered)
-        pwallet->ResendWalletTransactions();
-}
-
-
-
-
-
-
 
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -807,12 +715,6 @@ bool CTxMemPool::accept(CValidationState &state, CTransaction &tx, bool fCheckIn
         addUnchecked(hash, tx);
     }
 
-    ///// are we sure this is ok when loading transactions or restoring block txes
-    // If updated, erase old tx from wallet
-    if (ptxOld)
-        EraseFromWallets(ptxOld->GetHash());
-    SyncWithWallets(hash, tx, NULL, true);
-
     return true;
 }
 
@@ -938,28 +840,6 @@ bool CMerkleTx::AcceptToMemoryPool(bool fCheckInputs, bool fLimitFree)
     CValidationState state;
     return CTransaction::AcceptToMemoryPool(state, fCheckInputs, fLimitFree);
 }
-
-
-
-bool CWalletTx::AcceptWalletTransaction(bool fCheckInputs)
-{
-    {
-        LOCK(mempool.cs);
-        // Add previous supporting transactions first
-        BOOST_FOREACH(CMerkleTx& tx, vtxPrev)
-        {
-            if (!tx.IsCoinBase())
-            {
-                uint256 hash = tx.GetHash();
-                if (!mempool.exists(hash) && pcoinsTip->HaveCoins(hash))
-                    tx.AcceptToMemoryPool(fCheckInputs, false);
-            }
-        }
-        return AcceptToMemoryPool(fCheckInputs, false);
-    }
-    return false;
-}
-
 
 // Return transaction in tx, and if it was found inside a block, its hash is placed in hashBlock
 bool GetTransaction(const uint256 &hash, CTransaction &txOut, uint256 &hashBlock, bool fAllowSlow)
@@ -1152,7 +1032,6 @@ void static InvalidChainFound(CBlockIndex* pindexNew)
     {
         nBestInvalidWork = pindexNew->nChainWork;
         pblocktree->WriteBestInvalidWork(CBigNum(nBestInvalidWork));
-        uiInterface.NotifyBlocksChanged();
     }
     printf("InvalidChainFound: invalid block=%s  height=%d  log2_work=%.8g  date=%s\n",
       pindexNew->GetBlockHash().ToString().c_str(), pindexNew->nHeight,
@@ -1686,10 +1565,6 @@ bool CBlock::ConnectBlock(CValidationState &state, CBlockIndex* pindex, CCoinsVi
     // add this block to the view's block chain
     assert(view.SetBestBlock(pindex));
 
-    // Watch for transactions paying to me
-    for (unsigned int i=0; i<vtx.size(); i++)
-        SyncWithWallets(GetTxHash(i), vtx[i], this, true);
-
     return true;
 }
 
@@ -1823,13 +1698,6 @@ bool SetBestChain(CValidationState &state, CBlockIndex* pindexNew)
         mempool.removeConflicts(tx);
     }
 
-    // Update best block in wallet (so we can detect restored wallets)
-    if ((pindexNew->nHeight % 20160) == 0 || (!fIsInitialDownload && (pindexNew->nHeight % 144) == 0))
-    {
-        const CBlockLocator locator(pindexNew);
-        ::SetBestChain(locator);
-    }
-
     // New best block
     hashBestChain = pindexNew->GetBlockHash();
     pindexBest = pindexNew;
@@ -1910,18 +1778,9 @@ bool CBlock::AddToBlockIndex(CValidationState &state, const CDiskBlockPos &pos)
     if (!ConnectBestBlock(state))
         return false;
 
-    if (pindexNew == pindexBest)
-    {
-        // Notify UI to display prev block's coinbase if it was ours
-        static uint256 hashPrevBestCoinBase;
-        UpdatedTransaction(hashPrevBestCoinBase);
-        hashPrevBestCoinBase = GetTxHash(0);
-    }
-
     if (!pblocktree->Flush())
         return state.Abort("Failed to sync block index");
 
-    uiInterface.NotifyBlocksChanged();
     return true;
 }
 
@@ -2445,7 +2304,6 @@ uint256 CPartialMerkleTree::ExtractMatches(std::vector<uint256> &vMatch) {
 bool AbortNode(const std::string &strMessage) {
     strMiscWarning = strMessage;
     printf("*** %s\n", strMessage.c_str());
-    uiInterface.ThreadSafeMessageBox(strMessage, "", CClientUIInterface::MSG_ERROR);
     StartShutdown();
     return false;
 }
@@ -2993,9 +2851,6 @@ void static ProcessGetData(CNode* pfrom)
                 }
             }
 
-            // Track requests for our stuff.
-            Inventory(inv.hash);
-
             if (inv.type == MSG_BLOCK || inv.type == MSG_FILTERED_BLOCK)
                 break;
         }
@@ -3246,9 +3101,6 @@ bool static ProcessMessage(CNode* pfrom, std::string strCommand, CDataStream& vR
                 if (fDebug)
                     printf("force request: %s\n", inv.ToString().c_str());
             }
-
-            // Track requests for our stuff
-            Inventory(inv.hash);
         }
     }
 
@@ -3707,14 +3559,6 @@ bool SendMessages(CNode* pto, bool fSendTrickle)
             pto->PushGetBlocks(pindexBest, uint256(0));
         }
 
-        // Resend wallet transactions that haven't gotten in a block yet
-        // Except during reindex, importing and IBD, when old wallet
-        // transactions become unconfirmed and spams other nodes.
-        if (!fReindex && !fImporting && !IsInitialBlockDownload())
-        {
-            ResendWalletTransactions();
-        }
-
         // Address refresh broadcast
         static int64 nLastRebroadcast;
         if (!IsInitialBlockDownload() && (GetTime() - nLastRebroadcast > 24 * 60 * 60))
@@ -3790,15 +3634,6 @@ bool SendMessages(CNode* pto, bool fSendTrickle)
                     uint256 hashRand = inv.hash ^ hashSalt;
                     hashRand = Hash(BEGIN(hashRand), END(hashRand));
                     bool fTrickleWait = ((hashRand & 3) != 0);
-
-                    // always trickle our own transactions
-                    if (!fTrickleWait)
-                    {
-                        CWalletTx wtx;
-                        if (GetTransaction(inv.hash, wtx))
-                            if (wtx.fFromMe)
-                                fTrickleWait = true;
-                    }
 
                     if (fTrickleWait)
                     {

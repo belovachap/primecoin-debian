@@ -6,10 +6,8 @@
 #ifndef __INIT_H__
 #define __INIT_H__
 
-#include "wallet.h"
+#include <boost/thread/thread.hpp>
 
-
-extern CWallet* pwalletMain;
 
 void StartShutdown();
 bool ShutdownRequested();

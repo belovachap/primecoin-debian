@@ -1,4 +1,3 @@
-// Copyright (c) 2018 Chapman Shoop
 // See COPYING for license.
 
 #include <boost/assert.hpp>
@@ -15,7 +14,7 @@
 #include "keystore.h"
 #include "main.h"
 #include "script.h"
-#include "wallet.h"
+
 
 using namespace boost::assign;
 

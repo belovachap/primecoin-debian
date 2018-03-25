@@ -1,7 +1,3 @@
-// Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2012 The Bitcoin developers
-// Copyright (c) 2013 The Primecoin developers
-// Copyright (c) 2017-2018 Chapman Shoop
 // See COPYING for license.
 
 #include "net.h"
@@ -11,7 +7,6 @@
 #include "network_peer_database.h"
 #include "network_peer_manager.h"
 #include "script.h"
-#include "ui_interface.h"
 
 
 // Dump addresses to peers.dat every 15 minutes (900s)
@@ -600,12 +595,9 @@ static std::list<CNode*> vNodesDisconnected;
 
 void ThreadSocketHandler()
 {
-    unsigned int nPrevNodeCount = 0;
     loop
     {
-        //
         // Disconnect nodes
-        //
         {
             LOCK(cs_vNodes);
             // Disconnect unused nodes
@@ -661,16 +653,8 @@ void ThreadSocketHandler()
                 }
             }
         }
-        if (vNodes.size() != nPrevNodeCount)
-        {
-            nPrevNodeCount = vNodes.size();
-            uiInterface.NotifyNumConnectionsChanged(vNodes.size());
-        }
 
-
-        //
         // Find which sockets have data to receive
-        //
         struct timeval timeout;
         timeout.tv_sec  = 0;
         timeout.tv_usec = 50000; // frequency to poll pnode->vSend

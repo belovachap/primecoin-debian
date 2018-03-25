@@ -2,7 +2,11 @@
 
 LINK:=$(CXX)
 
-DEFS=-DBOOST_SPIRIT_THREADSAFE -D_FILE_OFFSET_BITS=64 -DBOOST_NO_CXX11_SCOPED_ENUMS -DUSE_IPV6=1
+DEFS = \
+    -D_FILE_OFFSET_BITS=64 \
+    -DBOOST_NO_CXX11_SCOPED_ENUMS \
+    -DBOOST_SPIRIT_THREADSAFE \
+    -DUSE_IPV6=1
 
 DEFS += $(addprefix -I,$(CURDIR) $(CURDIR)/obj $(BOOST_INCLUDE_PATH) $(BDB_INCLUDE_PATH) $(OPENSSL_INCLUDE_PATH))
 LIBS = $(addprefix -L,$(BOOST_LIB_PATH) $(BDB_LIB_PATH) $(OPENSSL_LIB_PATH))
@@ -98,11 +102,8 @@ OBJS= \
     obj/script.o \
     obj/sync.o \
     obj/util.o \
-    obj/wallet.o \
-    obj/walletdb.o \
     obj/hash.o \
     obj/bloom.o \
-    obj/noui.o \
     obj/leveldb.o \
     obj/txdb.o \
     obj/prime.o

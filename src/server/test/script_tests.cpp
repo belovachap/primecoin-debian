@@ -16,7 +16,6 @@
 #include <json_spirit_utils.h>
 
 #include "main.h"
-#include "wallet.h"
 
 
 extern uint256 SignatureHash(CScript scriptCode, const CTransaction& txTo, unsigned int nIn, int nHashType);

@@ -1,8 +1,7 @@
-// Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2012 The Bitcoin developers
-// Copyright (c) 2013 The Primecoin developers
-// Copyright (c) 2017-2018 Chapman Shoop
 // See COPYING for license.
+
+#include <fcntl.h>
+#include <stdarg.h>
 
 #include <boost/algorithm/string/case_conv.hpp>
 #include <boost/algorithm/string/join.hpp>
@@ -13,18 +12,17 @@
 #include <boost/filesystem/fstream.hpp>
 #include <boost/foreach.hpp>
 #include <boost/thread.hpp>
-#include <fcntl.h>
+
 #include <openssl/crypto.h>
 #include <openssl/rand.h>
-#include <stdarg.h>
-#include <sys/prctl.h>
-#include <sys/stat.h>
-#include <sys/resource.h>
 
-#include "util.h"
+#include <sys/prctl.h>
+#include <sys/resource.h>
+#include <sys/stat.h>
+
 #include "sync.h"
+#include "util.h"
 #include "version.h"
-#include "ui_interface.h"
 
 
 std::map<std::string, std::string> mapArgs;
@@ -1168,7 +1166,6 @@ void AddTimeData(const CNetAddr& ip, int64 nTime)
                     std::string strMessage = "Warning: Please check that your computer's date and time are correct! If your clock is wrong Primecoin will not work properly.";
                     strMiscWarning = strMessage;
                     printf("*** %s\n", strMessage.c_str());
-                    uiInterface.ThreadSafeMessageBox(strMessage, "", CClientUIInterface::MSG_WARNING);
                 }
             }
         }

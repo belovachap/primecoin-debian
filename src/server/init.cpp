@@ -1,9 +1,6 @@
-// Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2012 The Bitcoin developers
-// Copyright (c) 2011-2013 PPCoin developers
-// Copyright (c) 2013 Primecoin developers
-// Copyright (c) 2017-2018 Chapman Shoop
 // See COPYING for license.
+
+#include "init.h"
 
 #include <signal.h>
 
@@ -18,16 +15,9 @@
 #include "net.h"
 #include "network_peer_database.h"
 #include "txdb.h"
-#include "ui_interface.h"
 #include "util.h"
 #include "version.h"
-#include "walletdb.h"
 
-#include "init.h"
-
-
-CWallet* pwalletMain;
-CClientUIInterface uiInterface;
 
 #define MIN_CORE_FILEDESCRIPTORS 150
 
@@ -94,8 +84,6 @@ void Shutdown()
     StopNode();
     {
         LOCK(cs_main);
-        if (pwalletMain)
-            pwalletMain->SetBestChain(CBlockLocator(pindexBest));
         if (pblocktree)
             pblocktree->Flush();
         if (pcoinsTip)
@@ -106,8 +94,6 @@ void Shutdown()
     }
     bitdb.Flush(true);
     boost::filesystem::remove(GetPidFile());
-    UnregisterWallet(pwalletMain);
-    delete pwalletMain;
     printf("Shutdown : done\n");
 }
 
@@ -276,11 +262,7 @@ std::string HelpMessage()
         std::string("  -shrinkdebugfile       Shrink debug.log file on client startup (default: 1 when no -debug)\n") +
         std::string("  -printtoconsole        Send trace/debug info to console instead of debug.log file\n") +
         std::string("  -blocknotify=<cmd>     Execute command when the best block changes (%s in cmd is replaced by block hash)\n") +
-        std::string("  -walletnotify=<cmd>    Execute command when a wallet transaction changes (%s in cmd is replaced by TxID)\n") +
         std::string("  -alertnotify=<cmd>     Execute command when a relevant alert is received (%s in cmd is replaced by message)\n") +
-        std::string("  -keypool=<n>           Set key pool size to <n> (default: 100)\n") +
-        std::string("  -rescan                Rescan the block chain for missing wallet transactions\n") +
-        std::string("  -salvagewallet         Attempt to recover private keys from a corrupt wallet.dat\n") +
         std::string("  -checkblocks=<n>       How many blocks to check at startup (default: 288, 0 = all)\n") +
         std::string("  -checklevel=<n>        How thorough the block verification is (0-4, default: 3)\n") +
         std::string("  -txindex               Maintain a full transaction index (default: 0)\n") +
@@ -407,11 +389,6 @@ bool AppInit2(boost::thread_group& threadGroup)
         SoftSetBoolArg("-discover", false);
     }
 
-    if (GetBoolArg("-salvagewallet")) {
-        // Rewrite just private keys: rescan to find transactions
-        SoftSetBoolArg("-rescan", true);
-    }
-
     // Make sure enough file descriptors are available
     int nBind = std::max((int)mapArgs.count("-bind"), 1);
     nMaxConnections = GetArg("-maxconnections", 125);
@@ -477,7 +454,7 @@ bool AppInit2(boost::thread_group& threadGroup)
             InitWarning("Warning: -paytxfee is set very high! This is the transaction fee you will pay if you send a transaction.");
     }
 
-    // ********************************************************* Step 4: application initialization: dir lock, daemonize, pidfile, debug log
+    // Step 4: application initialization: dir lock, daemonize, pidfile, debug log
 
     std::string strDataDir = GetDataDir().string();
 
@@ -509,53 +486,7 @@ bool AppInit2(boost::thread_group& threadGroup)
 
     int64 nStart;
 
-    // ********************************************************* Step 5: verify wallet database integrity
-
-    uiInterface.InitMessage("Verifying wallet...");
-
-    if (!bitdb.Open(GetDataDir()))
-    {
-        // try moving the database env out of the way
-        boost::filesystem::path pathDatabase = GetDataDir() / "database";
-        boost::filesystem::path pathDatabaseBak = GetDataDir() / strprintf("database.%"PRI64d".bak", GetTime());
-        try {
-            boost::filesystem::rename(pathDatabase, pathDatabaseBak);
-            printf("Moved old %s to %s. Retrying.\n", pathDatabase.string().c_str(), pathDatabaseBak.string().c_str());
-        } catch(boost::filesystem::filesystem_error &error) {
-             // failure is ok (well, not really, but it's not worse than what we started with)
-        }
-
-        // try again
-        if (!bitdb.Open(GetDataDir())) {
-            // if it still fails, it probably means we can't even create the database env
-            std::string msg = strprintf("Error initializing wallet database environment %s!", strDataDir.c_str());
-            return InitError(msg);
-        }
-    }
-
-    if (GetBoolArg("-salvagewallet"))
-    {
-        // Recover readable keypairs:
-        if (!CWalletDB::Recover(bitdb, "wallet.dat", true))
-            return false;
-    }
-
-    if (boost::filesystem::exists(GetDataDir() / "wallet.dat"))
-    {
-        CDBEnv::VerifyResult r = bitdb.Verify("wallet.dat", CWalletDB::Recover);
-        if (r == CDBEnv::RECOVER_OK)
-        {
-            std::string msg = strprintf("Warning: wallet.dat corrupt, data salvaged!"
-                                     " Original wallet.dat saved as wallet.{timestamp}.bak in %s; if"
-                                     " your balance or transactions are incorrect you should"
-                                     " restore from a backup.", strDataDir.c_str());
-            InitWarning(msg);
-        }
-        if (r == CDBEnv::RECOVER_FAIL)
-            return InitError("wallet.dat corrupt, salvage failed");
-    }
-
-    // ********************************************************* Step 6: network initialization
+    // Step 6: network initialization
 
     // see Step 2: parameter interactions for more information about these
     fNoListen = !GetBoolArg("-listen", true);
@@ -595,7 +526,7 @@ bool AppInit2(boost::thread_group& threadGroup)
     BOOST_FOREACH(std::string strDest, mapMultiArgs["-seednode"])
         AddOneShot(strDest);
 
-    // ********************************************************* Step 7: load block chain
+    // Step 7: load block chain
 
     fReindex = GetBoolArg("-reindex");
 
@@ -738,80 +669,7 @@ bool AppInit2(boost::thread_group& threadGroup)
         return false;
     }
 
-    // ********************************************************* Step 8: load wallet
-
-    uiInterface.InitMessage("Loading wallet...");
-
-    nStart = GetTimeMillis();
-    bool fFirstRun = true;
-    pwalletMain = new CWallet("wallet.dat");
-    DBErrors nLoadWalletRet = pwalletMain->LoadWallet(fFirstRun);
-    if (nLoadWalletRet != DB_LOAD_OK)
-    {
-        if (nLoadWalletRet == DB_CORRUPT)
-            strErrors << "Error loading wallet.dat: Wallet corrupted" << "\n";
-        else if (nLoadWalletRet == DB_NONCRITICAL_ERROR)
-        {
-            std::string msg("Warning: error reading wallet.dat! All keys read correctly, but transaction data"
-                         " or address book entries might be missing or incorrect.");
-            InitWarning(msg);
-        }
-        else if (nLoadWalletRet == DB_TOO_NEW)
-            strErrors << "Error loading wallet.dat: Wallet requires newer version of Primecoin" << "\n";
-        else if (nLoadWalletRet == DB_NEED_REWRITE)
-        {
-            strErrors << "Wallet needed to be rewritten: restart Primecoin to complete" << "\n";
-            printf("%s", strErrors.str().c_str());
-            return InitError(strErrors.str());
-        }
-        else
-            strErrors << "Error loading wallet.dat" << "\n";
-    }
-
-    if (fFirstRun)
-    {
-        // Create new keyUser and set as default key
-        RandAddSeedPerfmon();
-
-        CPubKey newDefaultKey;
-        if (pwalletMain->GetKeyFromPool(newDefaultKey, false)) {
-            pwalletMain->SetDefaultKey(newDefaultKey);
-            if (!pwalletMain->SetAddressBookName(pwalletMain->vchDefaultKey.GetID(), ""))
-                strErrors << "Cannot write default address\n";
-        }
-
-        pwalletMain->SetBestChain(CBlockLocator(pindexBest));
-    }
-
-    printf("%s", strErrors.str().c_str());
-    printf(" wallet      %15"PRI64d"ms\n", GetTimeMillis() - nStart);
-
-    RegisterWallet(pwalletMain);
-
-    CBlockIndex *pindexRescan = pindexBest;
-    if (GetBoolArg("-rescan"))
-        pindexRescan = pindexGenesisBlock;
-    else
-    {
-        CWalletDB walletdb("wallet.dat");
-        CBlockLocator locator;
-        if (walletdb.ReadBestBlock(locator))
-            pindexRescan = locator.GetBlockIndex();
-        else
-            pindexRescan = pindexGenesisBlock;
-    }
-    if (pindexBest && pindexBest != pindexRescan)
-    {
-        uiInterface.InitMessage("Rescanning...");
-        printf("Rescanning last %i blocks (from block %i)...\n", pindexBest->nHeight - pindexRescan->nHeight, pindexRescan->nHeight);
-        nStart = GetTimeMillis();
-        pwalletMain->ScanForWalletTransactions(pindexRescan, true);
-        printf(" rescan      %15"PRI64d"ms\n", GetTimeMillis() - nStart);
-        pwalletMain->SetBestChain(CBlockLocator(pindexBest));
-        nWalletDBUpdated++;
-    }
-
-    // ********************************************************* Step 9: import blocks
+    // Step 8: import blocks
 
     // scan for better chains in the block chain database, that are not yet connected in the active best chain
     CValidationState state;
@@ -826,7 +684,7 @@ bool AppInit2(boost::thread_group& threadGroup)
     }
     threadGroup.create_thread(boost::bind(&ThreadImport, vImportFiles));
 
-    // ********************************************************* Step 10: load peers
+    // Step 9: load peers
 
     uiInterface.InitMessage("Loading addresses...");
 
@@ -841,7 +699,7 @@ bool AppInit2(boost::thread_group& threadGroup)
     printf("Loaded %i addresses from peers.dat  %"PRI64d"ms\n",
            network_peer_manager.size(), GetTimeMillis() - nStart);
 
-    // ********************************************************* Step 11: start node
+    // Step 10: start node
 
     if (!CheckDiskSpace())
         return false;
@@ -854,21 +712,12 @@ bool AppInit2(boost::thread_group& threadGroup)
     //// debug print
     printf("mapBlockIndex.size() = %"PRIszu"\n",   mapBlockIndex.size());
     printf("nBestHeight = %d\n",                   nBestHeight);
-    printf("setKeyPool.size() = %"PRIszu"\n",      pwalletMain->setKeyPool.size());
-    printf("mapWallet.size() = %"PRIszu"\n",       pwalletMain->mapWallet.size());
-    printf("mapAddressBook.size() = %"PRIszu"\n",  pwalletMain->mapAddressBook.size());
 
     StartNode(threadGroup);
 
-    // ********************************************************* Step 12: finished
+    // Step 11: finished
 
     uiInterface.InitMessage("Done loading");
-
-     // Add wallet transactions that aren't already in a block to mapTransactions
-    pwalletMain->ReacceptWalletTransactions();
-
-    // Run a thread to flush wallet periodically
-    threadGroup.create_thread(boost::bind(&ThreadFlushWalletDB, boost::ref(pwalletMain->strWalletFile)));
 
     return !fRequestShutdown;
 }

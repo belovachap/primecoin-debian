@@ -1,3 +1,5 @@
+// See COPYING for license.
+
 //
 // Unit tests for block.CheckBlock()
 //
@@ -9,7 +11,6 @@
 #include <boost/foreach.hpp>
 
 #include "main.h"
-#include "wallet.h"
 #include "net.h"
 #include "util.h"
 
