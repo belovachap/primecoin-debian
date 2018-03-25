@@ -24,4 +24,4 @@ RUN apt-get install -y \
 VOLUME ["/primecoin-debian"]
 WORKDIR /primecoin-debian
 
-CMD cd src && make test
+CMD cd src/server && make test

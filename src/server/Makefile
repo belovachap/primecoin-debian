@@ -1,12 +1,8 @@
 # See COPYING for license.
 
-# :=1 --> Enable IPv6 support
-# :=0 --> Disable IPv6 support
-USE_IPV6:=1
-
 LINK:=$(CXX)
 
-DEFS=-DBOOST_SPIRIT_THREADSAFE -D_FILE_OFFSET_BITS=64 -DBOOST_NO_CXX11_SCOPED_ENUMS
+DEFS=-DBOOST_SPIRIT_THREADSAFE -D_FILE_OFFSET_BITS=64 -DBOOST_NO_CXX11_SCOPED_ENUMS -DUSE_IPV6=1
 
 DEFS += $(addprefix -I,$(CURDIR) $(CURDIR)/obj $(BOOST_INCLUDE_PATH) $(BDB_INCLUDE_PATH) $(OPENSSL_INCLUDE_PATH))
 LIBS = $(addprefix -L,$(BOOST_LIB_PATH) $(BDB_LIB_PATH) $(OPENSSL_LIB_PATH))
@@ -39,12 +35,6 @@ LIBS += \
    -l z
 
 TESTLIBS += -l boost_unit_test_framework
-
-ifneq (${USE_IPV6}, -)
-	DEFS += -DUSE_IPV6=$(USE_IPV6)
-endif
-
-
 
 # Hardening
 # Make some classes of vulnerabilities unexploitable in case one is discovered.
