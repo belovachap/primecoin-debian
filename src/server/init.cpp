@@ -9,9 +9,11 @@
 #include <boost/filesystem/convenience.hpp>
 #include <boost/filesystem/fstream.hpp>
 #include <boost/interprocess/sync/file_lock.hpp>
+#include <boost/log/trivial.hpp>
 
 #include <openssl/crypto.h>
 
+#include "db.h"
 #include "net.h"
 #include "network_peer_database.h"
 #include "txdb.h"
@@ -128,7 +130,6 @@ void HandleSIGHUP(int)
 //
 // Start
 //
-#if !defined(QT_GUI)
 bool AppInit(int argc, char* argv[])
 {
     boost::thread_group threadGroup;
@@ -189,25 +190,9 @@ bool AppInit(int argc, char* argv[])
     return app_init_success;
 }
 
-extern void noui_connect();
 int main(int argc, char* argv[])
 {
-    // Connect primecoind signal handlers
-    noui_connect();
     return (AppInit(argc, argv) ? 0 : 1);
-}
-#endif
-
-bool static InitError(const std::string &str)
-{
-    uiInterface.ThreadSafeMessageBox(str, "", CClientUIInterface::MSG_ERROR);
-    return false;
-}
-
-bool static InitWarning(const std::string &str)
-{
-    uiInterface.ThreadSafeMessageBox(str, "", CClientUIInterface::MSG_WARNING);
-    return true;
 }
 
 bool static Bind(const CService &addr, unsigned int flags) {
@@ -215,8 +200,9 @@ bool static Bind(const CService &addr, unsigned int flags) {
         return false;
     std::string strError;
     if (!BindListenPort(addr, strError)) {
-        if (flags & BF_REPORT_ERROR)
-            return InitError(strError);
+        if (flags & BF_REPORT_ERROR) {
+            BOOST_LOG_TRIVIAL(error) << strError;
+        }
         return false;
     }
     return true;
@@ -250,12 +236,7 @@ std::string HelpMessage()
         std::string("  -maxreceivebuffer=<n>  Maximum per-connection receive buffer, <n>*1000 bytes (default: 5000)\n") +
         std::string("  -maxsendbuffer=<n>     Maximum per-connection send buffer, <n>*1000 bytes (default: 1000)\n") +
         std::string("  -paytxfee=<amt>        Fee per KB to add to transactions you send (minimum 1 cent)\n") +
-#ifdef QT_GUI
-        std::string("  -server                Accept command line and JSON-RPC commands\n") +
-#endif
-#if !defined(QT_GUI)
         std::string("  -daemon                Run in the background as a daemon and accept commands\n") +
-#endif
         std::string("  -debug                 Output extra debugging information. Implies all other -debug* options\n") +
         std::string("  -debugnet              Output extra network debugging information\n") +
         std::string("  -logtimestamps         Prepend debug output with timestamp (default: 1)\n") +
@@ -344,7 +325,7 @@ void ThreadImport(std::vector<boost::filesystem::path> vImportFiles)
  */
 bool AppInit2(boost::thread_group& threadGroup)
 {
-    // ********************************************************* Step 1: setup
+    // Step 1: setup
     umask(077);
 
     // Clean shutdown on SIGTERM
@@ -362,7 +343,7 @@ bool AppInit2(boost::thread_group& threadGroup)
     sa_hup.sa_flags = 0;
     sigaction(SIGHUP, &sa_hup, NULL);
 
-    // ********************************************************* Step 2: parameter interactions
+    // Step 2: parameter interactions
 
     fTestNet = GetBoolArg("-testnet");
 
@@ -394,12 +375,14 @@ bool AppInit2(boost::thread_group& threadGroup)
     nMaxConnections = GetArg("-maxconnections", 125);
     nMaxConnections = std::max(std::min(nMaxConnections, (int)(FD_SETSIZE - nBind - MIN_CORE_FILEDESCRIPTORS)), 0);
     int nFD = RaiseFileDescriptorLimit(nMaxConnections + MIN_CORE_FILEDESCRIPTORS);
-    if (nFD < MIN_CORE_FILEDESCRIPTORS)
-        return InitError("Not enough file descriptors available.");
+    if (nFD < MIN_CORE_FILEDESCRIPTORS){
+        BOOST_LOG_TRIVIAL(error) << "Not enough file descriptors available.";
+        return false;
+    }
     if (nFD - MIN_CORE_FILEDESCRIPTORS < nMaxConnections)
         nMaxConnections = nFD - MIN_CORE_FILEDESCRIPTORS;
 
-    // ********************************************************* Step 3: parameter-to-internal-flags
+    // Step 3: parameter-to-internal-flags
 
     fDebug = GetBoolArg("-debug");
     fBenchmark = GetBoolArg("-benchmark");
@@ -449,9 +432,14 @@ bool AppInit2(boost::thread_group& threadGroup)
     if (mapArgs.count("-paytxfee"))
     {
         if (!ParseMoney(mapArgs["-paytxfee"], nTransactionFee) || nTransactionFee < CTransaction::nMinTxFee)
-            return InitError(strprintf("Invalid amount for -paytxfee=<amount>: '%s'", mapArgs["-paytxfee"].c_str()));
+        {
+            BOOST_LOG_TRIVIAL(error) << "Invalid amount for -paytxfee=<amount>: '" << mapArgs["-paytxfee"] << "'";
+            return false;
+        }
         if (nTransactionFee > 0.25 * COIN)
-            InitWarning("Warning: -paytxfee is set very high! This is the transaction fee you will pay if you send a transaction.");
+        {
+            BOOST_LOG_TRIVIAL(warning) << "Warning: -paytxfee is set very high! This is the transaction fee you will pay if you send a transaction.";
+        }
     }
 
     // Step 4: application initialization: dir lock, daemonize, pidfile, debug log
@@ -464,7 +452,12 @@ bool AppInit2(boost::thread_group& threadGroup)
     if (file) fclose(file);
     static boost::interprocess::file_lock lock(pathLockFile.string().c_str());
     if (!lock.try_lock())
-        return InitError(strprintf("Cannot obtain a lock on data directory %s. Primecoin is probably already running.", strDataDir.c_str()));
+    {
+        BOOST_LOG_TRIVIAL(error) << "Cannot obtain a lock on data directory "
+                                 << strDataDir
+                                 << ". Primecoin is probably already running.";
+        return false;
+    }
 
     if (GetBoolArg("-shrinkdebugfile", !fDebug))
         ShrinkDebugFile();
@@ -498,7 +491,10 @@ bool AppInit2(boost::thread_group& threadGroup)
             BOOST_FOREACH(std::string strBind, mapMultiArgs["-bind"]) {
                 CService addrBind;
                 if (!Lookup(strBind.c_str(), addrBind, GetListenPort()))
-                    return InitError(strprintf("Cannot resolve -bind address: '%s'", strBind.c_str()));
+                {
+                    BOOST_LOG_TRIVIAL(error) << "Cannot resolve -bind address: '" << strBind << "'";
+                    return false;
+                }
                 fBound |= Bind(addrBind, (BF_EXPLICIT | BF_REPORT_ERROR));
             }
         }
@@ -511,14 +507,20 @@ bool AppInit2(boost::thread_group& threadGroup)
             fBound |= Bind(CService(inaddr_any, GetListenPort()), !fBound ? BF_REPORT_ERROR : BF_NONE);
         }
         if (!fBound)
-            return InitError("Failed to listen on any port. Use -listen=0 if you want this.");
+        {
+            BOOST_LOG_TRIVIAL(error) << "Failed to listen on any port. Use -listen=0 if you want this.";
+            return false;
+        }
     }
 
     if (mapArgs.count("-externalip")) {
         BOOST_FOREACH(std::string strAddr, mapMultiArgs["-externalip"]) {
             CService addrLocal(strAddr, GetListenPort());
             if (!addrLocal.IsValid())
-                return InitError(strprintf("Cannot resolve -externalip address: '%s'", strAddr.c_str()));
+            {
+                BOOST_LOG_TRIVIAL(error) << "Cannot resolve -externalip address: '" << strAddr << "'";
+                return false;
+            }
             AddLocal(CService(strAddr, GetListenPort()), LOCAL_MANUAL);
         }
     }
@@ -574,8 +576,6 @@ bool AppInit2(boost::thread_group& threadGroup)
         bool fReset = fReindex;
         std::string strLoadError;
 
-        uiInterface.InitMessage("Loading block index...");
-
         nStart = GetTimeMillis();
         do {
             try {
@@ -602,7 +602,6 @@ bool AppInit2(boost::thread_group& threadGroup)
                     break;
                 }
 
-                uiInterface.InitMessage("Verifying blocks...");
                 if (!VerifyDB()) {
                     strLoadError = "Corrupted block database detected";
                     break;
@@ -616,25 +615,16 @@ bool AppInit2(boost::thread_group& threadGroup)
         } while(false);
 
         if (!fLoaded) {
-            // first suggest a reindex
-            if (!fReset) {
-                bool fRet = uiInterface.ThreadSafeMessageBox(
-                    strLoadError + ".\nDo you want to rebuild the block database now?",
-                    "", CClientUIInterface::MSG_ERROR | CClientUIInterface::BTN_ABORT);
-                if (fRet) {
-                    fReindex = true;
-                    fRequestShutdown = false;
-                } else {
-                    return false;
-                }
-            } else {
-                return InitError(strLoadError);
-            }
+            BOOST_LOG_TRIVIAL(error) << strLoadError;
+            return false;
         }
     }
 
     if (mapArgs.count("-txindex") && fTxIndex != GetBoolArg("-txindex", false))
-        return InitError("You need to rebuild the databases using -reindex to change -txindex");
+    {
+        BOOST_LOG_TRIVIAL(error) << "You need to rebuild the databases using -reindex to change -txindex";
+        return false;
+    }
 
     // as LoadBlockIndex can take several minutes, it's possible the user
     // requested to kill primecoin-qt during the last operation. If so, exit.
@@ -686,8 +676,6 @@ bool AppInit2(boost::thread_group& threadGroup)
 
     // Step 9: load peers
 
-    uiInterface.InitMessage("Loading addresses...");
-
     nStart = GetTimeMillis();
 
     {
@@ -705,7 +693,10 @@ bool AppInit2(boost::thread_group& threadGroup)
         return false;
 
     if (!strErrors.str().empty())
-        return InitError(strErrors.str());
+    {
+        BOOST_LOG_TRIVIAL(error) << strErrors.str();
+        return false;
+    }
 
     RandAddSeedPerfmon();
 
@@ -716,8 +707,6 @@ bool AppInit2(boost::thread_group& threadGroup)
     StartNode(threadGroup);
 
     // Step 11: finished
-
-    uiInterface.InitMessage("Done loading");
 
     return !fRequestShutdown;
 }

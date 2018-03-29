@@ -4,6 +4,7 @@ LINK:=$(CXX)
 
 DEFS = \
     -D_FILE_OFFSET_BITS=64 \
+    -DBOOST_LOG_DYN_LINK \
     -DBOOST_NO_CXX11_SCOPED_ENUMS \
     -DBOOST_SPIRIT_THREADSAFE \
     -DUSE_IPV6=1
@@ -25,6 +26,7 @@ else
 endif
 
 LIBS += \
+   -l boost_log \
    -l boost_system \
    -l boost_filesystem \
    -l boost_program_options \
