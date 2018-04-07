@@ -1,4 +1,3 @@
-// Copyright (c) 2018 Chapman Shoop
 // See COPYING for license.
 
 #include <boost/assert.hpp>
@@ -8,9 +7,8 @@
 #include <boost/test/unit_test.hpp>
 #include <boost/foreach.hpp>
 
-#include "../main.h"
-#include "../script.h"
-#include "../wallet.h"
+#include "main.h"
+#include "script.h"
 
 
 // Test routines internal to script.cpp:

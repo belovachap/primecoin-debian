@@ -1,4 +1,3 @@
-// Copyright (c) 2018 Chapman Shoop
 // See COPYING for license.
 
 #include <vector>
@@ -6,7 +5,6 @@
 #include <boost/foreach.hpp>
 
 #include "main.h"
-#include "wallet.h"
 #include "util.h"
 
 

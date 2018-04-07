@@ -1,0 +1,4 @@
+Makefile
+build/
+primecoin-qt
+qrc_primecoin.cpp

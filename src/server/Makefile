@@ -1,12 +1,13 @@
 # See COPYING for license.
 
-# :=1 --> Enable IPv6 support
-# :=0 --> Disable IPv6 support
-USE_IPV6:=1
-
 LINK:=$(CXX)
 
-DEFS=-DBOOST_SPIRIT_THREADSAFE -D_FILE_OFFSET_BITS=64
+DEFS = \
+    -D_FILE_OFFSET_BITS=64 \
+    -DBOOST_LOG_DYN_LINK \
+    -DBOOST_NO_CXX11_SCOPED_ENUMS \
+    -DBOOST_SPIRIT_THREADSAFE \
+    -DUSE_IPV6=1
 
 DEFS += $(addprefix -I,$(CURDIR) $(CURDIR)/obj $(BOOST_INCLUDE_PATH) $(BDB_INCLUDE_PATH) $(OPENSSL_INCLUDE_PATH))
 LIBS = $(addprefix -L,$(BOOST_LIB_PATH) $(BDB_LIB_PATH) $(OPENSSL_LIB_PATH))
@@ -25,6 +26,7 @@ else
 endif
 
 LIBS += \
+   -l boost_log \
    -l boost_system \
    -l boost_filesystem \
    -l boost_program_options \
@@ -39,12 +41,6 @@ LIBS += \
    -l z
 
 TESTLIBS += -l boost_unit_test_framework
-
-ifneq (${USE_IPV6}, -)
-	DEFS += -DUSE_IPV6=$(USE_IPV6)
-endif
-
-
 
 # Hardening
 # Make some classes of vulnerabilities unexploitable in case one is discovered.
@@ -84,7 +80,7 @@ DEBUGFLAGS=-g
 
 # CXXFLAGS can be specified on the make command line, so we use xCXXFLAGS that only
 # adds some defaults in front. Unfortunately, CXXFLAGS=... $(CXXFLAGS) does not work.
-xCXXFLAGS=-O2 -pthread -Wall -Wextra -Wformat -Wformat-security -Wno-unused-parameter \
+xCXXFLAGS=-std=c++11 -O2 -pthread -Wall -Wextra -Wformat -Wformat-security -Wno-unused-parameter \
     $(DEBUGFLAGS) $(DEFS) $(HARDENING) $(CXXFLAGS)
 
 # LDFLAGS can be specified on the make command line, so we use xLDFLAGS that only
@@ -108,11 +104,8 @@ OBJS= \
     obj/script.o \
     obj/sync.o \
     obj/util.o \
-    obj/wallet.o \
-    obj/walletdb.o \
     obj/hash.o \
     obj/bloom.o \
-    obj/noui.o \
     obj/leveldb.o \
     obj/txdb.o \
     obj/prime.o

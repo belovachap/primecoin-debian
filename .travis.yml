@@ -1,5 +1,3 @@
-# Copyright (c) 2018 RG Huckins
-# Copyright (c) 2018 Chapman Shoop
 # See COPYING for license.
 
 sudo: required
@@ -13,7 +11,7 @@ before_install:
   - docker build -t primecoin .
 
 script:
-  - docker run primecoin bin/sh -c "cd src && make"
-  - docker run primecoin bin/sh -c "cd src && make test"
-  - docker run primecoin bin/sh -c "qmake-qt4 && make"
-  - docker run primecoin bin/sh -c "qmake-qt4 PRIMECOIN_QT_TEST=1 && make && ./primecoin-qt_test"
+  - docker run primecoin bin/sh -c "cd src/server && make"
+  - docker run primecoin bin/sh -c "cd src/server && make test"
+  - docker run primecoin bin/sh -c "cd src/wallet && qmake-qt4 && make"
+  - docker run primecoin bin/sh -c "cd src/wallet && qmake-qt4 PRIMECOIN_QT_TEST=1 && make && ./primecoin-qt_test"

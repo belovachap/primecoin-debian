@@ -35,6 +35,7 @@ gnome? https://en.wikipedia.org/wiki/GNOME
 
 ```
 apt-get install <dependencies>
+cd src/wallet
 qmake-qt4
 make
 ```
@@ -43,7 +44,7 @@ make
 
 ```
 apt-get install <dependencies>
-cd src
+cd src/server
 make
 ```
 
