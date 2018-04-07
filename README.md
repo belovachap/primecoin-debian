@@ -12,12 +12,12 @@ gnome? https://en.wikipedia.org/wiki/GNOME
 
 ## :open_file_folder: Git
 
-- Branch: release-v2.0
+- Branch: release-v2
 - Tag: v2.0.0
 
 ## :construction_worker: Travis CI
 
-[![Build Status](https://travis-ci.org/belovachap/primecoin-debian.svg?branch=release-v2.0)](https://travis-ci.org/belovachap/primecoin-debian)
+[![Build Status](https://travis-ci.org/belovachap/primecoin-debian.svg?branch=release-v2)](https://travis-ci.org/belovachap/primecoin-debian)
 
 ## :package: Dependencies
 
@@ -35,6 +35,7 @@ gnome? https://en.wikipedia.org/wiki/GNOME
 
 ```
 apt-get install <dependencies>
+cd src/wallet
 qmake-qt4
 make
 ```
@@ -43,7 +44,7 @@ make
 
 ```
 apt-get install <dependencies>
-cd src
+cd src/server
 make
 ```
 
