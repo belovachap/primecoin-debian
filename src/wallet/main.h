@@ -438,7 +438,7 @@ public:
     {
         if (scriptPubKey.size() < 6)
             return "CTxOut(error)";
-        return strprintf("CTxOut(nValue=%"PRI64d".%08"PRI64d", scriptPubKey=%s)", nValue / COIN, nValue % COIN, scriptPubKey.ToString().substr(0,30).c_str());
+        return strprintf("CTxOut(nValue=%lld.%08lld, scriptPubKey=%s)", nValue / COIN, nValue % COIN, scriptPubKey.ToString().substr(0,30).c_str());
     }
 
     void print() const
@@ -631,7 +631,7 @@ public:
     std::string ToString() const
     {
         std::string str;
-        str += strprintf("CTransaction(hash=%s, ver=%d, vin.size=%"PRIszu", vout.size=%"PRIszu", nLockTime=%u)\n",
+        str += strprintf("CTransaction(hash=%s, ver=%d, vin.size=%zu, vout.size=%zu, nLockTime=%u)\n",
             GetHash().ToString().c_str(),
             nVersion,
             vin.size(),
@@ -772,7 +772,9 @@ public:
         // Open history file to append
         CAutoFile fileout = CAutoFile(OpenUndoFile(pos), SER_DISK, CLIENT_VERSION);
         if (!fileout)
-            return error("CBlockUndo::WriteToDisk() : OpenUndoFile failed");
+        {
+            return false;
+        }
 
         // Write index header
         unsigned int nSize = fileout.GetSerializeSize(*this);
@@ -781,7 +783,9 @@ public:
         // Write undo data
         long fileOutPos = ftell(fileout);
         if (fileOutPos < 0)
-            return error("CBlockUndo::WriteToDisk() : ftell failed");
+        {
+            return false;
+        }
         pos.nPos = (unsigned int)fileOutPos;
         fileout << *this;
 
@@ -804,7 +808,9 @@ public:
         // Open history file to read
         CAutoFile filein = CAutoFile(OpenUndoFile(pos, true), SER_DISK, CLIENT_VERSION);
         if (!filein)
-            return error("CBlockUndo::ReadFromDisk() : OpenBlockFile failed");
+        {
+            return false;
+        }
 
         // Read block
         uint256 hashChecksum;
@@ -812,8 +818,9 @@ public:
             filein >> *this;
             filein >> hashChecksum;
         }
-        catch (std::exception &e) {
-            return error("%s() : deserialize or I/O error", __PRETTY_FUNCTION__);
+        catch (std::exception &e)
+        {
+            return false;
         }
 
         // Verify checksum
@@ -821,7 +828,9 @@ public:
         hasher << hashBlock;
         hasher << *this;
         if (hashChecksum != hasher.GetHash())
-            return error("CBlockUndo::ReadFromDisk() : checksum mismatch");
+        {
+            return false;
+        }
 
         return true;
     }
@@ -1444,7 +1453,9 @@ public:
         // Open history file to append
         CAutoFile fileout = CAutoFile(OpenBlockFile(pos), SER_DISK, CLIENT_VERSION);
         if (!fileout)
-            return error("CBlock::WriteToDisk() : OpenBlockFile failed");
+        {
+            return false;
+        }
 
         // Write index header
         unsigned int nSize = fileout.GetSerializeSize(*this);
@@ -1453,7 +1464,9 @@ public:
         // Write block
         long fileOutPos = ftell(fileout);
         if (fileOutPos < 0)
-            return error("CBlock::WriteToDisk() : ftell failed");
+        {
+            return false;
+        }
         pos.nPos = (unsigned int)fileOutPos;
         fileout << *this;
 
@@ -1472,14 +1485,17 @@ public:
         // Open history file to read
         CAutoFile filein = CAutoFile(OpenBlockFile(pos, true), SER_DISK, CLIENT_VERSION);
         if (!filein)
-            return error("CBlock::ReadFromDisk() : OpenBlockFile failed");
+        {
+            return false;
+        }
 
         // Read block
         try {
             filein >> *this;
         }
-        catch (std::exception &e) {
-            return error("%s() : deserialize or I/O error", __PRETTY_FUNCTION__);
+        catch (std::exception &e)
+        {
+            return false;
         }
 
         // Primecoin: no proof-of-work check here unlike bitcoin
@@ -1491,7 +1507,7 @@ public:
 
     void print() const
     {
-        printf("CBlock(hash=%s, hashBlockHeader=%s, ver=%d, hashPrevBlock=%s, hashMerkleRoot=%s, nTime=%u, nBits=%08x, nNonce=%u, vtx=%"PRIszu")\n",
+        printf("CBlock(hash=%s, hashBlockHeader=%s, ver=%d, hashPrevBlock=%s, hashMerkleRoot=%s, nTime=%u, nBits=%08x, nNonce=%u, vtx=%zu)\n",
             GetHash().ToString().c_str(),
             GetHeaderHash().ToString().c_str(),
             nVersion,

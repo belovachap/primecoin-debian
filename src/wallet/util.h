@@ -26,6 +26,11 @@
 #include "netbase.h"
 #include "uint256.h"
 
+
+std::string real_strprintf(const std::string &format, int dummy, ...);
+#define strprintf(format, ...) real_strprintf(format, 0, __VA_ARGS__)
+std::string vstrprintf(const char *format, va_list ap);
+
 typedef long long  int64;
 typedef unsigned long long  uint64;
 
@@ -38,20 +43,6 @@ static const int64 CENT = 1000000;
 #define UBEGIN(a)           ((unsigned char*)&(a))
 #define UEND(a)             ((unsigned char*)&((&(a))[1]))
 #define ARRAYLEN(array)     (sizeof(array)/sizeof((array)[0]))
-
-#ifndef PRI64d
-#define PRI64d  "lld"
-#define PRI64u  "llu"
-#define PRI64x  "llx"
-#endif
-
-/* Format characters for (s)size_t and ptrdiff_t */
-#define PRIszx    "zx"
-#define PRIszu    "zu"
-#define PRIszd    "zd"
-#define PRIpdx    "tx"
-#define PRIpdu    "tu"
-#define PRIpdd    "td"
 
 // This is needed because the foreach macro can't get over the comma in pair<t1, t2>
 #define PAIRTYPE(t1, t2) std::pair<t1, t2>
@@ -106,34 +97,6 @@ extern volatile bool fReopenDebugLog;
 
 void RandAddSeed();
 void RandAddSeedPerfmon();
-int ATTR_WARN_PRINTF(1,2) OutputDebugStringF(const char* pszFormat, ...);
-
-/*
-  Rationale for the real_strprintf / strprintf construction:
-    It is not allowed to use va_start with a pass-by-reference argument.
-    (C++ standard, 18.7, paragraph 3). Use a dummy argument to work around this, and use a
-    macro to keep similar semantics.
-*/
-
-/** Overload strprintf for char*, so that GCC format type warnings can be given */
-std::string ATTR_WARN_PRINTF(1,3) real_strprintf(const char *format, int dummy, ...);
-/** Overload strprintf for std::string, to be able to use it with _ (translation).
- * This will not support GCC format type warnings (-Wformat) so be careful.
- */
-std::string real_strprintf(const std::string &format, int dummy, ...);
-#define strprintf(format, ...) real_strprintf(format, 0, __VA_ARGS__)
-std::string vstrprintf(const char *format, va_list ap);
-
-bool ATTR_WARN_PRINTF(1,2) error(const char *format, ...);
-
-/* Redefine printf so that it directs output to debug.log
- *
- * Do this *after* defining the other printf-like functions, because otherwise the
- * __attribute__((format(printf,X,Y))) gets expanded to __attribute__((format(OutputDebugStringF,X,Y)))
- * which confuses gcc.
- */
-#define printf OutputDebugStringF
-
 void LogException(std::exception* pex, const char* pszThread);
 void PrintException(std::exception* pex, const char* pszThread);
 void PrintExceptionContinue(std::exception* pex, const char* pszThread);
@@ -182,7 +145,7 @@ void runCommand(std::string strCommand);
 
 inline std::string i64tostr(int64 n)
 {
-    return strprintf("%"PRI64d, n);
+    return strprintf("%lld", n);
 }
 
 inline std::string itostr(int n)

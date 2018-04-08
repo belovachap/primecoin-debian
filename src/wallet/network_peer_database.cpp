@@ -1,4 +1,3 @@
-// Copyright (c) 2018 Chapman Shoop
 // See COPYING for license.
 
 #include "network_peer_database.h"
@@ -28,21 +27,27 @@ bool NetworkPeerDatabase::Write(const NetworkPeerManager& manager) {
     FILE *file = fopen(pathTmp.string().c_str(), "wb");
     CAutoFile fileout = CAutoFile(file, SER_DISK, CLIENT_VERSION);
     if (!fileout)
-        return error("NetworkPeerManager::Write() : open failed");
+    {
+        return false;
+    }
 
     // Write and commit header, data
-    try {
+    try
+    {
         fileout << ssPeers;
     }
-    catch (std::exception &e) {
-        return error("NetworkPeerManager::Write() : I/O error");
+    catch (std::exception &e)
+    {
+        return false;
     }
     FileCommit(fileout);
     fileout.fclose();
 
     // replace existing peers.dat, if any, with new peers.dat.XXXX
     if (!RenameOver(pathTmp, this->file_path))
-        return error("NetworkPeerManager::Write() : Rename-into-place failed");
+    {
+        return false;
+    }
 
     return true;
 }
@@ -52,7 +57,9 @@ bool NetworkPeerDatabase::Read(NetworkPeerManager& manager) {
     FILE *file = fopen(this->file_path.string().c_str(), "rb");
     CAutoFile filein = CAutoFile(file, SER_DISK, CLIENT_VERSION);
     if (!filein)
-        return error("NetworkPeerManager::Read() : open failed");
+    {
+        return false;
+    }
 
     // use file size to size memory buffer
     int fileSize = GetFilesize(filein);
@@ -64,12 +71,14 @@ bool NetworkPeerDatabase::Read(NetworkPeerManager& manager) {
     uint256 hashIn;
 
     // read data and checksum from file
-    try {
+    try
+    {
         filein.read((char *)&vchData[0], dataSize);
         filein >> hashIn;
     }
-    catch (std::exception &e) {
-        return error("NetworkPeerManager::Read() 2 : I/O error or stream data corrupted");
+    catch (std::exception &e)
+    {
+        return false;
     }
     filein.fclose();
 
@@ -78,22 +87,27 @@ bool NetworkPeerDatabase::Read(NetworkPeerManager& manager) {
     // verify stored checksum matches input data
     uint256 hashTmp = Hash(ssPeers.begin(), ssPeers.end());
     if (hashIn != hashTmp)
-        return error("NetworkPeerManager::Read() : checksum mismatch; data corrupted");
+    {
+        return false;
+    }
 
     unsigned char pchMsgTmp[4];
-    try {
+    try
+    {
         // de-serialize file header (pchMessageStart magic number) and
         ssPeers >> FLATDATA(pchMsgTmp);
 
         // verify the network matches ours
-        if (memcmp(pchMsgTmp, pchMessageStart, sizeof(pchMsgTmp)))
-            return error("NetworkPeerManager::Read() : invalid network magic number");
+        if (memcmp(pchMsgTmp, pchMessageStart, sizeof(pchMsgTmp))) {
+            return false;
+        }
 
         // de-serialize address data into one NetworkPeerManager object
         ssPeers >> manager;
     }
-    catch (std::exception &e) {
-        return error("NetworkPeerManager::Read() : I/O error or stream data corrupted");
+    catch (std::exception &e)
+    {
+        return false;
     }
 
     return true;

@@ -9,8 +9,7 @@ DEFINES += \
     BOOST_NO_CXX11_SCOPED_ENUMS \
     BOOST_SPIRIT_THREADSAFE \
     BOOST_THREAD_USE_LIB \
-    USE_IPV6=1 \
-    QT_GUI
+    USE_IPV6=1
 CONFIG += no_include_pwd thread
 QMAKE_CXXFLAGS += -std=c++11
 
@@ -18,7 +17,7 @@ OBJECTS_DIR = build
 MOC_DIR = build
 UI_DIR = build
 
-QMAKE_CXXFLAGS_WARN_ON = -fdiagnostics-show-option -Wall -Wextra -Wformat -Wformat-security -Wno-unused-parameter -Wstack-protector
+QMAKE_CXXFLAGS_WARN_ON = -fdiagnostics-show-option -Wall -Wextra -Werror -Wformat -Wformat-security -Wno-unused-parameter -Wstack-protector
 
 # Input
 HEADERS += \
