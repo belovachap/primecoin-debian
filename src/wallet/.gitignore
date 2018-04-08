@@ -1,4 +1,5 @@
 Makefile
 build/
 primecoin-qt
+primecoin-qt_test
 qrc_primecoin.cpp

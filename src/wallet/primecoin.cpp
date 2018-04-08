@@ -23,6 +23,8 @@
 // Declare meta types used for QMetaObject::invokeMethod
 Q_DECLARE_METATYPE(bool*)
 
+#ifndef PRIMECOIN_QT_TEST
+
 // Need a global reference for the notifications to find the GUI
 static PrimecoinGUI *guiref;
 static QSplashScreen *splash_screen;
@@ -86,7 +88,6 @@ static void handleRunawayException(std::exception *e)
     exit(1);
 }
 
-#ifndef PRIMECOIN_QT_TEST
 int main(int argc, char *argv[])
 {
     // Command-line options take precedence:
