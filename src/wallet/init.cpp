@@ -142,76 +142,6 @@ void HandleSIGHUP(int)
 //
 // Start
 //
-#if !defined(QT_GUI)
-bool AppInit(int argc, char* argv[])
-{
-    boost::thread_group threadGroup;
-    boost::thread* detectShutdownThread = NULL;
-
-    bool app_init_success = false;
-    try
-    {
-        //
-        // Parameters
-        //
-        // If Qt is used, parameters/primecoin.conf are parsed in qt/primecoin.cpp's main()
-        ParseParameters(argc, argv);
-        if (!boost::filesystem::is_directory(GetDataDir(false)))
-        {
-            fprintf(stderr, "Error: Specified directory does not exist\n");
-            Shutdown();
-        }
-        ReadConfigFile(mapArgs, mapMultiArgs);
-
-        if (mapArgs.count("-?") || mapArgs.count("--help"))
-        {
-            // First part of help message is specific to primecoind / RPC client
-            std::string strUsage = "Primecoin version " +
-                FormatVersion(PRIMECOIN_VERSION) + "\n\n" +
-                "Usage:\n" +
-                "  primecoind [options]\n\n" +
-                HelpMessage();
-
-            fprintf(stdout, "%s", strUsage.c_str());
-            return false;
-        }
-
-        detectShutdownThread = new boost::thread(boost::bind(&DetectShutdownThread, &threadGroup));
-        app_init_success = AppInit2(threadGroup);
-    }
-    catch (std::exception& e) {
-        PrintExceptionContinue(&e, "AppInit()");
-    } catch (...) {
-        PrintExceptionContinue(NULL, "AppInit()");
-    }
-    
-    if (!app_init_success) {
-        if (detectShutdownThread) {
-            detectShutdownThread->interrupt();
-        }
-        threadGroup.interrupt_all();
-    }
-
-    if (detectShutdownThread)
-    {
-        detectShutdownThread->join();
-        delete detectShutdownThread;
-        detectShutdownThread = NULL;
-    }
-    Shutdown();
-
-    return app_init_success;
-}
-
-extern void noui_connect();
-int main(int argc, char* argv[])
-{
-    // Connect primecoind signal handlers
-    noui_connect();
-    return (AppInit(argc, argv) ? 0 : 1);
-}
-#endif
-
 bool static InitError(const std::string &str)
 {
     uiInterface.ThreadSafeMessageBox(str, "", CClientUIInterface::MSG_ERROR);
@@ -264,12 +194,7 @@ std::string HelpMessage()
         std::string("  -maxreceivebuffer=<n>  Maximum per-connection receive buffer, <n>*1000 bytes (default: 5000)\n") +
         std::string("  -maxsendbuffer=<n>     Maximum per-connection send buffer, <n>*1000 bytes (default: 1000)\n") +
         std::string("  -paytxfee=<amt>        Fee per KB to add to transactions you send (minimum 1 cent)\n") +
-#ifdef QT_GUI
         std::string("  -server                Accept command line and JSON-RPC commands\n") +
-#endif
-#if !defined(QT_GUI)
-        std::string("  -daemon                Run in the background as a daemon and accept commands\n") +
-#endif
         std::string("  -debug                 Output extra debugging information. Implies all other -debug* options\n") +
         std::string("  -debugnet              Output extra network debugging information\n") +
         std::string("  -logtimestamps         Prepend debug output with timestamp (default: 1)\n") +
