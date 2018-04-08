@@ -39,20 +39,6 @@ static const int64 CENT = 1000000;
 #define UEND(a)             ((unsigned char*)&((&(a))[1]))
 #define ARRAYLEN(array)     (sizeof(array)/sizeof((array)[0]))
 
-#ifndef PRI64d
-#define PRI64d  "lld"
-#define PRI64u  "llu"
-#define PRI64x  "llx"
-#endif
-
-/* Format characters for (s)size_t and ptrdiff_t */
-#define PRIszx    "zx"
-#define PRIszu    "zu"
-#define PRIszd    "zd"
-#define PRIpdx    "tx"
-#define PRIpdu    "tu"
-#define PRIpdd    "td"
-
 // This is needed because the foreach macro can't get over the comma in pair<t1, t2>
 #define PAIRTYPE(t1, t2) std::pair<t1, t2>
 
@@ -182,7 +168,7 @@ void runCommand(std::string strCommand);
 
 inline std::string i64tostr(int64 n)
 {
-    return strprintf("%"PRI64d, n);
+    return strprintf("%lld", n);
 }
 
 inline std::string itostr(int n)
