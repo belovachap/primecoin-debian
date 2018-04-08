@@ -17,7 +17,7 @@ OBJECTS_DIR = build
 MOC_DIR = build
 UI_DIR = build
 
-QMAKE_CXXFLAGS_WARN_ON = -fdiagnostics-show-option -Wall -Wextra -Wformat -Wformat-security -Wno-unused-parameter -Wstack-protector
+QMAKE_CXXFLAGS_WARN_ON = -fdiagnostics-show-option -Wall -Wextra -Werror -Wformat -Wformat-security -Wno-unused-parameter -Wstack-protector
 
 # Input
 HEADERS += \

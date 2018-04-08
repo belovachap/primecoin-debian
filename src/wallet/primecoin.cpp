@@ -1,5 +1,3 @@
-// Copyright (c) 2011-2012 W.J. van der Laan
-// Copyright (c) 2018 Chapman Shoop
 // See COPYING for license.
 
 #include <QApplication>

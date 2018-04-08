@@ -1,12 +1,7 @@
-// Copyright (c) 2013 Primecoin developers
-// Distributed under conditional MIT/X11 software license,
-// see the accompanying file COPYING
+// See COPYING for license.
 
 #include "prime.h"
 
-/**********************/
-/* PRIMECOIN PROTOCOL */
-/**********************/
 
 // Prime Table
 std::vector<unsigned int> vPrimes;
@@ -100,7 +95,9 @@ static bool FermatProbablePrimalityTest(const CBigNum& n, unsigned int& nLength)
     // Failed Fermat test, calculate fractional length
     unsigned int nFractionalLength = (((n-r) << nFractionalBits) / n).getuint();
     if (nFractionalLength >= (1 << nFractionalBits))
-        return error("FermatProbablePrimalityTest() : fractional assert");
+    {
+        return false;
+    }
     nLength = (nLength & TARGET_LENGTH_MASK) | nFractionalLength;
     return false;
 }
@@ -121,24 +118,38 @@ static bool EulerLagrangeLifchitzPrimalityTest(const CBigNum& n, bool fSophieGer
     BN_mod_exp(&r, &a, &e, &n, pctx);
     CBigNum nMod8 = n % 8;
     bool fPassedTest = false;
-    if (fSophieGermain && (nMod8 == 7)) // Euler & Lagrange
+    if (fSophieGermain && (nMod8 == 7))
+    { // Euler & Lagrange
         fPassedTest = (r == 1);
-    else if (fSophieGermain && (nMod8 == 3)) // Lifchitz
+    }
+    else if (fSophieGermain && (nMod8 == 3))
+    { // Lifchitz
         fPassedTest = ((r+1) == n);
-    else if ((!fSophieGermain) && (nMod8 == 5)) // Lifchitz
+    }
+    else if ((!fSophieGermain) && (nMod8 == 5))
+    { // Lifchitz
         fPassedTest = ((r+1) == n);
-    else if ((!fSophieGermain) && (nMod8 == 1)) // LifChitz
+    }
+    else if ((!fSophieGermain) && (nMod8 == 1))
+    { // LifChitz
         fPassedTest = (r == 1);
+    }
     else
-        return error("EulerLagrangeLifchitzPrimalityTest() : invalid n %% 8 = %d, %s", nMod8.getint(), (fSophieGermain? "first kind" : "second kind"));
+    {
+        return false;
+    }
 
     if (fPassedTest)
+    {
         return true;
+    }
     // Failed test, calculate fractional length
     r = (r * r) % n; // derive Fermat test remainder
     unsigned int nFractionalLength = (((n-r) << nFractionalBits) / n).getuint();
     if (nFractionalLength >= (1 << nFractionalBits))
-        return error("EulerLagrangeLifchitzPrimalityTest() : fractional assert");
+    {
+        return false;
+    }
     nLength = (nLength & TARGET_LENGTH_MASK) | nFractionalLength;
     return false;
 }
@@ -167,7 +178,9 @@ unsigned int TargetGetLength(unsigned int nBits)
 bool TargetSetLength(unsigned int nLength, unsigned int& nBits)
 {
     if (nLength >= 0xff)
-        return error("TargetSetLength() : invalid length=%u", nLength);
+    {
+        return false;
+    }
     nBits &= TARGET_FRACTIONAL_MASK;
     nBits |= (nLength << nFractionalBits);
     return true;
@@ -197,10 +210,14 @@ uint64 TargetGetFractionalDifficulty(unsigned int nBits)
 bool TargetSetFractionalDifficulty(uint64 nFractionalDifficulty, unsigned int& nBits)
 {
     if (nFractionalDifficulty < nFractionalDifficultyMin)
-        return error("TargetSetFractionalDifficulty() : difficulty below min");
+    {
+        return false;
+    }
     uint64 nFractional = nFractionalDifficultyMax / nFractionalDifficulty;
     if (nFractional > (1u<<nFractionalBits))
-        return error("TargetSetFractionalDifficulty() : fractional overflow: nFractionalDifficulty=%016"PRI64x, nFractionalDifficulty);
+    {
+        return false;
+    }
     nFractional = (1u<<nFractionalBits) - nFractional;
     nBits &= TARGET_LENGTH_MASK;
     nBits |= (unsigned int)nFractional;
@@ -227,7 +244,9 @@ bool TargetGetMint(unsigned int nBits, uint64& nMint)
     static uint64 nMintLimit = 999llu * COIN;
     CBigNum bnMint = nMintLimit;
     if (TargetGetLength(nBits) < nTargetMinLength)
-        return error("TargetGetMint() : length below minimum required, nBits=%08x", nBits);
+    {
+        return false;
+    }
     bnMint = (bnMint << nFractionalBits) / nBits;
     bnMint = (bnMint << nFractionalBits) / nBits;
     bnMint = (bnMint / CENT) * CENT;  // mint value rounded to cent
@@ -235,7 +254,7 @@ bool TargetGetMint(unsigned int nBits, uint64& nMint)
     if (nMint > nMintLimit)
     {
         nMint = 0;
-        return error("TargetGetMint() : mint value over limit, nBits=%08x", nBits);
+        return false;
     }
     return true;
 }
@@ -256,7 +275,7 @@ bool TargetGetNext(unsigned int nBits, int64 nInterval, int64 nTargetSpacing, in
         bnFractionalDifficulty = nFractionalDifficultyMin;
     uint64 nFractionalDifficultyNew = bnFractionalDifficulty.getuint256().Get64();
     if (fDebug && GetBoolArg("-printtarget"))
-        printf("TargetGetNext() : nActualSpacing=%d nFractionDiff=%016"PRI64x" nFractionDiffNew=%016"PRI64x"\n", (int)nActualSpacing, nFractionalDifficulty, nFractionalDifficultyNew);
+        printf("TargetGetNext() : nActualSpacing=%d nFractionDiff=%016llx nFractionDiffNew=%016llx\n", (int)nActualSpacing, nFractionalDifficulty, nFractionalDifficultyNew);
     // Step up length if fractional past threshold
     if (nFractionalDifficultyNew > nFractionalDifficultyThreshold)
     {
@@ -271,7 +290,9 @@ bool TargetGetNext(unsigned int nBits, int64 nInterval, int64 nTargetSpacing, in
     }
     // Convert fractional difficulty back to length
     if (!TargetSetFractionalDifficulty(nFractionalDifficultyNew, nBitsNext))
-        return error("TargetGetNext() : unable to set fractional difficulty prev=0x%016"PRI64x" new=0x%016"PRI64x, nFractionalDifficulty, nFractionalDifficultyNew);
+    {
+        return false;
+    }
     return true;
 }
 
@@ -359,44 +380,54 @@ bool CheckPrimeProofOfWork(uint256 hashBlockHeader, unsigned int nBits, const CB
 {
     // Check target
     if (TargetGetLength(nBits) < nTargetMinLength || TargetGetLength(nBits) > 99)
-        return error("CheckPrimeProofOfWork() : invalid chain length target %s", TargetToString(nBits).c_str());
+    {
+        return false;
+    }
 
     // Check header hash limit
     if (hashBlockHeader < hashBlockHeaderLimit)
-        return error("CheckPrimeProofOfWork() : block header hash under limit");
+    {
+        return false;
+    }
     // Check target for prime proof-of-work
     CBigNum bnPrimeChainOrigin = CBigNum(hashBlockHeader) * bnPrimeChainMultiplier;
     if (bnPrimeChainOrigin < bnPrimeMin)
-        return error("CheckPrimeProofOfWork() : prime too small");
+    {
+        return false;
+    }
     // First prime in chain must not exceed cap
     if (bnPrimeChainOrigin > bnPrimeMax)
-        return error("CheckPrimeProofOfWork() : prime too big");
+    {
+        return false;
+    }
 
     // Check prime chain
     unsigned int nChainLengthCunningham1 = 0;
     unsigned int nChainLengthCunningham2 = 0;
     unsigned int nChainLengthBiTwin = 0;
     if (!ProbablePrimeChainTest(bnPrimeChainOrigin, nBits, false, nChainLengthCunningham1, nChainLengthCunningham2, nChainLengthBiTwin))
-        return error("CheckPrimeProofOfWork() : failed prime chain test target=%s length=(%s %s %s)", TargetToString(nBits).c_str(),
-            TargetToString(nChainLengthCunningham1).c_str(), TargetToString(nChainLengthCunningham2).c_str(), TargetToString(nChainLengthBiTwin).c_str());
+    {
+        return false;
+    }
     if (nChainLengthCunningham1 < nBits && nChainLengthCunningham2 < nBits && nChainLengthBiTwin < nBits)
-        return error("CheckPrimeProofOfWork() : prime chain length assert target=%s length=(%s %s %s)", TargetToString(nBits).c_str(),
-            TargetToString(nChainLengthCunningham1).c_str(), TargetToString(nChainLengthCunningham2).c_str(), TargetToString(nChainLengthBiTwin).c_str());
+    {
+        return false;
+    }
 
     // Double check prime chain with Fermat tests only
     unsigned int nChainLengthCunningham1FermatTest = 0;
     unsigned int nChainLengthCunningham2FermatTest = 0;
     unsigned int nChainLengthBiTwinFermatTest = 0;
     if (!ProbablePrimeChainTest(bnPrimeChainOrigin, nBits, true, nChainLengthCunningham1FermatTest, nChainLengthCunningham2FermatTest, nChainLengthBiTwinFermatTest))
-        return error("CheckPrimeProofOfWork() : failed Fermat test target=%s length=(%s %s %s) lengthFermat=(%s %s %s)", TargetToString(nBits).c_str(),
-            TargetToString(nChainLengthCunningham1).c_str(), TargetToString(nChainLengthCunningham2).c_str(), TargetToString(nChainLengthBiTwin).c_str(),
-            TargetToString(nChainLengthCunningham1FermatTest).c_str(), TargetToString(nChainLengthCunningham2FermatTest).c_str(), TargetToString(nChainLengthBiTwinFermatTest).c_str());
+    {
+        return false;
+    }
     if (nChainLengthCunningham1 != nChainLengthCunningham1FermatTest ||
         nChainLengthCunningham2 != nChainLengthCunningham2FermatTest ||
         nChainLengthBiTwin != nChainLengthBiTwinFermatTest)
-        return error("CheckPrimeProofOfWork() : failed Fermat-only double check target=%s length=(%s %s %s) lengthFermat=(%s %s %s)", TargetToString(nBits).c_str(), 
-            TargetToString(nChainLengthCunningham1).c_str(), TargetToString(nChainLengthCunningham2).c_str(), TargetToString(nChainLengthBiTwin).c_str(),
-            TargetToString(nChainLengthCunningham1FermatTest).c_str(), TargetToString(nChainLengthCunningham2FermatTest).c_str(), TargetToString(nChainLengthBiTwinFermatTest).c_str());
+    {
+        return false;
+    }
 
     // Select the longest primechain from the three chain types
     nChainLength = nChainLengthCunningham1;
@@ -421,10 +452,9 @@ bool CheckPrimeProofOfWork(uint256 hashBlockHeader, unsigned int nBits, const CB
         if (ProbablePrimeChainTest(bnPrimeChainOrigin / 2, nBits, false, nChainLengthCunningham1Extended, nChainLengthCunningham2Extended, nChainLengthBiTwinExtended))
         { // try extending down the primechain with a halved multiplier
             if (nChainLengthCunningham1Extended > nChainLength || nChainLengthCunningham2Extended > nChainLength || nChainLengthBiTwinExtended > nChainLength)
-                return error("CheckPrimeProofOfWork() : prime certificate not normalzied target=%s length=(%s %s %s) extend=(%s %s %s)",
-                    TargetToString(nBits).c_str(),
-                    TargetToString(nChainLengthCunningham1).c_str(), TargetToString(nChainLengthCunningham2).c_str(), TargetToString(nChainLengthBiTwin).c_str(),
-                    TargetToString(nChainLengthCunningham1Extended).c_str(), TargetToString(nChainLengthCunningham2Extended).c_str(), TargetToString(nChainLengthBiTwinExtended).c_str());
+            {
+                return false;
+            }
         }
     }
 
@@ -618,11 +648,15 @@ bool CSieveOfEratosthenes::Weave()
     CAutoBN_CTX pctx;
     CBigNum bnFixedInverse;
     if (!BN_mod_inverse(&bnFixedInverse, &bnFixedFactor, &p, pctx))
-        return error("CSieveOfEratosthenes::Weave(): BN_mod_inverse of fixed factor failed for prime #%u=%u", nPrimeSeq, vPrimes[nPrimeSeq]);
+    {
+        return false;
+    }
     CBigNum bnTwo = 2;
     CBigNum bnTwoInverse;
     if (!BN_mod_inverse(&bnTwoInverse, &bnTwo, &p, pctx))
-        return error("CSieveOfEratosthenes::Weave(): BN_mod_inverse of 2 failed for prime #%u=%u", nPrimeSeq, vPrimes[nPrimeSeq]);
+    {
+        return false;
+    }
 
     // Weave the sieve for the prime
     unsigned int nChainLength = TargetGetLength(nBits);

@@ -122,7 +122,8 @@ bool CCoinsViewDB::GetStats(CCoinsStats &stats) {
     int64 nTotalAmount = 0;
     while (pcursor->Valid()) {
         boost::this_thread::interruption_point();
-        try {
+        try
+        {
             leveldb::Slice slKey = pcursor->key();
             CDataStream ssKey(slKey.data(), slKey.data()+slKey.size(), SER_DISK, CLIENT_VERSION);
             char chType;
@@ -152,8 +153,10 @@ bool CCoinsViewDB::GetStats(CCoinsStats &stats) {
                 ss << VARINT(0);
             }
             pcursor->Next();
-        } catch (std::exception &e) {
-            return error("%s() : deserialize error", __PRETTY_FUNCTION__);
+        }
+        catch (std::exception &e)
+        {
+            return false;
         }
     }
     delete pcursor;
@@ -195,9 +198,11 @@ bool CBlockTreeDB::LoadBlockIndexGuts()
     pcursor->Seek(ssKeySet.str());
 
     // Load mapBlockIndex
-    while (pcursor->Valid()) {
+    while (pcursor->Valid())
+    {
         boost::this_thread::interruption_point();
-        try {
+        try
+        {
             leveldb::Slice slKey = pcursor->key();
             CDataStream ssKey(slKey.data(), slKey.data()+slKey.size(), SER_DISK, CLIENT_VERSION);
             char chType;
@@ -231,14 +236,18 @@ bool CBlockTreeDB::LoadBlockIndexGuts()
                     pindexGenesisBlock = pindexNew;
 
                 if (!pindexNew->CheckIndex())
-                    return error("LoadBlockIndex() : CheckIndex failed: %s", pindexNew->ToString().c_str());
+                {
+                    return false;
+                }
 
                 pcursor->Next();
             } else {
                 break; // if shutdown requested or finished loading block index
             }
-        } catch (std::exception &e) {
-            return error("%s() : deserialize error", __PRETTY_FUNCTION__);
+        }
+        catch (std::exception &e)
+        {
+            return false;
         }
     }
     delete pcursor;

@@ -978,7 +978,7 @@ void DumpAddresses()
     NetworkPeerDatabase db;
     db.Write(network_peer_manager);
 
-    printf("Flushed %d addresses to peers.dat  %"PRI64d"ms\n",
+    printf("Flushed %d addresses to peers.dat  %lldms\n",
            network_peer_manager.size(), GetTimeMillis() - nStart);
 }
 

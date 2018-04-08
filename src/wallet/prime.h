@@ -1,15 +1,10 @@
-// Copyright (c) 2013 Primecoin developers
-// Distributed under the MIT/X11 software license, see the accompanying
-// file COPYING or http://www.opensource.org/licenses/mit-license.php.
+// See COPYING for license.
 
-#ifndef PRIMECOIN_PRIME_H
-#define PRIMECOIN_PRIME_H
+#ifndef __PRIME_H__
+#define __PRIME_H__
 
 #include "main.h"
 
-/**********************/
-/* PRIMECOIN PROTOCOL */
-/**********************/
 
 static const unsigned int nMaxSieveSize = 1000000u;
 static const uint256 hashBlockHeaderLimit = (uint256(1) << 255);
@@ -241,4 +236,4 @@ class CPrimeMiner
 
 extern boost::thread_specific_ptr<CPrimeMiner> pminer;
 
-#endif
+#endif // __PRIME_H__
