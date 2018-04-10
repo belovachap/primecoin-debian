@@ -1,7 +1,6 @@
-// Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2012 The Bitcoin developers
-// Copyright (c) 2018 Chapman Shoop
 // See COPYING for license.
+
+#include "wallet.h"
 
 #include <boost/algorithm/string/replace.hpp>
 
@@ -10,8 +9,6 @@
 #include "primecoin_address.h"
 #include "ui_interface.h"
 #include "walletdb.h"
-
-#include "wallet.h"
 
 
 //////////////////////////////////////////////////////////////////////////////
@@ -1156,7 +1153,7 @@ bool CWallet::CreateTransaction(const std::vector<std::pair<CScript, int64> >& v
         LOCK2(cs_main, cs_wallet);
         {
             nFeeRet = nTransactionFee;
-            loop
+            while(true)
             {
                 wtxNew.vin.clear();
                 wtxNew.vout.clear();

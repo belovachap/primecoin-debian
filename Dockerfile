@@ -10,6 +10,7 @@ RUN apt-get install -y \
     libjson-spirit-dev \
     libleveldb-dev \
     libssl-dev \
-    qt4-dev-tools
+    qt5-default \
+    qt5-qmake
 
 COPY . .

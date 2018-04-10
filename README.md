@@ -27,16 +27,18 @@ gnome? https://en.wikipedia.org/wiki/GNOME
 | [libboost-all-dev](https://packages.debian.org/jessie/libboost-all-dev)     |
 | [libdb++-dev](https://packages.debian.org/jessie/libdb++-dev)               |
 | [libjson-spirit-dev](https://packages.debian.org/jessie/libjson-spirit-dev) |
-| [libleveldb-dev](https://packages.debian.org/jessie/libleveldb-dev) |
+| [libleveldb-dev](https://packages.debian.org/jessie/libleveldb-dev)         |
 | [libssl-dev](https://packages.debian.org/jessie/libssl-dev)                 |
-| [qt4-dev-tools](https://packages.debian.org/jessie/qt4-dev-tools)           |
+| [qt5-default](https://packages.debian.org/jessie/qt5-default)               |
+| [qt5-qmake](https://packages.debian.org/jessie/qt5-qmake)                   |
+
 
 ## :iphone: Wallet
 
 ```
 apt-get install <dependencies>
 cd src/wallet
-qmake-qt4
+qmake
 make
 ```
 

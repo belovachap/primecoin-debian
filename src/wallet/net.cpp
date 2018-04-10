@@ -125,7 +125,7 @@ CAddress GetLocalAddress(const CNetAddr *paddrPeer)
 bool RecvLine(SOCKET hSocket, std::string& strLine)
 {
     strLine = "";
-    loop
+    while(true)
     {
         char c;
         int nBytes = recv(hSocket, &c, 1, 0);
@@ -601,7 +601,7 @@ static std::list<CNode*> vNodesDisconnected;
 void ThreadSocketHandler()
 {
     unsigned int nPrevNodeCount = 0;
-    loop
+    while(true)
     {
         //
         // Disconnect nodes
@@ -1023,7 +1023,7 @@ void ThreadOpenConnections()
 
     // Initiate network connections
     int64 nStart = GetTime();
-    loop
+    while(true)
     {
         ProcessOneShot();
 
@@ -1075,7 +1075,7 @@ void ThreadOpenConnections()
         int64 nANow = GetAdjustedTime();
 
         int nTries = 0;
-        loop
+        while(true)
         {
             // use an nUnkBias between 10 (no outgoing connections) and 90 (8 outgoing connections)
             CAddress addr = network_peer_manager.Select(10 + std::min(nOutbound,8)*10);

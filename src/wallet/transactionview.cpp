@@ -1,5 +1,6 @@
-// Copyright (c) 2018 Chapman Shoop
 // See COPYING for license.
+
+#include "transactionview.h"
 
 #include <QComboBox>
 #include <QDateTimeEdit>
@@ -24,8 +25,6 @@
 #include "transactionrecord.h"
 #include "transactiontablemodel.h"
 #include "walletmodel.h"
-
-#include "transactionview.h"
 
 
 TransactionView::TransactionView(QWidget *parent) :
@@ -157,7 +156,7 @@ void TransactionView::setModel(WalletModel *model)
         transactionView->horizontalHeader()->resizeSection(TransactionTableModel::Status, 23);
         transactionView->horizontalHeader()->resizeSection(TransactionTableModel::Date, 120);
         transactionView->horizontalHeader()->resizeSection(TransactionTableModel::Type, 120);
-        transactionView->horizontalHeader()->setResizeMode(TransactionTableModel::ToAddress, QHeaderView::Stretch);
+        transactionView->horizontalHeader()->setSectionResizeMode(TransactionTableModel::ToAddress, QHeaderView::Stretch);
         transactionView->horizontalHeader()->resizeSection(TransactionTableModel::Amount, 100);
     }
 }

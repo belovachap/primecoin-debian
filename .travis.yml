@@ -13,5 +13,5 @@ before_install:
 script:
   - docker run primecoin bin/sh -c "cd src/server && make"
   - docker run primecoin bin/sh -c "cd src/server && make test"
-  - docker run primecoin bin/sh -c "cd src/wallet && qmake-qt4 && make"
-  - docker run primecoin bin/sh -c "cd src/wallet && qmake-qt4 PRIMECOIN_QT_TEST=1 && make && ./primecoin-qt_test"
+  - docker run primecoin bin/sh -c "cd src/wallet && qmake && make"
+  - docker run primecoin bin/sh -c "cd src/wallet && qmake PRIMECOIN_QT_TEST=1 && make && ./primecoin-qt_test"

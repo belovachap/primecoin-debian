@@ -70,7 +70,7 @@ void CWalletDB::ListAccountCreditDebit(const std::string& strAccount, std::list<
     if (!pcursor)
         throw std::runtime_error("CWalletDB::ListAccountCreditDebit() : cannot create DB cursor");
     unsigned int fFlags = DB_SET_RANGE;
-    loop
+    while(true)
     {
         // Read next record
         CDataStream ssKey(SER_DISK, CLIENT_VERSION);
@@ -404,7 +404,7 @@ DBErrors CWalletDB::LoadWallet(CWallet* pwallet)
             return DB_CORRUPT;
         }
 
-        loop
+        while(true)
         {
             // Read next record
             CDataStream ssKey(SER_DISK, CLIENT_VERSION);

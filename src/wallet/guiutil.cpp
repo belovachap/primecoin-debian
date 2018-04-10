@@ -1,22 +1,23 @@
-// Copyright (c) 2018 Chapman Shoop
 // See COPYING for license.
+
+#include "guiutil.h"
 
 #include <boost/filesystem.hpp>
 
+#include <QAbstractItemView>
 #include <QApplication>
+#include <QClipboard>
 #include <QDateTime>
+#include <QDesktopServices>
 #include <QDoubleValidator>
+#include <QFileDialog>
 #include <QFont>
 #include <QLineEdit>
-#include <QUrl>
 #include <QTextDocument>
-#include <QAbstractItemView>
-#include <QClipboard>
-#include <QFileDialog>
-#include <QDesktopServices>
 #include <QThread>
+#include <QUrl>
+#include <QUrlQuery>
 
-#include "guiutil.h"
 #include "init.h"
 #include "primecoinaddressvalidator.h"
 #include "primecoinunits.h"
@@ -68,7 +69,7 @@ bool parsePrimecoinURI(const QUrl &uri, SendCoinsRecipient *out)
     SendCoinsRecipient rv;
     rv.address = uri.path();
     rv.amount = 0;
-    QList<QPair<QString, QString> > items = uri.queryItems();
+    QList<QPair<QString, QString> > items = QUrlQuery(uri).queryItems();
     for (QList<QPair<QString, QString> >::iterator i = items.begin(); i != items.end(); i++)
     {
         bool fShouldReturnFalse = false;
@@ -121,7 +122,7 @@ bool parsePrimecoinURI(QString uri, SendCoinsRecipient *out)
 
 QString HtmlEscape(const QString& str, bool fMultiLine)
 {
-    QString escaped = Qt::escape(str);
+    QString escaped = str.toHtmlEscaped();
     if(fMultiLine)
     {
         escaped = escaped.replace("\n", "<br>\n");
@@ -158,7 +159,7 @@ QString getSaveFileName(QWidget *parent, const QString &caption,
     QString myDir;
     if(dir.isEmpty()) // Default to user documents location
     {
-        myDir = QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation);
+        myDir = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
     }
     else
     {
