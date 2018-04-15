@@ -1,4 +1,3 @@
-// Copyright (c) 2018 Chapman Shoop
 // See COPYING for license.
 
 #ifndef __PRIMECOINGUI_H__
@@ -6,6 +5,7 @@
 
 #include <QMainWindow>
 #include <QMap>
+
 
 class TransactionTableModel;
 class WalletFrame;
@@ -78,7 +78,6 @@ private:
 
     QLabel *labelEncryptionIcon;
     QLabel *labelConnectionsIcon;
-    QLabel *labelBlocksIcon;
     QLabel *progressBarLabel;
     QProgressBar *progressBar;
 
@@ -95,10 +94,6 @@ private:
     QAction *changePassphraseAction;
 
     TransactionView *transactionView;
-
-    QMovie *syncIconMovie;
-    /** Keep track of previous number of blocks, to detect progress */
-    int prevBlocks;
 
     /** Create the main UI actions. */
     void createActions();

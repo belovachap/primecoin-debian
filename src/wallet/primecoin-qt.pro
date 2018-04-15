@@ -3,7 +3,7 @@
 TEMPLATE = app
 TARGET = primecoin-qt
 VERSION = 2.0.0
-QT += network
+QT += network widgets
 INCLUDEPATH += .
 DEFINES += \
     BOOST_NO_CXX11_SCOPED_ENUMS \

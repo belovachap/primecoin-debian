@@ -93,10 +93,6 @@ int main(int argc, char *argv[])
     // Command-line options take precedence:
     ParseParameters(argc, argv);
 
-    // Internal string conversion is all UTF-8
-    QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
-    QTextCodec::setCodecForCStrings(QTextCodec::codecForTr());
-
     Q_INIT_RESOURCE(primecoin);
     QApplication app(argc, argv);
 
@@ -123,7 +119,7 @@ int main(int argc, char *argv[])
 
     QApplication::setOrganizationName("Chapman Shoop");
     QApplication::setOrganizationDomain("https://github.com/belovachap/primecoin-debian/tree/release-v1.0");
-    QApplication::setApplicationName("Primecoin Debian 7");
+    QApplication::setApplicationName("Primecoin Debian 8");
 
     // Subscribe to global signals from core
     uiInterface.ThreadSafeMessageBox.connect(ThreadSafeMessageBox);

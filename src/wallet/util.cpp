@@ -137,7 +137,7 @@ std::string vstrprintf(const char *format, va_list ap)
     char* p = buffer;
     int limit = sizeof(buffer);
     int ret;
-    loop
+    while(true)
     {
         va_list arg_ptr;
         va_copy(arg_ptr, ap);
@@ -182,7 +182,7 @@ void ParseString(const std::string& str, char c, std::vector<std::string>& v)
         return;
     std::string::size_type i1 = 0;
     std::string::size_type i2;
-    loop
+    while(true)
     {
         i2 = str.find(c, i1);
         if (i2 == str.npos)
@@ -311,7 +311,7 @@ std::vector<unsigned char> ParseHex(const char* psz)
 {
     // convert hex dump to vector
     std::vector<unsigned char> vch;
-    loop
+    while(true)
     {
         while (isspace(*psz))
             psz++;
@@ -760,7 +760,7 @@ std::string DecodeBase32(const std::string& str)
 
 bool WildcardMatch(const char* psz, const char* mask)
 {
-    loop
+    while(true)
     {
         switch (*mask)
         {

@@ -1,22 +1,23 @@
-// Copyright (c) 2018 Chapman Shoop
 // See COPYING for license.
+
+#include "guiutil.h"
 
 #include <boost/filesystem.hpp>
 
+#include <QAbstractItemView>
 #include <QApplication>
+#include <QClipboard>
 #include <QDateTime>
+#include <QDesktopServices>
 #include <QDoubleValidator>
+#include <QFileDialog>
 #include <QFont>
 #include <QLineEdit>
-#include <QUrl>
 #include <QTextDocument>
-#include <QAbstractItemView>
-#include <QClipboard>
-#include <QFileDialog>
-#include <QDesktopServices>
 #include <QThread>
+#include <QUrl>
+#include <QUrlQuery>
 
-#include "guiutil.h"
 #include "init.h"
 #include "primecoinaddressvalidator.h"
 #include "primecoinunits.h"
@@ -68,7 +69,7 @@ bool parsePrimecoinURI(const QUrl &uri, SendCoinsRecipient *out)
     SendCoinsRecipient rv;
     rv.address = uri.path();
     rv.amount = 0;
-    QList<QPair<QString, QString> > items = uri.queryItems();
+    QList<QPair<QString, QString> > items = QUrlQuery(uri).queryItems();
     for (QList<QPair<QString, QString> >::iterator i = items.begin(); i != items.end(); i++)
     {
         bool fShouldReturnFalse = false;
@@ -121,7 +122,7 @@ bool parsePrimecoinURI(QString uri, SendCoinsRecipient *out)
 
 QString HtmlEscape(const QString& str, bool fMultiLine)
 {
-    QString escaped = Qt::escape(str);
+    QString escaped = str.toHtmlEscaped();
     if(fMultiLine)
     {
         escaped = escaped.replace("\n", "<br>\n");
@@ -147,52 +148,6 @@ void copyEntryData(QAbstractItemView *view, int column, int role)
         // Copy first item (global mouse selection for e.g. X11)
         QApplication::clipboard()->setText(selection.at(0).data(role).toString(), QClipboard::Selection);
     }
-}
-
-QString getSaveFileName(QWidget *parent, const QString &caption,
-                                 const QString &dir,
-                                 const QString &filter,
-                                 QString *selectedSuffixOut)
-{
-    QString selectedFilter;
-    QString myDir;
-    if(dir.isEmpty()) // Default to user documents location
-    {
-        myDir = QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation);
-    }
-    else
-    {
-        myDir = dir;
-    }
-    QString result = QFileDialog::getSaveFileName(parent, caption, myDir, filter, &selectedFilter);
-
-    /* Extract first suffix from filter pattern "Description (*.foo)" or "Description (*.foo *.bar ...) */
-    QRegExp filter_re(".* \\(\\*\\.(.*)[ \\)]");
-    QString selectedSuffix;
-    if(filter_re.exactMatch(selectedFilter))
-    {
-        selectedSuffix = filter_re.cap(1);
-    }
-
-    /* Add suffix if needed */
-    QFileInfo info(result);
-    if(!result.isEmpty())
-    {
-        if(info.suffix().isEmpty() && !selectedSuffix.isEmpty())
-        {
-            /* No suffix specified, add selected suffix */
-            if(!result.endsWith("."))
-                result.append(".");
-            result.append(selectedSuffix);
-        }
-    }
-
-    /* Return selected suffix if asked to */
-    if(selectedSuffixOut)
-    {
-        *selectedSuffixOut = selectedSuffix;
-    }
-    return result;
 }
 
 Qt::ConnectionType blockingGUIThreadConnection()
