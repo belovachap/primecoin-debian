@@ -1,8 +1,6 @@
-// Copyright (c) 2011-2012 W.J. van der Laan
-// Copyright (c) 2011-2012 The Bitcoin Developers
-// Copyright (c) 2013 The Primecoin Developers
-// Copyright (c) 2018 Chapman Shoop
 // See COPYING for license.
+
+#include "primecoingui.h"
 
 #include <QApplication>
 #include <QDateTime>
@@ -38,8 +36,6 @@
 #include "walletframe.h"
 #include "walletmodel.h"
 
-#include "primecoingui.h"
-
 
 const QString PrimecoinGUI::DEFAULT_WALLET = "~Default";
 
@@ -47,8 +43,7 @@ PrimecoinGUI::PrimecoinGUI(QWidget *parent) :
     QMainWindow(parent),
     clientModel(0),
     encryptWalletAction(0),
-    changePassphraseAction(0),
-    prevBlocks(0)
+    changePassphraseAction(0)
 {
     restoreWindowGeometry();
     setWindowTitle(tr("Primecoin") + " - " + tr("Wallet"));
@@ -84,13 +79,10 @@ PrimecoinGUI::PrimecoinGUI(QWidget *parent) :
     frameBlocksLayout->setSpacing(3);
     labelEncryptionIcon = new QLabel();
     labelConnectionsIcon = new QLabel();
-    labelBlocksIcon = new QLabel();
     frameBlocksLayout->addStretch();
     frameBlocksLayout->addWidget(labelEncryptionIcon);
     frameBlocksLayout->addStretch();
     frameBlocksLayout->addWidget(labelConnectionsIcon);
-    frameBlocksLayout->addStretch();
-    frameBlocksLayout->addWidget(labelBlocksIcon);
     frameBlocksLayout->addStretch();
 
     // Progress bar and label for blocks download
@@ -103,8 +95,6 @@ PrimecoinGUI::PrimecoinGUI(QWidget *parent) :
     statusBar()->addWidget(progressBarLabel);
     statusBar()->addWidget(progressBar);
     statusBar()->addPermanentWidget(frameBlocks);
-
-    syncIconMovie = new QMovie(":/movies/update_spinner", "mng", this);
 
     // Install event filter to be able to catch status tip events (QEvent::StatusTip)
     this->installEventFilter(this);
@@ -347,7 +337,6 @@ void PrimecoinGUI::setNumBlocks(int count, int nTotalBlocks)
     if(secs < 90*60 && count >= nTotalBlocks)
     {
         tooltip = tr("Up to date") + QString(".<br>") + tooltip;
-        labelBlocksIcon->setPixmap(QIcon(":/icons/synced").pixmap(STATUSBAR_ICONSIZE, STATUSBAR_ICONSIZE));
 
         walletFrame->showOutOfSyncWarning(false);
 
@@ -378,10 +367,6 @@ void PrimecoinGUI::setNumBlocks(int count, int nTotalBlocks)
         progressBar->setVisible(true);
 
         tooltip = tr("Catching up...") + QString("<br>") + tooltip;
-        labelBlocksIcon->setMovie(syncIconMovie);
-        if(count != prevBlocks)
-            syncIconMovie->jumpToNextFrame();
-        prevBlocks = count;
 
         walletFrame->showOutOfSyncWarning(true);
 
@@ -394,7 +379,6 @@ void PrimecoinGUI::setNumBlocks(int count, int nTotalBlocks)
     // Don't word-wrap this (fixed-width) tooltip
     tooltip = QString("<nobr>") + tooltip + QString("</nobr>");
 
-    labelBlocksIcon->setToolTip(tooltip);
     progressBarLabel->setToolTip(tooltip);
     progressBar->setToolTip(tooltip);
 }
