@@ -12,12 +12,12 @@ gnome? https://en.wikipedia.org/wiki/GNOME
 
 ## :open_file_folder: Git
 
-- Branch: release-v1.0
-- Tag: v1.0.0
+- Branch: release-v1
+- Tag: v1.0.1
 
 ## :construction_worker: Travis CI
 
-[![Build Status](https://travis-ci.org/belovachap/primecoin-debian.svg?branch=release-v1.0)](https://travis-ci.org/belovachap/primecoin-debian)
+[![Build Status](https://travis-ci.org/belovachap/primecoin-debian.svg?branch=release-v1)](https://travis-ci.org/belovachap/primecoin-debian)
 
 ## :package: Dependencies
 

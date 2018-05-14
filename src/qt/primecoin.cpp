@@ -123,7 +123,7 @@ int main(int argc, char *argv[])
     ReadConfigFile(mapArgs, mapMultiArgs);
 
     QApplication::setOrganizationName("Chapman Shoop");
-    QApplication::setOrganizationDomain("https://github.com/belovachap/primecoin-debian/tree/release-v1.0");
+    QApplication::setOrganizationDomain("https://github.com/belovachap/primecoin-debian/tree/release-v1");
     QApplication::setApplicationName("Primecoin Debian 7");
 
     // Subscribe to global signals from core
