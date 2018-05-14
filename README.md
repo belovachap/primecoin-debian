@@ -13,7 +13,7 @@ gnome? https://en.wikipedia.org/wiki/GNOME
 ## :open_file_folder: Git
 
 - Branch: release-v1
-- Tag: v1.0.1
+- Tag: v1.0.2
 
 ## :construction_worker: Travis CI
 
@@ -43,6 +43,13 @@ make
 apt-get install <dependencies>
 cd src
 make
+```
+
+The default `Dockerfile` will build an image for running a server.
+
+```
+docker build -t primecoin-server .
+docker run -d -p 9911:9911 -v /home/user/.primecoin:/data --restart always primecoin-server
 ```
 
 ## :wrench: Development
