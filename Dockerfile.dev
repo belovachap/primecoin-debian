@@ -1,5 +1,3 @@
-# Copyright (c) 2018 RG Huckins
-# Copyright (c) 2018 Chapman Shoop
 # See COPYING for license.
 
 # A Dockerfile for development outside of Debian 7 :)

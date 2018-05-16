@@ -7,13 +7,7 @@ RUN apt-get install -y \
     build-essential \
     libboost-all-dev \
     libdb++-dev \
-    libjson-spirit-dev
+    libjson-spirit-dev \
+    qt4-dev-tools
 
 COPY . .
-WORKDIR src
-RUN make
-
-EXPOSE 9911 9913
-VOLUME ["/data"]
-
-CMD ./primecoind -datadir="/data"
